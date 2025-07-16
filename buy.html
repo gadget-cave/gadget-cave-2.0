@@ -1,31 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Buy Product</title>
+  <title>Buy Now</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="buy-container">
+  <div class="buy-form">
     <h2>Enter Delivery Details</h2>
-    <form id="addressForm">
-      <label>Name*</label><input type="text" name="name" required>
-      <label>Address*</label><textarea name="address" required></textarea>
-      <label>House No (Optional)</label><input name="house">
-      <label>Landmark (Optional)</label><input name="landmark">
-      <label>City*</label><input name="city" required>
-      <label>District*</label><input name="district" required>
-      <label>State*</label><input name="state" required>
-      <label>Pincode*</label><input name="pincode" required>
-      <label>Phone*</label><input name="phone" required>
-      <button type="submit">Continue to Payment</button>
+    <form onsubmit="goToWhatsApp(); return false;">
+      <input type="text" id="name" placeholder="Full Name" required><br>
+      <input type="text" id="address" placeholder="Address" required><br>
+      <input type="text" id="house" placeholder="House No (optional)"><br>
+      <input type="text" id="landmark" placeholder="Landmark (optional)"><br>
+      <input type="text" id="city" placeholder="City" required><br>
+      <input type="text" id="district" placeholder="District" required><br>
+      <input type="text" id="state" placeholder="State" required><br>
+      <input type="text" id="pincode" placeholder="Pincode" required><br>
+      <input type="text" id="phone" placeholder="Phone Number" required><br>
+      <h4>After this, please pay to UPI: <b>hixzam313@okaxis</b></h4>
+      <button type="submit" class="buy-btn">Confirm & Send on WhatsApp</button>
     </form>
-    <div id="paymentSection" style="display:none">
-      <h3>Pay via UPI</h3>
-      <p>UPI ID: <strong>hixzam313@okaxis</strong></p>
-      <button id="confirmOrderBtn">I have paid</button>
-    </div>
   </div>
-  <script src="script.js"></script>
+
+  <script>
+    function goToWhatsApp() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const product = urlParams.get("product");
+      const price = urlParams.get("price");
+
+      const name = document.getElementById("name").value;
+      const address = document.getElementById("address").value;
+      const house = document.getElementById("house").value;
+      const landmark = document.getElementById("landmark").value;
+      const city = document.getElementById("city").value;
+      const district = document.getElementById("district").value;
+      const state = document.getElementById("state").value;
+      const pincode = document.getElementById("pincode").value;
+      const phone = document.getElementById("phone").value;
+
+      const message = \`*New Order* 📦\n
+Name: \${name}\n
+Phone: \${phone}\n
+Address: \${address}, House: \${house}, Landmark: \${landmark}\n
+City: \${city}, District: \${district}, State: \${state}, Pincode: \${pincode}\n
+Product: \${product}\n
+Amount Paid: \${price}\n
+✅ Order Complete\`;
+
+      const whatsappUrl = \`https://wa.me/919744340057?text=\${encodeURIComponent(message)}\`;
+      window.location.href = whatsappUrl;
+    }
+  </script>
 </body>
 </html>
