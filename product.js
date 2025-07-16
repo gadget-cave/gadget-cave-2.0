@@ -1,7 +1,4 @@
-const { useState, useEffect } = React;
-
-// Product data with added category and rating
-const initialProducts = [
+const products = [
   {
     name: "Wireless Earphones-CMF BY NOTHING",
     image: "https://i.ibb.co/cXhm2q40/earphones.jpg",
@@ -281,279 +278,181 @@ const initialProducts = [
   }
 ];
 
-const App = () => {
-  const [products, setProducts] = useState(initialProducts);
-  const [filteredProducts, setFilteredProducts] = useState(initialProducts);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [priceRange, setPriceRange] = useState([0, 2000]);
-  const [ratingFilter, setRatingFilter] = useState(0);
-  const [cart, setCart] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [showPopup, setShowPopup] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const productsPerPage = 6;
+const categories = ["All", "Earphones", "Watches", "Headphones", "Speakers", "Trimmers", "Powerbanks", "Combos", "Others"];
+const productsPerPage = 6;
+let currentPage = 1;
+let cart = [];
 
-  // Filter products
-  useEffect(() => {
-    let filtered = initialProducts;
-    if (searchTerm) {
-      filtered = filtered.filter(
-        (p) =>
-          p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          p.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          p.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          p.longDescription.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-    if (selectedCategory !== "All") {
-      filtered = filtered.filter((p) => p.category === selectedCategory);
-    }
-    filtered = filtered.filter(
-      (p) => {
-        const priceNum = parseInt(p.price.replace("₹", ""));
-        return priceNum >= priceRange[0] && priceNum <= priceRange[1];
+const container = document.getElementById("product-list");
+const searchBar = document.getElementById("search-bar");
+const popup = document.getElementById("popup");
+const popupClose = document.getElementById("popup-close");
+const popupTitle = document.getElementById("popup-title");
+const popupImages = document.getElementById("popup-images");
+const popupDescription = document.getElementById("popup-description");
+const popupPrice = document.getElementById("popup-price");
+const popupWhatsApp = document.getElementById("popup-whatsapp");
+const categoryFilters = document.getElementById("category-filters");
+const priceMin = document.getElementById("price-min");
+const priceMax = document.getElementById("price-max");
+const priceMinValue = document.getElementById("price-min-value");
+const priceMaxValue = document.getElementById("price-max-value");
+const ratingFilter = document.getElementById("rating-filter");
+const ratingValue = document.getElementById("rating-value");
+const prevPage = document.getElementById("prev-page");
+const nextPage = document.getElementById("next-page");
+const pageNumbers = document.getElementById("page-numbers");
+const cartCount = document.getElementById("cart-count");
+
+function displayProducts(filteredProducts) {
+  container.innerHTML = "";
+  const start = (currentPage - 1) * productsPerPage;
+  const end = start + productsPerPage;
+  const paginatedProducts = filteredProducts.slice(start, end);
+
+  paginatedProducts.forEach(product => {
+    const productBox = document.createElement("div");
+    productBox.classList.add("product");
+    productBox.innerHTML = `
+      <img src="${product.image}" alt="${product.name}">
+      <h2>${product.name}</h2>
+      <p>${product.description}</p>
+      <strong>${product.price}</strong>
+      <p class="rating">${'★'.repeat(Math.floor(product.rating))}</p>
+      <a href="https://wa.me/919744340057?text=I'm%20interested%20in%20${encodeURIComponent(product.name)}" target="_blank">
+        <button class="whatsapp-btn">Order on WhatsApp</button>
+      </a>
+      <button class="cart-btn">Add to Cart</button>
+    `;
+    productBox.querySelector(".cart-btn").addEventListener("click", (e) => {
+      e.stopPropagation();
+      cart.push(product);
+      cartCount.textContent = cart.length;
+      alert(`${product.name} added to cart!`);
+    });
+    productBox.addEventListener("click", (e) => {
+      if (e.target.closest("a") || e.target.classList.contains("cart-btn")) return;
+      popupTitle.textContent = product.name;
+      popupImages.innerHTML = "";
+      const allImages = [product.image, ...(product.extraImages || [])];
+      allImages.forEach(imgUrl => {
+        const imgEl = document.createElement("img");
+        imgEl.src = imgUrl;
+        popupImages.appendChild(imgEl);
+      });
+      let desc = product.description || "";
+      if (product.longDescription && product.longDescription !== product.description) {
+        desc += "<br><br>" + product.longDescription;
       }
-    );
-    filtered = filtered.filter((p) => p.rating >= ratingFilter);
-    setFilteredProducts(filtered);
-    setCurrentPage(1);
-  }, [searchTerm, selectedCategory, priceRange, ratingFilter]);
+      popupDescription.innerHTML = desc;
+      popupPrice.textContent = product.price;
+      popupWhatsApp.href = `https://wa.me/919744340057?text=I'm%20interested%20in%20${encodeURIComponent(product.name)}`;
+      popup.style.display = "flex";
+      document.body.style.overflow = "hidden";
+    });
+    container.appendChild(productBox);
+  });
 
-  // Add to cart
-  const addToCart = (product) => {
-    setCart([...cart, product]);
-    alert(`${product.name} added to cart!`);
-  };
+  updatePagination(filteredProducts);
+}
 
-  // Open popup
-  const openPopup = (product) => {
-    setSelectedProduct(product);
-    setShowPopup(true);
-    document.body.style.overflow = "hidden";
-  };
-
-  // Close popup
-  const closePopup = () => {
-    setShowPopup(false);
-    document.body.style.overflow = "auto";
-  };
-
-  // Pagination
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+function updatePagination(filteredProducts) {
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+  pageNumbers.innerHTML = "";
+  for (let i = 1; i <= totalPages; i++) {
+    const pageBtn = document.createElement("button");
+    pageBtn.textContent = i;
+    if (i === currentPage) pageBtn.classList.add("active");
+    pageBtn.addEventListener("click", () => {
+      currentPage = i;
+      filterAndDisplay();
+    });
+    pageNumbers.appendChild(pageBtn);
+  }
+  prevPage.disabled = currentPage === 1;
+  nextPage.disabled = currentPage === totalPages;
+}
 
-  // Categories for filter
-  const categories = ["All", "Earphones", "Watches", "Headphones", "Speakers", "Trimmers", "Powerbanks", "Combos", "Others"];
+function filterAndDisplay() {
+  const query = searchBar.value.toLowerCase();
+  const selectedCategory = categoryFilters.querySelector("input:checked")?.value || "All";
+  const minPrice = parseInt(priceMin.value);
+  const maxPrice = parseInt(priceMax.value);
+  const minRating = parseFloat(ratingFilter.value);
 
-  ReactDOM.render(
-    <div className="min-h-screen bg-gray-100">
-      {/* Header */}
-      <header>
-        <div className="top-bar">
-          <div className="flex items-center gap-4">
-            <img
-              src="https://i.ibb.co/FbsdpgK3/gadged-cave-3.png"
-              alt="Logo"
-              className="logo"
-            />
-            <h1>Gadget Cave</h1>
-          </div>
-          <div className="flex items-center gap-4">
-            <input
-              type="text"
-              id="search-bar"
-              placeholder="Search products..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <div className="relative">
-              <span className="bg-green-500 text-white rounded-full px-2 py-1">
-                {cart.length}
-              </span>
-              <span className="ml-2 text-gray-800">Cart</span>
-            </div>
-          </div>
-        </div>
-      </header>
+  const filtered = products.filter(p => {
+    const priceNum = parseInt(p.price.replace("₹", ""));
+    return (
+      (selectedCategory === "All" || p.category === selectedCategory) &&
+      priceNum >= minPrice &&
+      priceNum <= maxPrice &&
+      p.rating >= minRating &&
+      (p.name.toLowerCase().includes(query) ||
+       p.description.toLowerCase().includes(query) ||
+       p.category.toLowerCase().includes(query) ||
+       p.longDescription.toLowerCase().includes(query))
+    );
+  });
 
-      <div className="container mx-auto p-4 flex flex-col md:flex-row gap-4">
-        {/* Sidebar */}
-        <aside>
-          <h2 className="text-xl font-semibold mb-4">Filters</h2>
-          <div className="mb-4">
-            <h3 className="font-medium mb-2">Category</h3>
-            {categories.map((category) => (
-              <div key={category} className="flex items-center">
-                <input
-                  type="radio"
-                  id={category}
-                  name="category"
-                  checked={selectedCategory === category}
-                  onChange={() => setSelectedCategory(category)}
-                  className="mr-2"
-                />
-                <label htmlFor={category}>{category}</label>
-              </div>
-            ))}
-          </div>
-          <div className="mb-4">
-            <h3 className="font-medium mb-2">Price Range</h3>
-            <input
-              type="range"
-              min="0"
-              max="2000"
-              value={priceRange[0]}
-              onChange={(e) => setPriceRange([+e.target.value, priceRange[1]])}
-              className="w-full"
-            />
-            <input
-              type="range"
-              min="0"
-              max="2000"
-              value={priceRange[1]}
-              onChange={(e) => setPriceRange([priceRange[0], +e.target.value])}
-              className="w-full"
-            />
-            <div className="flex justify-between text-sm">
-              <span>₹{priceRange[0]}</span>
-              <span>₹{priceRange[1]}</span>
-            </div>
-          </div>
-          <div>
-            <h3 className="font-medium mb-2">Minimum Rating</h3>
-            <input
-              type="range"
-              min="0"
-              max="5"
-              step="0.5"
-              value={ratingFilter}
-              onChange={(e) => setRatingFilter(+e.target.value)}
-              className="w-full"
-            />
-            <div className="text-sm text-center">★ {ratingFilter}</div>
-          </div>
-        </aside>
+  displayProducts(filtered);
+}
 
-        {/* Product Grid */}
-        <main className="w-full md:w-3/4 p-4">
-          <div id="product-list">
-            {currentProducts.map((product) => (
-              <div
-                key={product.name}
-                className="product"
-                onClick={() => openPopup(product)}
-              >
-                <img
-                  src={product.image}
-                  alt={product.name}
-                />
-                <h2>{product.name}</h2>
-                <p>{product.description}</p>
-                <strong>{product.price}</strong>
-                <p className="text-yellow-500">{'★'.repeat(Math.floor(product.rating))}</p>
-                <a
-                  href={`https://wa.me/919744340057?text=I'm%20interested%20in%20${encodeURIComponent(product.name)}`}
-                  target="_blank"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <button className="whatsapp-btn">Order on WhatsApp</button>
-                </a>
-                <button
-                  className="cart-btn"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    addToCart(product);
-                  }}
-                >
-                  Add to Cart
-                </button>
-              </div>
-            ))}
-          </div>
+popupClose.addEventListener("click", () => {
+  popup.style.display = "none";
+  document.body.style.overflow = "auto";
+});
 
-          {/* Pagination */}
-          <div className="pagination">
-            <button
-              className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
-              disabled={currentPage === 1}
-              onClick={() => setCurrentPage(currentPage - 1)}
-            >
-              Previous
-            </button>
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <button
-                key={page}
-                className={`px-4 py-2 ${currentPage === page ? 'bg-green-500 text-white' : 'bg-gray-200'} rounded`}
-                onClick={() => setCurrentPage(page)}
-              >
-                {page}
-              </button>
-            ))}
-            <button
-              className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
-              disabled={currentPage === totalPages}
-              onClick={() => setCurrentPage(currentPage + 1)}
-            >
-              Next
-            </button>
-          </div>
-        </main>
-      </div>
+popup.addEventListener("click", (e) => {
+  if (e.target === popup) {
+    popup.style.display = "none";
+    document.body.style.overflow = "auto";
+  }
+});
 
-      {/* Popup */}
-      {showPopup && selectedProduct && (
-        <div
-          className="popup-overlay"
-          onClick={closePopup}
-        >
-          <div
-            className="popup-content"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              className="popup-close"
-              onClick={closePopup}
-            >
-              ×
-            </button>
-            <h2>{selectedProduct.name}</h2>
-            <div className="flex flex-col gap-4">
-              {[selectedProduct.image, ...(selectedProduct.extraImages || [])].map((imgUrl, index) => (
-                <img
-                  key={index}
-                  src={imgUrl}
-                  alt={`${selectedProduct.name} ${index}`}
-                />
-              ))}
-            </div>
-            <p className="popup-description">
-              {selectedProduct.description}
-              {selectedProduct.longDescription && selectedProduct.longDescription !== selectedProduct.description && (
-                <>
-                  <br /><br />
-                  {selectedProduct.longDescription}
-                </>
-              )}
-            </p>
-            <p className="text-gray-800 font-bold">{selectedProduct.price}</p>
-            <a
-              href={`https://wa.me/919744340057?text=I'm%20interested%20in%20${encodeURIComponent(selectedProduct.name)}`}
-              target="_blank"
-            >
-              <button className="whatsapp-btn">Order on WhatsApp</button>
-            </a>
-          </div>
-        </div>
-      )}
+searchBar.addEventListener("input", filterAndDisplay);
 
-      {/* Footer */}
-      <footer>
-        <p>Gadget Cave :- 🚚 All Kerala Delivery Available 🚚</p>
-      </footer>
-    </div>,
-    document.getElementById('root')
-  );
-};
+categories.forEach(category => {
+  const div = document.createElement("div");
+  div.innerHTML = `
+    <input type="radio" id="${category}" name="category" value="${category}" ${category === "All" ? "checked" : ""}>
+    <label for="${category}">${category}</label>
+  `;
+  div.querySelector("input").addEventListener("change", filterAndDisplay);
+  categoryFilters.appendChild(div);
+});
+
+priceMin.addEventListener("input", () => {
+  priceMinValue.textContent = `₹${priceMin.value}`;
+  filterAndDisplay();
+});
+
+priceMax.addEventListener("input", () => {
+  priceMaxValue.textContent = `₹${priceMax.value}`;
+  filterAndDisplay();
+});
+
+ratingFilter.addEventListener("input", () => {
+  ratingValue.textContent = ratingFilter.value;
+  filterAndDisplay();
+});
+
+prevPage.addEventListener("click", () => {
+  if (currentPage > 1) {
+    currentPage--;
+    filterAndDisplay();
+  }
+});
+
+nextPage.addEventListener("click", () => {
+  const totalPages = Math.ceil(products.length / productsPerPage);
+  if (currentPage < totalPages) {
+    currentPage++;
+    filterAndDisplay();
+  }
+});
+
+priceMinValue.textContent = `₹${priceMin.value}`;
+priceMaxValue.textContent = `₹${priceMax.value}`;
+ratingValue.textContent = ratingFilter.value;
+
+filterAndDisplay();
