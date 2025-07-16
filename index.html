@@ -7,17 +7,18 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <div class="logo-title">
-      <img src="logo.png" alt="Gadget Cave Logo" class="logo"/>
+
+  <header class="header">
+    <div class="header-content">
+      <img src="logo.png" alt="Gadget Cave Logo" class="logo" />
       <h1>Gadget Cave</h1>
     </div>
-    <input type="text" id="searchBar" placeholder="Search products..." />
+    <input type="search" id="searchBar" placeholder="Search products…">
   </header>
 
   <main>
-    <div id="categoryContainer"></div>
-    <div id="productContainer"></div>
+    <div id="categoryContainer" class="categories"></div>
+    <div id="productContainer" class="products-grid"></div>
   </main>
 
   <script src="product.js"></script>
