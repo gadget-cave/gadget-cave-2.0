@@ -1,30 +1,31 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Product data
   const products = [
-    { name: "Wireless Earphones-CMF BY NOTHING", image: "https://i.ibb.co/cXhm2q40/earphones.jpg", description: "High-quality sound and battery life.", price: "₹899", longDescription: "Crisp sound with deep bass. 10-hour battery.", extraImages: [], category: "Earphones", rating: 4.5 },
-    { name: "HEADPHONES-P9", image: "https://i.ibb.co/vCJrF2NZ/headphonesp9.jpg", description: "High quality, C-type charging", price: "₹699", longDescription: "", extraImages: [], category: "Headphones", rating: 4.2 },
-    { name: "Samsung Watch with Airpods", image: "https://i.ibb.co/S4KZqPkG/samsung-watch-with-airpods.jpg", description: "Fitness tracker and call support.", price: "₹1199", longDescription: "", extraImages: [], category: "Combos", rating: 4.7 },
-    { name: "CASIO G-SHOCK", image: "https://i.ibb.co/9HTJwrjN/CASIO-G-SHOCK.jpg", description: "Awesome quality, chain model.", price: "₹999", longDescription: "", extraImages: [], category: "Watches", rating: 4.4 },
-    { name: "TRACKON - watch", image: "https://i.ibb.co/sp6nVFHD/TRACKON-watch.jpg", description: "Awesome quality, trending model.", price: "₹599", longDescription: "", extraImages: [], category: "Watches", rating: 4.3 },
-    { name: "Marshal Ember ANC - earpods", image: "https://i.ibb.co/8nfGR3vk/Marshal-Ember-ANC-earpod.jpg", description: "High-quality sound, 6 eartips, 1 cable.", price: "₹999", longDescription: "", extraImages: [], category: "Earphones", rating: 4.6 },
-    { name: "MZ bluetooth speaker", image: "https://i.ibb.co/gZYPxgYS/MZ-bluetooth-speaker.jpg", description: "High-quality sound, trending model.", price: "₹699", longDescription: "", extraImages: [], category: "Speakers", rating: 4.1 },
-    { name: "HTC-trimmer", image: "https://i.ibb.co/dwydCFJZ/HTC-trimmer.jpg", description: "Awesome quality, latest arrivals.", price: "₹649", longDescription: "", extraImages: [], category: "Trimmers", rating: 4.0 },
-    { name: "Magnet locking watch", image: "https://i.ibb.co/CKMPZjDG/Magnet-locking-watch.jpg", description: "Click for details.", price: "₹749", longDescription: "", extraImages: ["https://i.ibb.co/QvL7gvLd/magnet-locking-watch-brown.jpg", "https://i.ibb.co/9Hb8fRMw/magnet-locking-watch-green.jpg"], category: "Watches", rating: 4.4 },
-    { name: "MARSHALL headset", image: "https://i.ibb.co/rRgjQkmp/marshall-headset-1-0.jpg", description: "High-quality sound, latest arrivals.", price: "₹949", longDescription: "", extraImages: ["https://i.ibb.co/9Dxz1Xq/MARSHALL-headset.jpg"], category: "Headphones", rating: 4.5 },
-    { name: "BOAT AIRBUDS", image: "https://i.ibb.co/RkSWyDKh/BOAT-airbuds.jpg", description: "Click for details.", price: "₹749", longDescription: "500mAh battery, 5hr call time.", extraImages: ["https://i.ibb.co/CSrCsWT/BOAT-airbuds-blue.jpg", "https://i.ibb.co/RpG2JZZR/BOAT-airbuds-mix.jpg"], category: "Earphones", rating: 4.3 },
-    { name: "best ever combo", image: "https://i.ibb.co/21yghLzS/apple-watch-headset.jpg", description: "Click for details.", price: "₹1499", longDescription: "Apple watch + P9 + airpods 2 + bag.", extraImages: ["https://i.ibb.co/8Ls04V5q/apple-watch-combo-black.jpg"], category: "Combos", rating: 4.8 },
-    { name: "WATCH- LG GOLD", image: "https://i.ibb.co/KjxM14sD/LG-GOLD-watch.jpg", description: "Click for details.", price: "₹549", longDescription: "Awesome quality, latest arrivals.", extraImages: ["https://i.ibb.co/sdkX47Kz/LG-GOLD-green.jpg"], category: "Watches", rating: 4.2 },
-    { name: "BOAT Airdopes 600", image: "https://i.ibb.co/JjvhcFZt/BOAT-airdopes-600.jpg", description: "Click for details.", price: "₹749", longDescription: "Wireless, 500mAh, 5hr call time.", extraImages: ["https://i.ibb.co/5xT1pQ4R/BOAT-airdopes-600-black.jpg", "https://i.ibb.co/vxJsdnfB/BOAT-airdopes-600-blue.jpg"], category: "Earphones", rating: 4.4 },
-    { name: "Samsung GALAXY BUDS 2 PRO", image: "https://i.ibb.co/j9thw23H/Samsung-GALAXY-BUDS-2-PRO.jpg", description: "Click for details.", price: "₹849", longDescription: "Touch, type-c, 700mAh, premium design.", extraImages: ["https://i.ibb.co/ksq6jSHQ/galaxy-buds-white.jpg", "https://i.ibb.co/Z63zTgRN/galaxy-buds-black.jpg"], category: "Earphones", rating: 4.7 },
-    { name: "Ultra smart watch special edition", image: "https://i.ibb.co/xq4Tr7FS/Ultra-smart-watch-special-edition.jpg", description: "Click for details.", price: "₹749", longDescription: "5+ menu, fitpro, wireless charging.", extraImages: ["https://i.ibb.co/qLk2hhLv/ultra.jpg"], category: "Watches", rating: 4.6 },
-    { name: "MASSAGE GUN", image: "https://i.ibb.co/fYbbQTbc/MASSAGE-GUN.jpg", description: "Massage gun with interchangeable heads.", price: "₹749", longDescription: "", extraImages: [], category: "Others", rating: 4.3 },
-    { name: "premium airpods pro2", image: "https://i.ibb.co/Xrv0n01C/apple-airpod-pro-2-mix.jpg", description: "Click for details.", price: "₹799", longDescription: "5-8hr battery, premium build, 598mAh.", extraImages: ["https://i.ibb.co/XxD8StC8/apple-airpod-pro2-black.jpg", "https://i.ibb.co/LhZRNFQf/apple-airpod-pro2-white.jpg"], category: "Earphones", rating: 4.8 },
-    { name: "YIXIAO, powerbank", image: "https://i.ibb.co/qYxy1H2s/powerbank-1.jpg", description: "Click for details.", price: "₹1399", longDescription: "10,000mAh, dual input.", extraImages: ["https://i.ibb.co/PZ42nSxb/power-bank-1-0.jpg", "https://i.ibb.co/cMX6WDB/power-bank-1-1.jpg"], category: "Powerbanks", rating: 4.5 },
-    { name: "HTC TRIMMER", image: "https://i.ibb.co/jvwSjGPs/htc-trimmer-1.jpg", description: "Click for details.", price: "₹699", longDescription: "Premium quality, trending.", extraImages: ["https://i.ibb.co/Mk9b03nh/htc-trimmer-1-0jpg.jpg"], category: "Trimmers", rating: 4.4 },
-    { name: "NIKE 𝐖𝐀𝐓𝐂𝐇", image: "https://i.ibb.co/9HbxGww8/nike-watch-1-0.jpg", description: "Click for details.", price: "₹1599", longDescription: "New arrival, good quality.", extraImages: [], category: "Watches", rating: 4.7 },
-    { name: "CASIO watch", image: "https://i.ibb.co/Zprbcj0B/casio-1-0.jpg", description: "Click for details.", price: "₹699", longDescription: "Awesome quality, unisex, trending.", extraImages: ["https://i.ibb.co/ycVh0skx/casio-1-1.jpg"], category: "Watches", rating: 4.3 },
-    { name: "JBL TUNE 510", image: "https://i.ibb.co/tMvfYQpB/J-BL-tune-510-1-o.jpg", description: "Click for details.", price: "₹829", longDescription: "TF card, aux, 360 audio.", extraImages: ["https://i.ibb.co/twRfYk42/J-BL-tune-510-1-2.jpg", "https://i.ibb.co/h1Y61XZF/J-BL-tune-510-1-1.jpg"], category: "Headphones", rating: 4.6 },
-    { name: "TISSOT watch", image: "https://i.ibb.co/XZm2C6F4/tissot-watch-1-0.jpg", description: "Click for details.", price: "₹649", longDescription: "Awesome quality, gents, trending.", extraImages: ["https://i.ibb.co/gZMr1b76/tissot-watch-1-1jpg.jpg", "https://i.ibb.co/V4hC7XB/tissot-watch-1-2.jpg"], category: "Watches", rating: 4.4 },
-    { name: "DELTON watch", image: "https://i.ibb.co/8gmpXQXH/delton-watch-1-0.jpg", description: "Click for details.", price: "₹599", longDescription: "Awesome quality, unisex, trending.", extraImages: ["https://i.ibb.co/cpTJjYG/delton-watch-1-1.jpg", "https://i.ibb.co/2HrhckZ/delton-watch-1-2.jpg"], category: "Watches", rating: 4.3 }
+    { name: "Wireless Earphones-CMF BY NOTHING", image: "https://i.ibb.co/cXhm2q40/earphones.jpg", description: "High-quality sound, 10hr battery.", price: "₹899", longDescription: "", extraImages: [], category: "Earphones", rating: 4.5 },
+    { name: "HEADPHONES-P9", image: "https://i.ibb.co/vCJrF2NZ/headphonesp9.jpg", description: "High quality, C-type charging.", price: "₹699", longDescription: "", extraImages: [], category: "Headphones", rating: 4.2 },
+    { name: "Samsung Watch with Airpods", image: "https://i.ibb.co/S4KZqPkG/samsung-watch-with-airpods.jpg", description: "Fitness tracker, call support.", price: "₹1199", longDescription: "", extraImages: [], category: "Combos", rating: 4.7 },
+    { name: "CASIO G-SHOCK", image: "https://i.ibb.co/9HTJwrjN/CASIO-G-SHOCK.jpg", description: "Chain model, durable.", price: "₹999", longDescription: "", extraImages: [], category: "Watches", rating: 4.4 },
+    { name: "TRACKON - watch", image: "https://i.ibb.co/sp6nVFHD/TRACKON-watch.jpg", description: "Trending, quality watch.", price: "₹599", longDescription: "", extraImages: [], category: "Watches", rating: 4.3 },
+    { name: "Marshal Ember ANC - earpods", image: "https://i.ibb.co/8nfGR3vk/Marshal-Ember-ANC-earpod.jpg", description: "6 eartips, high sound.", price: "₹999", longDescription: "", extraImages: [], category: "Earphones", rating: 4.6 },
+    { name: "MZ bluetooth speaker", image: "https://i.ibb.co/gZYPxgYS/MZ-bluetooth-speaker.jpg", description: "Loud, trending speaker.", price: "₹699", longDescription: "", extraImages: [], category: "Speakers", rating: 4.1 },
+    { name: "HTC-trimmer", image: "https://i.ibb.co/dwydCFJZ/HTC-trimmer.jpg", description: "Latest, quality trimmer.", price: "₹649", longDescription: "", extraImages: [], category: "Trimmers", rating: 4.0 },
+    { name: "Magnet locking watch", image: "https://i.ibb.co/CKMPZjDG/Magnet-locking-watch.jpg", description: "Unique locking design.", price: "₹749", longDescription: "", extraImages: ["https://i.ibb.co/QvL7gvLd/magnet-locking-watch-brown.jpg"], category: "Watches", rating: 4.4 },
+    { name: "MARSHALL headset", image: "https://i.ibb.co/rRgjQkmp/marshall-headset-1-0.jpg", description: "Premium sound, new.", price: "₹949", longDescription: "", extraImages: ["https://i.ibb.co/9Dxz1Xq/MARSHALL-headset.jpg"], category: "Headphones", rating: 4.5 },
+    { name: "BOAT AIRBUDS", image: "https://i.ibb.co/RkSWyDKh/BOAT-airbuds.jpg", description: "500mAh, 5hr call time.", price: "₹749", longDescription: "", extraImages: ["https://i.ibb.co/CSrCsWT/BOAT-airbuds-blue.jpg"], category: "Earphones", rating: 4.3 },
+    { name: "best ever combo", image: "https://i.ibb.co/21yghLzS/apple-watch-headset.jpg", description: "Watch + headset + more.", price: "₹1499", longDescription: "", extraImages: ["https://i.ibb.co/8Ls04V5q/apple-watch-combo-black.jpg"], category: "Combos", rating: 4.8 },
+    { name: "WATCH- LG GOLD", image: "https://i.ibb.co/KjxM14sD/LG-GOLD-watch.jpg", description: "Elegant gold finish.", price: "₹549", longDescription: "", extraImages: ["https://i.ibb.co/sdkX47Kz/LG-GOLD-green.jpg"], category: "Watches", rating: 4.2 },
+    { name: "BOAT Airdopes 600", image: "https://i.ibb.co/JjvhcFZt/BOAT-airdopes-600.jpg", description: "Wireless, 500mAh.", price: "₹749", longDescription: "", extraImages: ["https://i.ibb.co/5xT1pQ4R/BOAT-airdopes-600-black.jpg"], category: "Earphones", rating: 4.4 },
+    { name: "Samsung GALAXY BUDS 2 PRO", image: "https://i.ibb.co/j9thw23H/Samsung-GALAXY-BUDS-2-PRO.jpg", description: "Touch, 700mAh.", price: "₹849", longDescription: "", extraImages: ["https://i.ibb.co/ksq6jSHQ/galaxy-buds-white.jpg"], category: "Earphones", rating: 4.7 },
+    { name: "Ultra smart watch special edition", image: "https://i.ibb.co/xq4Tr7FS/Ultra-smart-watch-special-edition.jpg", description: "Fitpro, wireless charge.", price: "₹749", longDescription: "", extraImages: ["https://i.ibb.co/qLk2hhLv/ultra.jpg"], category: "Watches", rating: 4.6 },
+    { name: "MASSAGE GUN", image: "https://i.ibb.co/fYbbQTbc/MASSAGE-GUN.jpg", description: "Interchangeable heads.", price: "₹749", longDescription: "", extraImages: [], category: "Others", rating: 4.3 },
+    { name: "premium airpods pro2", image: "https://i.ibb.co/Xrv0n01C/apple-airpod-pro-2-mix.jpg", description: "5-8hr battery.", price: "₹799", longDescription: "", extraImages: ["https://i.ibb.co/XxD8StC8/apple-airpod-pro2-black.jpg"], category: "Earphones", rating: 4.8 },
+    { name: "YIXIAO, powerbank", image: "https://i.ibb.co/qYxy1H2s/powerbank-1.jpg", description: "10,000mAh, dual input.", price: "₹1399", longDescription: "", extraImages: ["https://i.ibb.co/PZ42nSxb/power-bank-1-0.jpg"], category: "Powerbanks", rating: 4.5 },
+    { name: "HTC TRIMMER", image: "https://i.ibb.co/jvwSjGPs/htc-trimmer-1.jpg", description: "Premium, trending.", price: "₹699", longDescription: "", extraImages: ["https://i.ibb.co/Mk9b03nh/htc-trimmer-1-0jpg.jpg"], category: "Trimmers", rating: 4.4 },
+    { name: "NIKE 𝐖𝐀𝐓𝐂𝐇", image: "https://i.ibb.co/9HbxGww8/nike-watch-1-0.jpg", description: "New arrival.", price: "₹1599", longDescription: "", extraImages: [], category: "Watches", rating: 4.7 },
+    { name: "CASIO watch", image: "https://i.ibb.co/Zprbcj0B/casio-1-0.jpg", description: "Unisex, trending.", price: "₹699", longDescription: "", extraImages: ["https://i.ibb.co/ycVh0skx/casio-1-1.jpg"], category: "Watches", rating: 4.3 },
+    { name: "JBL TUNE 510", image: "https://i.ibb.co/tMvfYQpB/J-BL-tune-510-1-o.jpg", description: "TF card, 360 audio.", price: "₹829", longDescription: "", extraImages: ["https://i.ibb.co/twRfYk42/J-BL-tune-510-1-2.jpg"], category: "Headphones", rating: 4.6 },
+    { name: "TISSOT watch", image: "https://i.ibb.co/XZm2C6F4/tissot-watch-1-0.jpg", description: "Gents, trending.", price: "₹649", longDescription: "", extraImages: ["https://i.ibb.co/gZMr1b76/tissot-watch-1-1jpg.jpg"], category: "Watches", rating: 4.4 },
+    { name: "DELTON watch", image: "https://i.ibb.co/8gmpXQXH/delton-watch-1-0.jpg", description: "Unisex, trending.", price: "₹599", longDescription: "", extraImages: ["https://i.ibb.co/cpTJjYG/delton-watch-1-1.jpg"], category: "Watches", rating: 4.3 }
   ];
 
   const categories = ["All", "Earphones", "Watches", "Headphones", "Speakers", "Trimmers", "Powerbanks", "Combos", "Others"];
@@ -32,6 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentPage = 1;
   let cart = [];
 
+  // DOM elements
   const container = document.getElementById("product-list");
   const searchBar = document.getElementById("search-bar");
   const popup = document.getElementById("popup");
@@ -53,14 +55,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const pageNumbers = document.getElementById("page-numbers");
   const cartCount = document.getElementById("cart-count");
 
+  // Check for DOM elements
   if (!container || !searchBar || !popup || !popupClose || !popupTitle || !popupImages || !popupDescription || !popupPrice || !popupWhatsApp || !categoryFilters || !priceMin || !priceMax || !priceMinValue || !priceMaxValue || !ratingFilter || !ratingValue || !prevPage || !nextPage || !pageNumbers || !cartCount) {
-    console.error("Critical error: Missing DOM elements:", { container, searchBar, popup, popupClose, popupTitle, popupImages, popupDescription, popupPrice, popupWhatsApp, categoryFilters, priceMin, priceMax, priceMinValue, priceMaxValue, ratingFilter, ratingValue, prevPage, nextPage, pageNumbers, cartCount });
-    container.innerHTML = "<p>Sorry, the page failed to load. Please check the console for details.</p>";
+    console.error("DOM initialization failed. Missing elements:", { container, searchBar, popup, popupClose, popupTitle, popupImages, popupDescription, popupPrice, popupWhatsApp, categoryFilters, priceMin, priceMax, priceMinValue, priceMaxValue, ratingFilter, ratingValue, prevPage, nextPage, pageNumbers, cartCount });
+    container.innerHTML = "<p>Error: Page failed to load. Check console.</p>";
     return;
   }
 
-  console.log("Gadget Cave initialized successfully.");
+  console.log("Gadget Cave DOM loaded successfully.");
 
+  // Display products
   function displayProducts(productsToShow) {
     container.innerHTML = "";
     const start = (currentPage - 1) * productsPerPage;
@@ -68,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const paginatedProducts = productsToShow.slice(start, end);
 
     if (paginatedProducts.length === 0) {
-      container.innerHTML = "<p>No products match your filters. Try adjusting them.</p>";
+      container.innerHTML = "<p>No products found. Adjust filters or search.</p>";
       return;
     }
 
@@ -76,13 +80,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const productDiv = document.createElement("div");
       productDiv.classList.add("product");
       productDiv.innerHTML = `
-        <img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/150'; console.log('Image load failed for ${product.name}');">
+        <img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/150'; console.log('Image failed for ${product.name}');">
         <h2>${product.name}</h2>
-        <p>${product.description || "No description available"}</p>
+        <p>${product.description || "No description"}</p>
         <strong>${product.price}</strong>
         <p class="rating">${'★'.repeat(Math.floor(product.rating))}</p>
         <a href="https://wa.me/919744340057?text=I'm%20interested%20in%20${encodeURIComponent(product.name)}" target="_blank">
-          <button class="whatsapp-btn">Order Now</button>
+          <button class="whatsapp-btn">Order</button>
         </a>
         <button class="cart-btn">Add to Cart</button>
       `;
@@ -101,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
           imgEl.onerror = () => { imgEl.src = "https://via.placeholder.com/150"; console.log(`Popup image failed for ${img}`); };
           popupImages.appendChild(imgEl);
         });
-        popupDescription.textContent = (product.description || "") + (product.longDescription && product.longDescription !== product.description ? "\n\n" + product.longDescription : "");
+        popupDescription.textContent = product.description || product.longDescription || "No details";
         popupPrice.textContent = product.price;
         popupWhatsApp.href = `https://wa.me/919744340057?text=I'm%20interested%20in%20${encodeURIComponent(product.name)}`;
         popup.style.display = "flex";
@@ -113,6 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updatePagination(productsToShow);
   }
 
+  // Update pagination
   function updatePagination(productsToShow) {
     const totalPages = Math.ceil(productsToShow.length / productsPerPage);
     pageNumbers.innerHTML = "";
@@ -130,6 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
     nextPage.disabled = currentPage === totalPages;
   }
 
+  // Filter and display products
   function filterAndDisplay() {
     const query = searchBar.value.toLowerCase().trim();
     const category = categoryFilters.querySelector("input:checked")?.value || "All";
@@ -144,14 +150,15 @@ document.addEventListener("DOMContentLoaded", () => {
         price >= minPrice &&
         price <= maxPrice &&
         p.rating >= minRating &&
-        (p.name.toLowerCase().includes(query) || p.description?.toLowerCase().includes(query) || p.category.toLowerCase().includes(query) || p.longDescription?.toLowerCase().includes(query))
+        (p.name.toLowerCase().includes(query) || p.description?.toLowerCase().includes(query) || p.category.toLowerCase().includes(query))
       );
     });
     currentPage = 1;
     displayProducts(filtered);
-    console.log(`Displayed ${filtered.length} products on page ${currentPage}`);
+    console.log(`Filtered to ${filtered.length} products, page ${currentPage}`);
   }
 
+  // Event listeners
   popupClose.addEventListener("click", () => {
     popup.style.display = "none";
     document.body.style.overflow = "auto";
@@ -168,6 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
   prevPage.addEventListener("click", () => { if (currentPage > 1) { currentPage--; filterAndDisplay(); } });
   nextPage.addEventListener("click", () => { const totalPages = Math.ceil(products.length / productsPerPage); if (currentPage < totalPages) { currentPage++; filterAndDisplay(); } });
 
+  // Populate category filters
   categories.forEach(cat => {
     const div = document.createElement("div");
     div.innerHTML = `<input type="radio" id="${cat}" name="category" value="${cat}" ${cat === "All" ? "checked" : ""}><label for="${cat}">${cat}</label>`;
@@ -175,6 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
     categoryFilters.appendChild(div);
   });
 
+  // Initialize range values
   priceMinValue.textContent = `₹${priceMin.value}`;
   priceMaxValue.textContent = `₹${priceMax.value}`;
   ratingValue.textContent = ratingFilter.value;
