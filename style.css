@@ -1,20 +1,28 @@
-body {
+/* Reset some default styles */
+* {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f9f9f9;
+  padding: 0;
+  box-sizing: border-box;
 }
 
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f3f3f3;
+  color: #333;
+}
+
+/* Header */
 header {
+  background-color: #1e1e1e;
+  color: #fff;
+  padding: 15px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #222;
-  color: white;
-  padding: 10px 20px;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.header-left {
+.logo-container {
   display: flex;
   align-items: center;
 }
@@ -24,83 +32,175 @@ header {
   margin-right: 10px;
 }
 
-#searchBar {
+header h1 {
+  font-size: 20px;
+}
+
+.search-container {
+  flex: 1;
+  max-width: 300px;
+  margin-left: auto;
+}
+
+.search-container input {
+  width: 100%;
   padding: 8px;
-  width: 250px;
-  border-radius: 5px;
+  border-radius: 4px;
   border: none;
 }
 
+/* Product Layout */
 main {
   padding: 20px;
+}
+
+.category-section {
+  margin-bottom: 40px;
+}
+
+.category-section h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #444;
+  text-transform: uppercase;
+}
+
+.product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
   gap: 20px;
 }
 
-.product {
-  background: white;
+.product-card {
+  background-color: #fff;
   border-radius: 10px;
-  box-shadow: 0 0 8px rgba(0,0,0,0.1);
-  padding: 15px;
+  overflow: hidden;
+  padding: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
-.product img {
+.product-card img {
   width: 100%;
-  max-height: 160px;
+  height: 140px;
   object-fit: contain;
-}
-
-.buy-button {
-  background-color: #28a745;
-  color: white;
-  padding: 8px;
-  margin-top: 10px;
-  border: none;
-  border-radius: 5px;
   cursor: pointer;
 }
 
-.buy-button:hover {
-  background-color: #218838;
+.product-card h3 {
+  font-size: 16px;
+  margin: 10px 0 5px;
 }
 
+.product-card p {
+  font-size: 14px;
+  color: #666;
+}
+
+.product-card button {
+  background-color: #ff6b00;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  margin-top: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.product-card button:hover {
+  background-color: #e65a00;
+}
+
+/* Popup */
+.popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+}
+
+.popup-content img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.popup-content h2 {
+  margin-top: 10px;
+  font-size: 20px;
+}
+
+.popup-content p {
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+.popup-content button {
+  background-color: #ff6b00;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin-top: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.popup-content .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: transparent;
+  font-size: 18px;
+  color: #333;
+  border: none;
+  cursor: pointer;
+}
+
+/* Footer */
 footer {
   text-align: center;
-  padding: 10px;
-  background: #222;
+  padding: 15px;
+  background-color: #1e1e1e;
   color: white;
+  font-size: 14px;
 }
 
-.buy-container {
-  max-width: 500px;
-  margin: 30px auto;
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-}
+/* Mobile Optimization */
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-.buy-container input {
-  display: block;
-  width: 100%;
-  margin-bottom: 12px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
+  .search-container {
+    margin-top: 10px;
+    width: 100%;
+  }
 
-.buy-container button {
-  background-color: #007bff;
-  color: white;
-  padding: 10px;
-  border: none;
-  width: 100%;
-  border-radius: 5px;
-  cursor: pointer;
-}
+  .product-card img {
+    height: 120px;
+  }
 
-.upi-text {
-  margin-top: 10px;
-  text-align: center;
+  .popup-content {
+    max-height: 90vh;
+    overflow-y: auto;
+  }
 }
