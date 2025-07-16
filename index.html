@@ -1,27 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Gadget Cave</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
   <header class="header">
-    <div class="header-content">
-      <img src="logo.png" alt="Gadget Cave Logo" class="logo" />
+    <div class="logo-area">
+      <img src="logo.png" alt="Logo" class="logo">
       <h1>Gadget Cave</h1>
     </div>
-    <input type="search" id="searchBar" placeholder="Search products…">
+    <input type="text" id="searchInput" placeholder="Search products...">
   </header>
 
-  <main>
-    <div id="categoryContainer" class="categories"></div>
-    <div id="productContainer" class="products-grid"></div>
-  </main>
+  <main id="productContainer"></main>
 
-  <script src="product.js"></script>
+  <script src="products.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
