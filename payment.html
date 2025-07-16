@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main>
+        <h1>Payment</h1>
+        <p>Please pay ₹<span id="product-price"></span> to <span id="upi-id">hixzam313@okaxis</span></p>
+        <button id="complete-payment-button">Complete Payment</button>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        // Get product price element
+        const productPriceElement = document.getElementById('product-price');
+
+        // Get UPI ID element
+        const upiIdElement = document.getElementById('upi-id');
+
+        // Get complete payment button element
+        const completePaymentButtonElement = document.getElementById('complete-payment-button');
+
+        // Set product price and UPI ID
+        const productPrice = new URLSearchParams(window.location.search).get('productPrice');
+        productPriceElement.textContent = productPrice;
+
+        // Add event listener to complete payment button
+        completePaymentButtonElement.addEventListener('click', () => {
+            // Send WhatsApp message to your mobile number with order details
+            const address = new URLSearchParams(window.location.search).get('address');
+            const productId = new URLSearchParams(window.location.search).get('productId');
+            const productName = new URLSearchParams(window.location.search).get('productName');
+            const message = `Order Complete!\nAddress: ${address}\nProduct: ${productName}\nPrice: ₹${productPrice}`;
+            const whatsappUrl = `https://wa.me/9744340057?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        });
+    </script>
+</body>
+</html>
