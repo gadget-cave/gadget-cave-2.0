@@ -1,126 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Enter Delivery Details</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-    }
-    .buy-container {
-      max-width: 500px;
-      margin: 30px auto;
-      padding: 20px;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    .buy-container h2, .buy-container h3 {
-      text-align: center;
-      color: #333;
-    }
-    .buy-container form {
-      display: flex;
-      flex-direction: column;
-    }
-    .buy-container input {
-      padding: 10px;
-      margin-bottom: 12px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 16px;
-    }
-    .buy-container button {
-      padding: 12px;
-      font-size: 16px;
-      border: none;
-      border-radius: 6px;
-      background-color: #007bff;
-      color: white;
-      cursor: pointer;
-    }
-    .buy-container button:hover {
-      background-color: #0056b3;
-    }
-    #paymentSection {
-      margin-top: 20px;
-      text-align: center;
-      display: none;
-    }
-    @media (max-width: 600px) {
-      .buy-container {
-        margin: 15px;
-        padding: 15px;
-      }
-      .buy-container input, .buy-container button {
-        font-size: 15px;
-      }
-    }
-  </style>
+  <title>Delivery Info</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="buy-container">
-    <h2>Delivery Address</h2>
-    <form id="buyForm">
-      <input type="text" placeholder="Full Name" id="name" required />
-      <input type="text" placeholder="Address" id="address" required />
-      <input type="text" placeholder="House No. (Optional)" id="house" />
-      <input type="text" placeholder="Landmark (Optional)" id="landmark" />
-      <input type="text" placeholder="City" id="city" required />
-      <input type="text" placeholder="District" id="district" required />
-      <input type="text" placeholder="State" id="state" required />
-      <input type="text" placeholder="Pincode" id="pincode" required />
-      <input type="text" placeholder="Phone Number" id="phone" required />
-      <button type="submit">Proceed to Payment</button>
+    <h2>Enter Delivery Details</h2>
+    <form id="addressForm">
+      <input type="text" id="name" placeholder="Full Name" required />
+      <input type="text" id="address" placeholder="Address" required />
+      <input type="text" id="house" placeholder="House No (Optional)" />
+      <input type="text" id="landmark" placeholder="Landmark (Optional)" />
+      <input type="text" id="city" placeholder="City" required />
+      <input type="text" id="district" placeholder="District" required />
+      <input type="text" id="state" placeholder="State" required />
+      <input type="text" id="pincode" placeholder="Pincode" required />
+      <input type="tel" id="phone" placeholder="Phone Number" required />
+      <button type="submit">Finish</button>
     </form>
-
-    <div id="paymentSection">
-      <h3>Step 2: Make Payment</h3>
-      <p>Pay <span id="paymentAmount"></span> to:</p>
-      <strong>UPI ID: <span style="color:green;">hixzam313@okaxis</span></strong>
-      <br><br>
-      <button onclick="finishOrder()">Finish Order</button>
-    </div>
+    <p class="upi-text">Please make payment to: <b>hixzam313@okaxis</b> UPI ID before clicking Finish.</p>
   </div>
 
-  <script>
-    const selectedProduct = JSON.parse(localStorage.getItem("selectedProduct"));
-
-    const buyForm = document.getElementById("buyForm");
-    const paymentSection = document.getElementById("paymentSection");
-    const paymentAmount = document.getElementById("paymentAmount");
-
-    buyForm?.addEventListener("submit", function (e) {
-      e.preventDefault();
-      paymentSection.style.display = "block";
-      paymentAmount.innerText = selectedProduct?.price || "₹0";
-    });
-
-    function finishOrder() {
-      const name = document.getElementById("name").value;
-      const address = document.getElementById("address").value;
-      const house = document.getElementById("house").value;
-      const landmark = document.getElementById("landmark").value;
-      const city = document.getElementById("city").value;
-      const district = document.getElementById("district").value;
-      const state = document.getElementById("state").value;
-      const pincode = document.getElementById("pincode").value;
-      const phone = document.getElementById("phone").value;
-
-      const product = selectedProduct?.name || "Unknown Product";
-      const price = selectedProduct?.price || "₹0";
-      const imgUrl = selectedProduct?.image;
-
-      const fullAddress = `${address}, House No: ${house}, Landmark: ${landmark}, ${city}, ${district}, ${state} - ${pincode}`;
-      const message = `🛒 *Order Confirmation*\n\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n📦 *Product:* ${product}\n💰 *Amount:* ${price}\n📍 *Address:* ${fullAddress}\n🖼️ *Image:* ${imgUrl}\n\n✅ Payment done to UPI: hixzam313@okaxis\n🟢 *Order Completed*`;
-
-      const whatsappUrl = `https://wa.me/919744340057?text=${encodeURIComponent(message)}`;
-      window.open(whatsappUrl, "_blank");
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
