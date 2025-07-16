@@ -1,57 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Enter Delivery Details</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Order Details</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
   <div class="form-container">
-    <h2>Delivery Details</h2>
+    <h2>Enter Delivery Address</h2>
     <form id="addressForm">
-      <input type="text" placeholder="Full Name" id="name" required />
-      <input type="text" placeholder="Address" id="address" required />
-      <input type="text" placeholder="House No. (Optional)" id="house" />
-      <input type="text" placeholder="Landmark (Optional)" id="landmark" />
-      <input type="text" placeholder="City" id="city" required />
-      <input type="text" placeholder="District" id="district" required />
-      <input type="text" placeholder="State" id="state" required />
-      <input type="number" placeholder="Pincode" id="pincode" required />
-      <input type="tel" placeholder="Phone Number" id="phone" required />
-      <button type="submit">Finish</button>
+      <input type="text" placeholder="Full Name" required />
+      <input type="text" placeholder="Address" required />
+      <input type="text" placeholder="House Number (Optional)" />
+      <input type="text" placeholder="Landmark (Optional)" />
+      <input type="text" placeholder="City" required />
+      <input type="text" placeholder="District" required />
+      <input type="text" placeholder="State" required />
+      <input type="text" placeholder="Pincode" required />
+      <input type="text" placeholder="Phone Number" required />
+      <button type="submit">Continue to Pay</button>
     </form>
   </div>
 
   <script>
-    document.getElementById("addressForm").addEventListener("submit", function(e) {
+    const form = document.getElementById("addressForm");
+    form.addEventListener("submit", function(e) {
       e.preventDefault();
 
-      const urlParams = new URLSearchParams(window.location.search);
-      const product = urlParams.get("product");
-      const price = urlParams.get("price");
+      const inputs = form.querySelectorAll("input");
+      const address = Array.from(inputs).map(input => input.value).join(", ");
 
-      const name = document.getElementById("name").value;
-      const address = document.getElementById("address").value;
-      const house = document.getElementById("house").value;
-      const landmark = document.getElementById("landmark").value;
-      const city = document.getElementById("city").value;
-      const district = document.getElementById("district").value;
-      const state = document.getElementById("state").value;
-      const pincode = document.getElementById("pincode").value;
-      const phone = document.getElementById("phone").value;
+      const order = JSON.parse(localStorage.getItem("order"));
+      const upiId = "hixzam313@okaxis";
 
-      const fullAddress = `Name: ${name}%0AAddress: ${address}, ${house}, ${landmark}, ${city}, ${district}, ${state}, ${pincode}%0APhone: ${phone}`;
+      alert(`Please pay ${order.price} to UPI ID: ${upiId}. After payment, click OK.`);
 
-      // Redirect to WhatsApp with prefilled message
-      const msg = `*New Order from Gadget Cave*%0AProduct: ${product}%0APrice: ${price}%0A${fullAddress}%0AOrder completed ✅`;
-      const whatsappUrl = `https://wa.me/919744340057?text=${msg}`;
+      const msg = `Order Confirmed:%0A%0A*Product:* ${order.name}%0A*Price:* ${order.price}%0A*Image:* ${order.image}%0A%0A*Address:* ${address}%0A%0A✅ Order Completed.`;
 
-      // Open payment instruction first
-      alert(`Please open your UPI app and pay ₹${price} to UPI ID: hixzam313@okaxis`);
-
-      window.location.href = whatsappUrl;
+      window.location.href = `https://wa.me/919744340057?text=${msg}`;
     });
   </script>
+
+  <style>
+    .form-container {
+      max-width: 500px;
+      margin: 20px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ccc;
+    }
+
+    .form-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-container input {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .form-container button {
+      background: #28a745;
+      color: white;
+      padding: 12px;
+      width: 100%;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+  </style>
 </body>
 </html>
