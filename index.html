@@ -7,21 +7,76 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
+  <!-- Header -->
   <header>
-    <div class="header-left">
-      <img src="logo.png" alt="Logo" class="logo" />
+    <div class="logo-container">
+      <img src="images/logo.png" alt="Gadget Cave" class="logo" />
       <h1>Gadget Cave</h1>
     </div>
-    <input type="text" id="searchBar" placeholder="Search products..." />
+    <div class="search-container">
+      <input type="text" id="search-input" placeholder="Search products..." />
+    </div>
   </header>
 
-  <main id="productContainer"></main>
+  <!-- Product container -->
+  <main id="product-container"></main>
 
+  <!-- Product popup -->
+  <div id="popup" class="popup">
+    <div id="popup-content" class="popup-content"></div>
+  </div>
+
+  <!-- Footer -->
   <footer>
     <p>Managed by Hisham Kannur</p>
   </footer>
 
   <script src="product.js"></script>
   <script src="script.js"></script>
+  <script>
+    // Search functionality
+    document.getElementById('search-input').addEventListener('input', function() {
+      const searchTerm = this.value.toLowerCase();
+      const filteredProducts = products.filter(p =>
+        p.name.toLowerCase().includes(searchTerm) ||
+        p.description.toLowerCase().includes(searchTerm)
+      );
+      
+      displayFilteredProducts(filteredProducts);
+    });
+
+    function displayFilteredProducts(filtered) {
+      const container = document.getElementById('product-container');
+      container.innerHTML = '';
+
+      const section = document.createElement('section');
+      section.className = 'category-section';
+
+      const productGrid = document.createElement('div');
+      productGrid.className = 'product-grid';
+
+      filtered.forEach(product => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+
+        card.innerHTML = `
+          <img src="${product.image}" alt="${product.name}" onclick="showPopup(${product.id})">
+          <h3>${product.name}</h3>
+          <p>₹${product.price}</p>
+          <button onclick="buyNow(${product.id})">Buy Now</button>
+        `;
+
+        productGrid.appendChild(card);
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = "<p style='text-align:center;'>No products found.</p>";
+      } else {
+        section.appendChild(productGrid);
+        container.appendChild(section);
+      }
+    }
+  </script>
 </body>
 </html>
