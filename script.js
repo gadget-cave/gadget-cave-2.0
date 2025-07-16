@@ -1,49 +1,66 @@
+// Load and render products
 const productContainer = document.getElementById("productContainer");
-const categoryContainer = document.getElementById("categoryContainer");
-const searchBar = document.getElementById("search-bar");
+const categoryTabs = document.getElementById("categoryTabs");
+const searchInput = document.getElementById("search-bar");
 
-// Group products by category
-const categories = [...new Set(products.map(p => p.category))];
+// Load products by default
+let currentCategory = "All";
 
-// Create category filter buttons
-categories.forEach(category => {
-  const btn = document.createElement("button");
-  btn.className = "category-button";
-  btn.innerText = category;
-  btn.onclick = () => showProducts(products.filter(p => p.category === category));
-  categoryContainer.appendChild(btn);
-});
-
-// Display all products by default
-showProducts(products);
-
-// Search functionality
-searchBar.addEventListener("input", () => {
-  const keyword = searchBar.value.toLowerCase();
-  const filtered = products.filter(p =>
-    p.name.toLowerCase().includes(keyword) || p.description.toLowerCase().includes(keyword)
-  );
-  showProducts(filtered);
-});
-
-function showProducts(list) {
+// Render products to screen
+function renderProducts(category = "All", keyword = "") {
   productContainer.innerHTML = "";
-  list.forEach(product => {
-    const card = document.createElement("div");
-    card.className = "product-card";
-    card.innerHTML = `
-      <img src="${product.image}" alt="${product.name}" />
-      <h3>${product.name}</h3>
+
+  let filtered = products.filter(product => {
+    const matchCategory = category === "All" || product.category === category;
+    const matchSearch = product.name.toLowerCase().includes(keyword.toLowerCase());
+    return matchCategory && matchSearch;
+  });
+
+  if (filtered.length === 0) {
+    productContainer.innerHTML = "<p>No products found.</p>";
+    return;
+  }
+
+  filtered.forEach(product => {
+    const box = document.createElement("div");
+    box.className = "product";
+    box.innerHTML = `
+      <img src="${product.image}" alt="${product.name}">
+      <h2>${product.name}</h2>
       <p>${product.description}</p>
-      <div class="price">${product.price}</div>
-      <button class="buy-now-btn" onclick="buyNow('${product.name}', '${product.image}', '${product.price}')">Buy Now</button>
+      <strong>${product.price}</strong>
+      <button class="buy-now-btn">Buy Now</button>
     `;
-    productContainer.appendChild(card);
+    box.querySelector(".buy-now-btn").onclick = () => {
+      localStorage.setItem("selectedProduct", JSON.stringify(product));
+      window.location.href = "buy.html";
+    };
+    productContainer.appendChild(box);
   });
 }
 
-function buyNow(name, image, price) {
-  const orderDetails = { name, image, price };
-  localStorage.setItem("order", JSON.stringify(orderDetails));
-  window.location.href = "buy.html";
+// Create category tabs
+function renderCategories() {
+  const categories = ["All", ...new Set(products.map(p => p.category))];
+  categories.forEach(category => {
+    const btn = document.createElement("button");
+    btn.textContent = category;
+    btn.className = "category-btn";
+    if (category === currentCategory) btn.classList.add("active");
+    btn.onclick = () => {
+      currentCategory = category;
+      document.querySelectorAll(".category-btn").forEach(btn => btn.classList.remove("active"));
+      btn.classList.add("active");
+      renderProducts(currentCategory, searchInput.value);
+    };
+    categoryTabs.appendChild(btn);
+  });
 }
+
+searchInput?.addEventListener("input", () => {
+  renderProducts(currentCategory, searchInput.value);
+});
+
+// Initialize
+renderCategories();
+renderProducts();
