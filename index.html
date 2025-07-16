@@ -2,35 +2,33 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Gadget Cave</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <div class="top-bar">
-      <img src="https://i.ibb.co/FbsdpgK3/gadged-cave-3.png" alt="Logo" class="logo" />
-      <h1>Gadget Cave</h1>
-    </div>
-    <input type="text" id="search-bar" placeholder="Search products..." />
+    <img src="https://i.ibb.co/FxPYcC8/logo.png" alt="Logo" class="logo"/>
+    <h1>Gadget Cave</h1>
+    <input type="text" id="searchInput" placeholder="Search products..." oninput="searchProducts()">
   </header>
+
+  <div class="category-buttons">
+    <button onclick="filterProducts('All')">All</button>
+    <button onclick="filterProducts('Earphones')">Earphones</button>
+    <button onclick="filterProducts('Watches')">Watches</button>
+    <button onclick="filterProducts('Smartwatches')">Smartwatches</button>
+    <button onclick="filterProducts('Speakers')">Speakers</button>
+    <button onclick="filterProducts('Trimmers')">Trimmers</button>
+    <button onclick="filterProducts('Powerbanks')">Powerbanks</button>
+  </div>
 
   <div id="productContainer"></div>
 
   <footer>
-    <p>Gadget Cave :- 🚚 All Kerala Delivery Available 🚚</p>
+    Gadget Cave :- 🚚 All Kerala Delivery Available 🚚<br>
+    Managed by Hisham Kannur
   </footer>
-
-  <!-- Popup -->
-  <div id="popup" class="popup-overlay">
-    <div class="popup-content">
-      <button id="popup-close" class="popup-close">&times;</button>
-      <h2 id="popup-title"></h2>
-      <div id="popup-images"></div>
-      <p id="popup-description"></p>
-      <button id="buy-now-btn" class="buy-btn">Buy Now</button>
-    </div>
-  </div>
 
   <script src="product.js"></script>
   <script src="script.js"></script>
