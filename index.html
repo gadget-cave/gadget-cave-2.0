@@ -1,34 +1,584 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-site-verification" content="U5x6ESJ1YnKH0odXTveWzCIbAv_ZTtKLIyBOrKxvRXM">
   <title>Gadget Cave</title>
-  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/babel-standalone@7.22.9/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-  <header>
-    <img src="logo.png" alt="Gadget Cave Logo" class="logo" />
-    <h1>Gadget Cave</h1>
-  </header>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState, useEffect } = React;
 
-  <main id="product-list"></main>
+    // Product data from products.js with added category and rating
+    const initialProducts = [
+      {
+        name: "Wireless Earphones-CMF BY NOTHING",
+        image: "https://i.ibb.co/cXhm2q40/earphones.jpg",
+        description: "High-quality sound and battery life.",
+        price: "₹899",
+        longDescription: "Enjoy crisp and clear sound with deep bass. Battery lasts up to 10 hours per charge.",
+        extraImages: [],
+        category: "Earphones",
+        rating: 4.5
+      },
+      {
+        name: "HEADPHONES-P9",
+        image: "https://i.ibb.co/vCJrF2NZ/headphonesp9.jpg",
+        description: "High quality, C-type charging",
+        price: "₹699",
+        longDescription: "",
+        extraImages: [],
+        category: "Headphones",
+        rating: 4.2
+      },
+      {
+        name: "Samsung Watch with Airpods",
+        image: "https://i.ibb.co/S4KZqPkG/samsung-watch-with-airpods.jpg",
+        description: "Fitness tracker and call support.",
+        price: "₹1199",
+        longDescription: "",
+        extraImages: [],
+        category: "Combos",
+        rating: 4.7
+      },
+      {
+        name: "CASIO G-SHOCK",
+        image: "https://i.ibb.co/9HTJwrjN/CASIO-G-SHOCK.jpg",
+        description: "Awesome quality, chain model.",
+        price: "₹999",
+        longDescription: "",
+        extraImages: [],
+        category: "Watches",
+        rating: 4.4
+      },
+      {
+        name: "TRACKON - watch",
+        image: "https://i.ibb.co/sp6nVFHD/TRACKON-watch.jpg",
+        description: "Awesome quality, trending model.",
+        price: "₹599",
+        longDescription: "",
+        extraImages: [],
+        category: "Watches",
+        rating: 4.3
+      },
+      {
+        name: "Marshal Ember ANC - earpods",
+        image: "https://i.ibb.co/8nfGR3vk/Marshal-Ember-ANC-earpod.jpg",
+        description: "High-quality sound, 6 eartips, 1 charging cable.",
+        price: "₹999",
+        longDescription: "",
+        extraImages: [],
+        category: "Earphones",
+        rating: 4.6
+      },
+      {
+        name: "MZ bluetooth speaker",
+        image: "https://i.ibb.co/gZYPxgYS/MZ-bluetooth-speaker.jpg",
+        description: "High-quality sound and trending model.",
+        price: "₹699",
+        longDescription: "",
+        extraImages: [],
+        category: "Speakers",
+        rating: 4.1
+      },
+      {
+        name: "HTC-trimmer",
+        image: "https://i.ibb.co/dwydCFJZ/HTC-trimmer.jpg",
+        description: "Awesome quality, latest arrivals.",
+        price: "₹649",
+        longDescription: "",
+        extraImages: [],
+        category: "Trimmers",
+        rating: 4.0
+      },
+      {
+        name: "Magnet locking watch",
+        image: "https://i.ibb.co/CKMPZjDG/Magnet-locking-watch.jpg",
+        description: "click more details☝️.",
+        price: "₹749",
+        longDescription: "",
+        extraImages: [
+          "https://i.ibb.co/QvL7gvLd/magnet-locking-watch-brown.jpg",
+          "https://i.ibb.co/9Hb8fRMw/magnet-locking-watch-green.jpg"
+        ],
+        category: "Watches",
+        rating: 4.4
+      },
+      {
+        name: "MARSHALL headset",
+        image: "https://i.ibb.co/rRgjQkmp/marshall-headset-1-0.jpg",
+        description: "High-quality sound and latest arrivals.",
+        price: "₹949",
+        longDescription: "",
+        extraImages: ["https://i.ibb.co/9Dxz1Xq/MARSHALL-headset.jpg"],
+        category: "Headphones",
+        rating: 4.5
+      },
+      {
+        name: "BOAT AIRBUDS",
+        image: "https://i.ibb.co/RkSWyDKh/BOAT-airbuds.jpg",
+        description: "click more details☝️.",
+        price: "₹749",
+        longDescription: "500 mah battery, wireless earpods, call time upto 5hr",
+        extraImages: [
+          "https://i.ibb.co/CSrCsWT/BOAT-airbuds-blue.jpg",
+          "https://i.ibb.co/RpG2J ZZ/BOAT-airbuds-mix.jpg"
+        ],
+        category: "Earphones",
+        rating: 4.3
+      },
+      {
+        name: "best ever combo",
+        image: "https://i.ibb.co/21yghLzS/apple-watch-headset.jpg",
+        description: "click more details☝️.",
+        price: "₹1499",
+        longDescription: "Apple watch + P9 headset + airpods 2 + Rendom bag",
+        extraImages: ["https://i.ibb.co/8Ls04V5q/apple-watch-combo-black.jpg"],
+        category: "Combos",
+        rating: 4.8
+      },
+      {
+        name: "WATCH- LG GOLD",
+        image: "https://i.ibb.co/KjxM14sD/LG-GOLD-watch.jpg",
+        description: "click more details☝️.",
+        price: "₹549",
+        longDescription: "Awesome quality, latest arrivals",
+        extraImages: ["https://i.ibb.co/sdkX47Kz/LG-GOLD-green.jpg"],
+        category: "Watches",
+        rating: 4.2
+      },
+      {
+        name: "BOAT Airdopes 600",
+        image: "https://i.ibb.co/JjvhcFZt/BOAT-airdopes-600.jpg",
+        description: "click more detils☝️.",
+        price: " "₹749",
+        longDescription: "Wireless earphone, 500 mah battery, call time upto 5hr",
+        extraImages: [
+          "https://i.ibb.co/5xT1pQ4R/BOAT-airdopes-600-black.jpg",
+          "https://i.ibb.co/vxJsdnfB/BOAT-airdopes-600-blue.jpg"
+        ],
+        category: "Earphones",
+        rating: 4.4
+      },
+      {
+        name: "Samsung GALAXY BUDS 2 PRO",
+        image: "https://i.ibb.co/j9thw23H/Samsung-GALAXY-BUDS-2-PRO.jpg",
+        description: "click more details☝️.",
+        price: "₹849",
+        longDescription: "touch operation, type-c charging, Battery Capacity 700mAh, Ceramic Finish premium Earbuds Design, Next Generation PixArt Chipset For Lossless Connectivity.",
+        extraImages: [
+          "https://i.ibb.co/ksq6jSHQ/galaxy-buds-white.jpg",
+          "https://i.ibb.co/Z63zTgRN/galaxy-buds-black.jpg"
+        ],
+        category: "Earphones",
+        rating: 4.7
+      },
+      {
+        name: "Ultra smart watch special edition",
+        image: "https://i.ibb.co/xq4Tr7FS/Ultra-smart-watch-special-edition.jpg",
+        description: "click more details☝️",
+        price: "₹749",
+        longDescription: "5+menu style, fitpro app, wireless charging, etc..",
+        extraImages: ["https://i.ibb.co/qLk2hhLv/ultra.jpg"],
+        category: "Watches",
+        rating: 4.6
+      },
+      {
+        name: "MASSAGE GUN",
+        image: "https://i.ibb.co/fYbbQTbc/MASSAGE-GUN.jpg",
+        description: "Massage Gun | Strike Handheld Percussion Massage Gun with Interchangeable Massage Heads",
+        price: "₹749",
+        longDescription: "",
+        extraImages: [],
+        category: "Others",
+        rating: 4.3
+      },
+      {
+        name: "premium airpods pro2",
+        image: "https://i.ibb.co/Xrv0n01C/apple-airpod-pro-2-mix.jpg",
+        description: "click more details☝️",
+        price: "₹799",
+        longDescription: "5-8 hours battery backup including case, Premium build material, Compatible with all devices, Both Sensors Fully Functional, 598mah battery, Premium Metal Engraving, Extra buds",
+        extraImages: [
+          "https://i.ibb.co/XxD8StC8/apple-airpod-pro2-black.jpg",
+          "https://i.ibb.co/LhZRNFQf/apple-airpod-pro2-white.jpg"
+        ],
+        category: "Earphones",
+        rating: 4.8
+      },
+      {
+        name: "YIXIAO, powerbank",
+        image: "https://i.ibb.co/qYxy1H2s/powerbank-1.jpg",
+        description: "click more details☝️",
+        price: "₹1399",
+        longDescription: "10,000 mAh powerbank, Awesome Quality ▪️New Arrivals ▪️Dual input port",
+        extraImages: [
+          "https://i.ibb.co/PZ42nSxb/power-bank-1-0.jpg",
+          "https://i.ibb.co/cMX6WDB/power-bank-1-1.jpg"
+        ],
+        category: "Powerbanks",
+        rating: 4.5
+      },
+      {
+        name: "HTC TRIMMER",
+        image: "https://i.ibb.co/jvwSjGPs/htc-trimmer-1.jpg",
+        description: "click more details☝️",
+        price: "₹699",
+        longDescription: "-PREMIUM QUALITY, LATEST ARRIVALS, TRENDING MODEL",
+        extraImages: ["https://i.ibb.co/Mk9b03nh/htc-trimmer-1-0jpg.jpg"],
+        category: "Trimmers",
+        rating: 4.4
+      },
+      {
+        name: "NIKE 𝐖𝐀𝐓𝐂𝐇",
+        image: "https://i.ibb.co/9HbxGww8/nike-watch-1-0.jpg",
+        description: "click more details☝️",
+        price: "₹1599",
+        longDescription: "NEW ARRIVAL, GOOD QUALITY",
+        extraImages: [],
+        category: "Watches",
+        rating: 4.7
+      },
+      {
+        name: "CASIO watch",
+        image: "https://i.ibb.co/Zprbcj0B/casio-1-0.jpg",
+        description: "click more details☝️",
+        price: "₹699",
+        longDescription: "-AWESOME QUALITY, LATEST ARRIVALS, UNISEX WATCHES, TRENDING MODEL",
+        extraImages: ["https://i.ibb.co/ycVh0skx/casio-1-1.jpg"],
+        category: "Watches",
+        rating: 4.3
+      },
+      {
+        name: "JBL TUNE 510",
+        image: "https://i.ibb.co/tMvfYQpB/J-BL-tune-510-1-o.jpg",
+        description: "click more details☝️",
+        price: "₹829",
+        longDescription: "TF card support, Aux cable Support, wireless, connected with ios& android, powerful sound with 360 AUDIO, wire free",
+        extraImages: [
+          "https://i.ibb.co/twRfYk42/J-BL-tune-510-1-2.jpg",
+          "https://i.ibb.co/h1Y61XZF/J-BL-tune-510-1-1.jpg"
+        ],
+        category: "Headphones",
+        rating: 4.6
+      },
+      {
+        name: "TISSOT watch",
+        image: "https://i.ibb.co/XZm2C6F4/tissot-watch-1-0.jpg",
+        description: "click more details☝️.",
+        price: "₹649",
+        longDescription: "-AWESOME QUALITY, LATEST ARRIVALS, GENTS WATCHES, TRENDING MODEL",
+        extraImages: [
+          "https://i.ibb.co/gZMr1b76/tissot-watch-1-1jpg.jpg",
+          "https://i.ibb.co/V4hC7XB/tissot-watch-1-2.jpg"
+        ],
+        category: "Watches",
+        rating: 4.4
+      },
+      {
+        name: "DELTON watch",
+        image: "https://i.ibb.co/8gmpXQXH/delton-watch-1-0.jpg",
+        description: "click more details☝️.",
+        price: "₹599",
+        longDescription: "AWESOME QUALITY, LATEST ARRIVALS, UNISEX WATCHES, TRENDING MODEL",
+        extraImages: [
+          "https://i.ibb.co/cpTJjYG/delton-watch-1-1.jpg",
+          "https://i.ibb.co/2HrhckZ/delton-watch-1-2.jpg"
+        ],
+        category: "Watches",
+        rating: 4.3
+      }
+    ];
 
-  <!-- Modal -->
-  <div id="productModal" class="modal">
-    <div class="modal-content">
-      <span class="close-btn">&times;</span>
-      <h2 id="modalTitle"></h2>
-      <img id="modalImage" class="modal-img" />
-      <p id="modalDescription"></p>
-      <div id="extraImages" class="thumbnail-row"></div>
-    </div>
-  </div>
+    const App = () => {
+      const [products, setProducts] = useState(initialProducts);
+      const [filteredProducts, setFilteredProducts] = useState(initialProducts);
+      const [searchTerm, setSearchTerm] = useState("");
+      const [selectedCategory, setSelectedCategory] = useState("All");
+      const [priceRange, setPriceRange] = useState([0, 2000]);
+      const [ratingFilter, setRatingFilter] = useState(0);
+      const [cart, setCart] = useState([]);
+      const [currentPage, setCurrentPage] = useState(1);
+      const [showPopup, setShowPopup] = useState(false);
+      const [selectedProduct, setSelectedProduct] = useState(null);
+      const productsPerPage = 6;
 
-  <footer>
-    Managed by Hisham Kannur
-  </footer>
+      // Filter products
+      useEffect(() => {
+        let filtered = initialProducts;
+        if (searchTerm) {
+          filtered = filtered.filter(
+            (p) =>
+              p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              p.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              p.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              p.longDescription.toLowerCase().includes(searchTerm.toLowerCase())
+          );
+        }
+        if (selectedCategory !== "All") {
+          filtered = filtered.filter((p) => p.category === selectedCategory);
+        }
+        filtered = filtered.filter(
+          (p) => {
+            const priceNum = parseInt(p.price.replace("₹", ""));
+            return priceNum >= priceRange[0] && priceNum <= priceRange[1];
+          }
+        );
+        filtered = filtered.filter((p) => p.rating >= ratingFilter);
+        setFilteredProducts(filtered);
+        setCurrentPage(1);
+      }, [searchTerm, selectedCategory, priceRange, ratingFilter]);
 
-  <script src="products.js"></script>
+      // Add to cart
+      const addToCart = (product) => {
+        setCart([...cart, product]);
+        alert(`${product.name} added to cart!`);
+      };
+
+      // Open popup
+      const openPopup = (product) => {
+        setSelectedProduct(product);
+        setShowPopup(true);
+        document.body.style.overflow = "hidden";
+      };
+
+      // Close popup
+      const closePopup = () => {
+        setShowPopup(false);
+        document.body.style.overflow = "auto";
+      };
+
+      // Pagination
+      const indexOfLastProduct = currentPage * productsPerPage;
+      const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+      const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+      const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+
+      // Categories for filter
+      const categories = ["All", "Earphones", "Watches", "Headphones", "Speakers", "Trimmers", "Powerbanks", "Combos", "Others"];
+
+      return (
+        <div className="min-h-screen bg-gray-100">
+          {/* Header */}
+          <header className="bg-white shadow p-4">
+            <div className="flex items-center justify-between flex-wrap gap-4">
+              <div className="flex items-center gap-4">
+                <img
+                  src="https://i.ibb.co/FbsdpgK3/gadged-cave-3.png"
+                  alt="Logo"
+                  className="h-20"
+                />
+                <h1 className="text-2xl font-bold text-gray-800">Gadget Cave</h1>
+              </div>
+              <div className="flex items-center gap-4">
+                <input
+                  type="text"
+                  placeholder="Search products..."
+                  className="border rounded-lg p-2 w-full max-w-md"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+                <div className="relative">
+                  <span className="bg-green-500 text-white rounded-full px-2 py-1">
+                    {cart.length}
+                  </span>
+                  <span className="ml-2 text-gray-800">Cart</span>
+                </div>
+              </div>
+            </div>
+          </header>
+
+          <div className="container mx-auto p-4 flex flex-col md:flex-row gap-4">
+            {/* Sidebar */}
+            <aside className="w-full md:w-1/4 p-4 bg-white rounded-lg shadow">
+              <h2 className="text-xl font-semibold mb-4">Filters</h2>
+              <div className="mb-4">
+                <h3 className="font-medium mb-2">Category</h3>
+                {categories.map((category) => (
+                  <div key={category} className="flex items-center">
+                    <input
+                      type="radio"
+                      id={category}
+                      name="category"
+                      checked={selectedCategory === category}
+                      onChange={() => setSelectedCategory(category)}
+                      className="mr-2"
+                    />
+                    <label htmlFor={category}>{category}</label>
+                  </div>
+                ))}
+              </div>
+              <div className="mb-4">
+                <h3 className="font-medium mb-2">Price Range</h3>
+                <input
+                  type="range"
+                  min="0"
+                  max="2000"
+                  value={priceRange[0]}
+                  onChange={(e) => setPriceRange([+e.target.value, priceRange[1]])}
+                  className="w-full"
+                />
+                <input
+                  type="range"
+                  min="0"
+                  max="2000"
+                  value={priceRange[1]}
+                  onChange={(e) => setPriceRange([priceRange[0], +e.target.value])}
+                  className="w-full"
+                />
+                <div className="flex justify-between text-sm">
+                  <span>₹{priceRange[0]}</span>
+                  <span>₹{priceRange[1]}</span>
+                </div>
+              </div>
+              <div>
+                <h3 className="font-medium mb-2">Minimum Rating</h3>
+                <input
+                  type="range"
+                  min="0"
+                  max="5"
+                  step="0.5"
+                  value={ratingFilter}
+                  onChange={(e) => setRatingFilter(+e.target.value)}
+                  className="w-full"
+                />
+                <div className="text-sm text-center">★ {ratingFilter}</div>
+              </div>
+            </aside>
+
+            {/* Product Grid */}
+            <main className="w-full md:w-3/4 p-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {currentProducts.map((product) => (
+                  <div
+                    key={product.name}
+                    className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+                    onClick={() => openPopup(product)}
+                  >
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-40 object-contain mb-4"
+                    />
+                    <h2 className="text-lg font-semibold">{product.name}</h2>
+                    <p className="text-gray-600 text-sm">{product.description}</p>
+                    <p className="text-gray-800 font-bold">{product.price}</p>
+                    <p className="text-yellow-500">{'★'.repeat(Math.floor(product.rating))}</p>
+                    <a
+                      href={`https://wa.me/919744340057?text=I'm%20interested%20in%20${encodeURIComponent(product.name)}`}
+                      target="_blank"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <button className="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                        Order on WhatsApp
+                      </button>
+                    </a>
+                    <button
+                      className="mt-2 ml-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        addToCart(product);
+                      }}
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              {/* Pagination */}
+              <div className="flex justify-center mt-6 gap-2">
+                <button
+                  className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage(currentPage - 1)}
+                >
+                  Previous
+                </button>
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <button
+                    key={page}
+                    className={`px-4 py-2 ${currentPage === page ? 'bg-green-500 text-white' : 'bg-gray-200'} rounded`}
+                    onClick={() => setCurrentPage(page)}
+                  >
+                    {page}
+                  </button>
+                ))}
+                <button
+                  className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+                  disabled={currentPage === totalPages}
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                >
+                  Next
+                </button>
+              </div>
+            </main>
+          </div>
+
+          {/* Popup */}
+          {showPopup && selectedProduct && (
+            <div
+              className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50"
+              onClick={closePopup}
+            >
+              <div
+                className="bg-white rounded-lg p-6 max-w-[90%] max-h-[90%] overflow-y-auto relative"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <button
+                  className="absolute top-2 right-4 text-2xl font-bold cursor-pointer"
+                  onClick={closePopup}
+                >
+                  ×
+                </button>
+                <h2 className="text-xl font-semibold mb-4">{selectedProduct.name}</h2>
+                <div className="flex flex-col gap-4">
+                  {[selectedProduct.image, ...(selectedProduct.extraImages || [])].map((imgUrl, index) => (
+                    <img
+                      key={index}
+                      src={imgUrl}
+                      alt={`${selectedProduct.name} ${index}`}
+                      className="w-full max-h-60 object-contain rounded"
+                    />
+                  ))}
+                </div>
+                <p className="text-gray-800 mt-4">
+                  {selectedProduct.description}
+                  {selectedProduct.longDescription && selectedProduct.longDescription !== selectedProduct.description && (
+                    <>
+                      <br /><br />
+                      {selectedProduct.longDescription}
+                    </>
+                  )}
+                </p>
+                <p className="text-gray-800 font-bold mt-2">{selectedProduct.price}</p>
+                <a
+                  href={`https://wa.me/919744340057?text=I'm%20interested%20in%20${encodeURIComponent(selectedProduct.name)}`}
+                  target="_blank"
+                >
+                  <button className="mt-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                    Order on WhatsApp
+                  </button>
+                </a>
+              </div>
+            </div>
+          )}
+
+          {/* Footer */}
+          <footer className="bg-black text-white text-center p-4">
+            <p>Gadget Cave :- 🚚 All Kerala Delivery Available 🚚</p>
+          </footer>
+        </div>
+      );
+    };
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
 </body>
 </html>
