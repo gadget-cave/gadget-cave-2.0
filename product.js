@@ -304,155 +304,166 @@ const nextPage = document.getElementById("next-page");
 const pageNumbers = document.getElementById("page-numbers");
 const cartCount = document.getElementById("cart-count");
 
-function displayProducts(filteredProducts) {
-  container.innerHTML = "";
-  const start = (currentPage - 1) * productsPerPage;
-  const end = start + productsPerPage;
-  const paginatedProducts = filteredProducts.slice(start, end);
+if (!container || !searchBar || !popup || !popupClose || !popupTitle || !popupImages || !popupDescription || !popupPrice || !popupWhatsApp || !categoryFilters || !priceMin || !priceMax || !priceMinValue || !priceMaxValue || !ratingFilter || !ratingValue || !prevPage || !nextPage || !pageNumbers || !cartCount) {
+  console.error("One or more DOM elements not found. Check HTML structure.");
+  container.innerHTML = "<p>Error loading products. Check console for details.</p>";
+} else {
+  function displayProducts(filteredProducts) {
+    container.innerHTML = "";
+    const start = (currentPage - 1) * productsPerPage;
+    const end = start + productsPerPage;
+    const paginatedProducts = filteredProducts.slice(start, end);
 
-  paginatedProducts.forEach(product => {
-    const productBox = document.createElement("div");
-    productBox.classList.add("product");
-    productBox.innerHTML = `
-      <img src="${product.image}" alt="${product.name}">
-      <h2>${product.name}</h2>
-      <p>${product.description}</p>
-      <strong>${product.price}</strong>
-      <p class="rating">${'★'.repeat(Math.floor(product.rating))}</p>
-      <a href="https://wa.me/919744340057?text=I'm%20interested%20in%20${encodeURIComponent(product.name)}" target="_blank">
-        <button class="whatsapp-btn">Order on WhatsApp</button>
-      </a>
-      <button class="cart-btn">Add to Cart</button>
-    `;
-    productBox.querySelector(".cart-btn").addEventListener("click", (e) => {
-      e.stopPropagation();
-      cart.push(product);
-      cartCount.textContent = cart.length;
-      alert(`${product.name} added to cart!`);
-    });
-    productBox.addEventListener("click", (e) => {
-      if (e.target.closest("a") || e.target.classList.contains("cart-btn")) return;
-      popupTitle.textContent = product.name;
-      popupImages.innerHTML = "";
-      const allImages = [product.image, ...(product.extraImages || [])];
-      allImages.forEach(imgUrl => {
-        const imgEl = document.createElement("img");
-        imgEl.src = imgUrl;
-        popupImages.appendChild(imgEl);
+    if (paginatedProducts.length === 0) {
+      container.innerHTML = "<p>No products found.</p>";
+      return;
+    }
+
+    paginatedProducts.forEach(product => {
+      const productBox = document.createElement("div");
+      productBox.classList.add("product");
+      productBox.innerHTML = `
+        <img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/150';">
+        <h2>${product.name}</h2>
+        <p>${product.description}</p>
+        <strong>${product.price}</strong>
+        <p class="rating">${'★'.repeat(Math.floor(product.rating))}</p>
+        <a href="https://wa.me/919744340057?text=I'm%20interested%20in%20${encodeURIComponent(product.name)}" target="_blank">
+          <button class="whatsapp-btn">Order on WhatsApp</button>
+        </a>
+        <button class="cart-btn">Add to Cart</button>
+      `;
+      productBox.querySelector(".cart-btn").addEventListener("click", (e) => {
+        e.stopPropagation();
+        cart.push(product);
+        cartCount.textContent = cart.length;
+        alert(`${product.name} added to cart!`);
       });
-      let desc = product.description || "";
-      if (product.longDescription && product.longDescription !== product.description) {
-        desc += "<br><br>" + product.longDescription;
-      }
-      popupDescription.innerHTML = desc;
-      popupPrice.textContent = product.price;
-      popupWhatsApp.href = `https://wa.me/919744340057?text=I'm%20interested%20in%20${encodeURIComponent(product.name)}`;
-      popup.style.display = "flex";
-      document.body.style.overflow = "hidden";
+      productBox.addEventListener("click", (e) => {
+        if (e.target.closest("a") || e.target.classList.contains("cart-btn")) return;
+        popupTitle.textContent = product.name;
+        popupImages.innerHTML = "";
+        const allImages = [product.image, ...(product.extraImages || [])];
+        allImages.forEach(imgUrl => {
+          const imgEl = document.createElement("img");
+          imgEl.src = imgUrl;
+          imgEl.onerror = () => (imgEl.src = "https://via.placeholder.com/150");
+          popupImages.appendChild(imgEl);
+        });
+        let desc = product.description || "";
+        if (product.longDescription && product.longDescription !== product.description) {
+          desc += "<br><br>" + product.longDescription;
+        }
+        popupDescription.innerHTML = desc;
+        popupPrice.textContent = product.price;
+        popupWhatsApp.href = `https://wa.me/919744340057?text=I'm%20interested%20in%20${encodeURIComponent(product.name)}`;
+        popup.style.display = "flex";
+        document.body.style.overflow = "hidden";
+      });
+      container.appendChild(productBox);
     });
-    container.appendChild(productBox);
-  });
 
-  updatePagination(filteredProducts);
-}
-
-function updatePagination(filteredProducts) {
-  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
-  pageNumbers.innerHTML = "";
-  for (let i = 1; i <= totalPages; i++) {
-    const pageBtn = document.createElement("button");
-    pageBtn.textContent = i;
-    if (i === currentPage) pageBtn.classList.add("active");
-    pageBtn.addEventListener("click", () => {
-      currentPage = i;
-      filterAndDisplay();
-    });
-    pageNumbers.appendChild(pageBtn);
+    updatePagination(filteredProducts);
   }
-  prevPage.disabled = currentPage === 1;
-  nextPage.disabled = currentPage === totalPages;
-}
 
-function filterAndDisplay() {
-  const query = searchBar.value.toLowerCase();
-  const selectedCategory = categoryFilters.querySelector("input:checked")?.value || "All";
-  const minPrice = parseInt(priceMin.value);
-  const maxPrice = parseInt(priceMax.value);
-  const minRating = parseFloat(ratingFilter.value);
+  function updatePagination(filteredProducts) {
+    const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+    pageNumbers.innerHTML = "";
+    for (let i = 1; i <= totalPages; i++) {
+      const pageBtn = document.createElement("button");
+      pageBtn.textContent = i;
+      if (i === currentPage) pageBtn.classList.add("active");
+      pageBtn.addEventListener("click", () => {
+        currentPage = i;
+        filterAndDisplay();
+      });
+      pageNumbers.appendChild(pageBtn);
+    }
+    prevPage.disabled = currentPage === 1;
+    nextPage.disabled = currentPage === totalPages;
+  }
 
-  const filtered = products.filter(p => {
-    const priceNum = parseInt(p.price.replace("₹", ""));
-    return (
-      (selectedCategory === "All" || p.category === selectedCategory) &&
-      priceNum >= minPrice &&
-      priceNum <= maxPrice &&
-      p.rating >= minRating &&
-      (p.name.toLowerCase().includes(query) ||
-       p.description.toLowerCase().includes(query) ||
-       p.category.toLowerCase().includes(query) ||
-       p.longDescription.toLowerCase().includes(query))
-    );
-  });
+  function filterAndDisplay() {
+    const query = searchBar.value.toLowerCase();
+    const selectedCategory = categoryFilters.querySelector("input:checked")?.value || "All";
+    const minPrice = parseInt(priceMin.value);
+    const maxPrice = parseInt(priceMax.value);
+    const minRating = parseFloat(ratingFilter.value);
 
-  displayProducts(filtered);
-}
+    const filtered = products.filter(p => {
+      const priceNum = parseInt(p.price.replace("₹", ""));
+      return (
+        (selectedCategory === "All" || p.category === selectedCategory) &&
+        priceNum >= minPrice &&
+        priceNum <= maxPrice &&
+        p.rating >= minRating &&
+        (p.name.toLowerCase().includes(query) ||
+         p.description.toLowerCase().includes(query) ||
+         p.category.toLowerCase().includes(query) ||
+         (p.longDescription && p.longDescription.toLowerCase().includes(query)))
+      );
+    });
 
-popupClose.addEventListener("click", () => {
-  popup.style.display = "none";
-  document.body.style.overflow = "auto";
-});
+    displayProducts(filtered);
+  }
 
-popup.addEventListener("click", (e) => {
-  if (e.target === popup) {
+  popupClose.addEventListener("click", () => {
     popup.style.display = "none";
     document.body.style.overflow = "auto";
-  }
-});
+  });
 
-searchBar.addEventListener("input", filterAndDisplay);
+  popup.addEventListener("click", (e) => {
+    if (e.target === popup) {
+      popup.style.display = "none";
+      document.body.style.overflow = "auto";
+    }
+  });
 
-categories.forEach(category => {
-  const div = document.createElement("div");
-  div.innerHTML = `
-    <input type="radio" id="${category}" name="category" value="${category}" ${category === "All" ? "checked" : ""}>
-    <label for="${category}">${category}</label>
-  `;
-  div.querySelector("input").addEventListener("change", filterAndDisplay);
-  categoryFilters.appendChild(div);
-});
+  searchBar.addEventListener("input", filterAndDisplay);
 
-priceMin.addEventListener("input", () => {
+  categories.forEach(category => {
+    const div = document.createElement("div");
+    div.innerHTML = `
+      <input type="radio" id="${category}" name="category" value="${category}" ${category === "All" ? "checked" : ""}>
+      <label for="${category}">${category}</label>
+    `;
+    div.querySelector("input").addEventListener("change", filterAndDisplay);
+    categoryFilters.appendChild(div);
+  });
+
+  priceMin.addEventListener("input", () => {
+    priceMinValue.textContent = `₹${priceMin.value}`;
+    filterAndDisplay();
+  });
+
+  priceMax.addEventListener("input", () => {
+    priceMaxValue.textContent = `₹${priceMax.value}`;
+    filterAndDisplay();
+  });
+
+  ratingFilter.addEventListener("input", () => {
+    ratingValue.textContent = ratingFilter.value;
+    filterAndDisplay();
+  });
+
+  prevPage.addEventListener("click", () => {
+    if (currentPage > 1) {
+      currentPage--;
+      filterAndDisplay();
+    }
+  });
+
+  nextPage.addEventListener("click", () => {
+    const totalPages = Math.ceil(products.length / productsPerPage);
+    if (currentPage < totalPages) {
+      currentPage++;
+      filterAndDisplay();
+    }
+  });
+
   priceMinValue.textContent = `₹${priceMin.value}`;
-  filterAndDisplay();
-});
-
-priceMax.addEventListener("input", () => {
   priceMaxValue.textContent = `₹${priceMax.value}`;
-  filterAndDisplay();
-});
-
-ratingFilter.addEventListener("input", () => {
   ratingValue.textContent = ratingFilter.value;
+
   filterAndDisplay();
-});
-
-prevPage.addEventListener("click", () => {
-  if (currentPage > 1) {
-    currentPage--;
-    filterAndDisplay();
-  }
-});
-
-nextPage.addEventListener("click", () => {
-  const totalPages = Math.ceil(products.length / productsPerPage);
-  if (currentPage < totalPages) {
-    currentPage++;
-    filterAndDisplay();
-  }
-});
-
-priceMinValue.textContent = `₹${priceMin.value}`;
-priceMaxValue.textContent = `₹${priceMax.value}`;
-ratingValue.textContent = ratingFilter.value;
-
-filterAndDisplay();
+}
