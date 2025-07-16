@@ -2,19 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google-site-verification" content="U5x6ESJ1YnKH0odXTveWzCIbAv_ZTtKLIyBOrKxvRXM">
   <title>Gadget Cave</title>
   <link rel="stylesheet" href="style.css">
+  <base href="/gadget-cave/"> <!-- Adjust for GitHub Pages if needed -->
 </head>
 <body>
   <header>
     <div class="top-bar">
-      <img src="https://i.ibb.co/FbsdpgK3/gadged-cave-3.png" alt="Logo" class="logo" onerror="this.src='https://via.placeholder.com/85'; console.log('Logo failed');">
+      <img src="https://i.ibb.co/FbsdpgK3/gadged-cave-3.png" alt="Gadget Cave Logo" class="logo" onerror="this.src='https://via.placeholder.com/85'; console.log('Logo load failed');">
       <h1>Gadget Cave</h1>
     </div>
     <div class="search-cart">
-      <input type="text" id="search-bar" placeholder="Search products...">
+      <input type="text" id="search-bar" placeholder="Search products..." class="search-input">
       <div class="cart">
         <span id="cart-count">0</span>
         <span>Cart</span>
@@ -23,7 +24,7 @@
   </header>
 
   <div class="container">
-    <aside>
+    <aside class="sidebar">
       <h2>Filters</h2>
       <div class="filter-group">
         <h3>Category</h3>
@@ -45,19 +46,7 @@
       </div>
     </aside>
     <main>
-      <div id="product-list">
-        <!-- Fallback -->
-        <div class="product">
-          <img src="https://via.placeholder.com/150" alt="Fallback">
-          <h2>Loading...</h2>
-          <p>Check console if this persists.</p>
-          <strong>₹0</strong>
-          <a href="https://wa.me/919744340057" target="_blank">
-            <button class="whatsapp-btn">Order on WhatsApp</button>
-          </a>
-          <button class="cart-btn">Add to Cart</button>
-        </div>
-      </div>
+      <div id="product-list" class="product-grid"></div>
       <div class="pagination">
         <button id="prev-page" disabled>Previous</button>
         <div id="page-numbers"></div>
