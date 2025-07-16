@@ -1,64 +1,85 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const container = document.getElementById("productContainer");
-  const catArea = document.getElementById("categoryButtons");
-  const searchInput = document.getElementById("searchInput");
+const categoryContainer = document.getElementById("categories");
+const productContainer = document.getElementById("productContainer");
+const searchBar = document.getElementById("searchBar");
 
-  const cats = ["All", ...new Set(products.map(p=>p.category))];
-  cats.forEach(cat => {
+function getCategories() {
+  return [...new Set(products.map(p => p.category))];
+}
+
+function displayCategories() {
+  categoryContainer.innerHTML = "";
+  const categories = getCategories();
+  categories.forEach(cat => {
     const btn = document.createElement("button");
-    btn.textContent = cat;
     btn.className = "category-btn";
+    btn.textContent = cat;
     btn.onclick = () => {
-      catArea.querySelectorAll("button").forEach(b=>b.classList.remove("active"));
+      document.querySelectorAll(".category-btn").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
-      renderProducts(cat, searchInput.value);
+      displayProducts(products.filter(p => p.category === cat));
     };
-    if (cat === "All") btn.classList.add("active");
-    catArea.append(btn);
+    categoryContainer.appendChild(btn);
   });
+}
 
-  searchInput.oninput = () => {
-    const active = catArea.querySelector("button.active").textContent;
-    renderProducts(active, searchInput.value);
-  };
-
-  function renderProducts(cat, search) {
-    container.innerHTML = "";
-    let arr = products;
-    if (cat && cat !== "All") arr = arr.filter(p => p.category===cat);
-    if (search) arr = arr.filter(p => p.name.toLowerCase().includes(search.trim().toLowerCase()));
-    arr.forEach((p,i) => createCard(p,i));
-  }
-
-  function createCard(p,i){
-    const c = document.createElement("div");
-    c.className="product-card";
-    c.innerHTML = `
-      <img src="${p.image}" alt="${p.name}">
-      <h3>${p.name}</h3>
-      <p>${p.description}</p>
-      <div class="price">${p.price}</div>
-      <button class="buy-now" onclick="openPopup(${i})">Buy Now</button>
+function displayProducts(items) {
+  productContainer.innerHTML = "";
+  items.forEach(prod => {
+    const box = document.createElement("div");
+    box.className = "product";
+    box.innerHTML = `
+      <img src="${prod.image}" alt="${prod.name}">
+      <h3>${prod.name}</h3>
+      <p>${prod.description}</p>
+      <strong>${prod.price}</strong><br>
+      <button class="buy-btn" onclick='startOrder(${JSON.stringify(prod)})'>Buy Now</button>
     `;
-    container.append(c);
-  }
+    productContainer.appendChild(box);
+  });
+}
 
-  renderProducts("All","");
+function startOrder(product) {
+  const form = `
+    <div class="product">
+      <h3>Fill Address for: ${product.name}</h3>
+      <input placeholder="Name" id="name"><br>
+      <input placeholder="Address" id="address"><br>
+      <input placeholder="House No (Optional)" id="house"><br>
+      <input placeholder="Landmark (Optional)" id="landmark"><br>
+      <input placeholder="City" id="city"><br>
+      <input placeholder="District" id="district"><br>
+      <input placeholder="State" id="state"><br>
+      <input placeholder="Pincode" id="pincode"><br>
+      <input placeholder="Phone Number" id="phone"><br><br>
+      <p>Now pay <strong>${product.price}</strong> to <strong>hixzam313@okaxis</strong> using any UPI app.</p><br>
+      <button onclick="finishOrder(${JSON.stringify(product)})">Finish</button>
+    </div>`;
+  productContainer.innerHTML = form;
+  categoryContainer.innerHTML = "";
+}
 
-  window.openPopup = idx => {
-    const p = products[idx];
-    document.getElementById("popup-title").textContent = p.name;
-    document.getElementById("popup-description").innerHTML = p.longDescription || p.description;
-    document.getElementById("popup-images").innerHTML =
-      [p.image, ...(p.extraImages||[])].map(u=>`<img src="${u}">`).join("");
-    document.getElementById("popup").style.display="flex";
-    document.getElementById("popup-buy").onclick = () => {
-      localStorage.setItem("selectedProduct", JSON.stringify(p));
-      window.location.href = "buy.html";
-    };
-  };
+function finishOrder(product) {
+  const name = document.getElementById("name").value;
+  const address = document.getElementById("address").value;
+  const house = document.getElementById("house").value;
+  const landmark = document.getElementById("landmark").value;
+  const city = document.getElementById("city").value;
+  const district = document.getElementById("district").value;
+  const state = document.getElementById("state").value;
+  const pincode = document.getElementById("pincode").value;
+  const phone = document.getElementById("phone").value;
 
-  document.getElementById("popup-close").onclick = () => {
-    document.getElementById("popup").style.display="none";
-  };
+  const fullAddress = `Name: ${name}%0AAddress: ${address}%0AHouse No: ${house}%0ALandmark: ${landmark}%0ACity: ${city}, District: ${district}, State: ${state}, Pincode: ${pincode}%0APhone: ${phone}`;
+  const message = `Hi, I have placed an order for ${product.name} (${product.price}).%0A${fullAddress}%0AOrder completed ✅`;
+  const waUrl = `https://wa.me/919744340057?text=${message}`;
+  window.location.href = waUrl;
+}
+
+searchBar.addEventListener("input", () => {
+  const keyword = searchBar.value.toLowerCase();
+  const results = products.filter(p => p.name.toLowerCase().includes(keyword));
+  displayProducts(results);
 });
+
+displayCategories();
+displayProducts(products);
