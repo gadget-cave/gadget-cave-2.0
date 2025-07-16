@@ -1,43 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Place Order</title>
-  <link rel="stylesheet" href="style.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Buy Product</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .form-container {
+      max-width: 500px;
+      margin: 30px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    .form-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #aaa;
+      border-radius: 4px;
+    }
+    #finishBtn {
+      background: #007bff;
+      color: white;
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+    .product-preview {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    .product-preview img {
+      width: 80%;
+      border-radius: 6px;
+    }
+  </style>
 </head>
 <body>
-  <div class="form-wrap">
-    <h2>Enter Delivery Details</h2>
-    <form id="orderForm">
-      <label>Name:</label><input type="text" id="name" required>
-      <label>Address:</label><input type="text" id="address" required>
-      <label>House/Shop No.:</label><input type="text" id="house">
-      <label>Landmark:</label><input type="text" id="landmark">
-      <label>City:</label><input type="text" id="city" required>
-      <label>District:</label><input type="text" id="district" required>
-      <label>State:</label><input type="text" id="state" required>
-      <label>Pincode:</label><input type="text" id="pincode" required>
-      <label>Phone:</label><input type="text" id="phone" required>
-      <button type="submit">Pay & Confirm via UPI</button>
+  <div class="form-container">
+    <h2>Delivery Address</h2>
+    <div class="product-preview" id="preview"></div>
+    <form id="addressForm">
+      <div class="form-group"><input type="text" placeholder="Name" required id="name"></div>
+      <div class="form-group"><input type="text" placeholder="Address" required id="address"></div>
+      <div class="form-group"><input type="text" placeholder="House no./Shop no." id="house"></div>
+      <div class="form-group"><input type="text" placeholder="Landmark" id="landmark"></div>
+      <div class="form-group"><input type="text" placeholder="City" required id="city"></div>
+      <div class="form-group"><input type="text" placeholder="District" required id="district"></div>
+      <div class="form-group"><input type="text" placeholder="State" required id="state"></div>
+      <div class="form-group"><input type="text" placeholder="Pincode" required id="pincode"></div>
+      <div class="form-group"><input type="text" placeholder="Phone" required id="phone"></div>
+      <button type="submit" id="finishBtn">Proceed to Payment</button>
     </form>
   </div>
 
   <script>
-  const form = document.getElementById("orderForm");
-  const prod = JSON.parse(localStorage.getItem("selectedProduct"));
-  
-  form.onsubmit = e => {
-    e.preventDefault();
-    const info = ['name','address','house','landmark','city','district','state','pincode','phone']
-      .map(id => document.getElementById(id).value).join("\n");
-    const upi = `upi://pay?pa=hixzam313@okaxis&pn=GadgetCave&am=${prod.price}&cu=INR&tn=Order%20${encodeURIComponent(prod.name)}`;
-    window.location.href = upi;
-    setTimeout(() => {
-      const msg = encodeURIComponent(`🛍 Order Details:\nProduct: ${prod.name}\nPrice: ₹${prod.price}\n\nDelivery Info:\n${info}`);
-      window.location.href = `https://wa.me/919744340057?text=${msg}`;
-    }, 2000);
-  };
+    const data = JSON.parse(localStorage.getItem("buyProduct"));
+    document.getElementById("preview").innerHTML = `
+      <h3>${data.name}</h3>
+      <img src="${data.image}" alt="${data.name}">
+      <p><strong>Amount:</strong> ₹${data.price}</p>
+    `;
+
+    document.getElementById("addressForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const msg = `
+📦 *New Order from Gadget Cave* 📦
+
+*Product:* ${data.name}
+*Price:* ₹${data.price}
+*Image:* ${data.image}
+
+*Name:* ${name.value}
+*Address:* ${address.value}
+*House No:* ${house.value}
+*Landmark:* ${landmark.value}
+*City:* ${city.value}
+*District:* ${district.value}
+*State:* ${state.value}
+*Pincode:* ${pincode.value}
+*Phone:* ${phone.value}
+`;
+
+      alert("Please pay ₹" + data.price + " to UPI: hixzam313@okaxis\nThen click OK to confirm.");
+
+      const whatsappURL = `https://wa.me/919744340057?text=${encodeURIComponent(msg)}`;
+      window.location.href = whatsappURL;
+    });
   </script>
 </body>
 </html>
-
