@@ -91,3 +91,48 @@ if (document.getElementById("addressForm")) {
     window.location.href = `https://wa.me/919744340057?text=${msg}`;
   };
 }
+function displayProducts() {
+  const container = document.getElementById("productContainer");
+  container.innerHTML = "";
+
+  // Group products by category
+  const grouped = {};
+  products.forEach((product) => {
+    if (!grouped[product.category]) {
+      grouped[product.category] = [];
+    }
+    grouped[product.category].push(product);
+  });
+
+  // Display each category
+  for (const category in grouped) {
+    const categorySection = document.createElement("div");
+    categorySection.className = "category-section";
+
+    const heading = document.createElement("h2");
+    heading.textContent = category;
+    heading.className = "category-heading";
+    categorySection.appendChild(heading);
+
+    const productGrid = document.createElement("div");
+    productGrid.className = "product-grid";
+
+    grouped[category].forEach((product, index) => {
+      const productCard = document.createElement("div");
+      productCard.className = "product-card";
+
+      productCard.innerHTML = `
+        <img src="${product.image}" alt="${product.name}" class="product-image">
+        <h3>${product.name}</h3>
+        <p>${product.description}</p>
+        <p class="price">${product.price}</p>
+        <button class="buy-now-button" onclick="openProductPopup(${index}, '${product.category}')">Buy Now</button>
+      `;
+
+      productGrid.appendChild(productCard);
+    });
+
+    categorySection.appendChild(productGrid);
+    container.appendChild(categorySection);
+  }
+}
