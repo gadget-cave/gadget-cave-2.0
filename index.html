@@ -1,113 +1,805 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gadget Cave</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="google-site-verification" content="U5x6ESJ1YnKH0odXTveWzCIbAv_ZTtKLIyBOrKxvRXM" />
+  <title>Gadget Cave</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 </head>
 <body>
-    <!-- Header with Navigation -->
-    <header>
-        <div class="logo">
-            <img src="images/logo.png" alt="Gadget Cave Logo">
-        </div>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="products.html">Products</a></li>
-                <li><a href="account.html" id="account-link">Account</a></li>
-                <li><a href="#" id="cart-icon"><i class="fas fa-shopping-cart"></i> <span id="cart-count">0</span></a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <!-- Login/Registration Modal -->
-    <div id="auth-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <div class="auth-tabs">
-                <button class="tab-btn active" data-tab="login">Login</button>
-                <button class="tab-btn" data-tab="register">Register</button>
-            </div>
-            
-            <div id="login-form" class="auth-form active">
-                <h2>Login</h2>
-                <form id="login">
-                    <input type="email" placeholder="Email" required>
-                    <input type="password" placeholder="Password" required>
-                    <button type="submit">Login</button>
-                </form>
-            </div>
-            
-            <div id="register-form" class="auth-form">
-                <h2>Register</h2>
-                <form id="register">
-                    <input type="text" placeholder="Full Name" required>
-                    <input type="email" placeholder="Email" required>
-                    <input type="password" placeholder="Password" required>
-                    <input type="password" placeholder="Confirm Password" required>
-                    <button type="submit">Register</button>
-                </form>
-            </div>
-        </div>
+  <header>
+    <div class="top-bar">
+      <img src="https://i.ibb.co/FbsdpgK3/gadged-cave-3.png" alt="Logo" class="logo" />
+      <h1>Gadget Cave</h1>
     </div>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="#" class="active" id="home-link">Home</a></li>
+        <li><a href="#" id="products-link">Products</a></li>
+        <li><a href="#" id="account-link">Account</a></li>
+        <li><a href="#" id="cart-link"><i class="fas fa-shopping-cart"></i> <span id="cart-count">0</span></a></li>
+      </ul>
+    </nav>
+    <input type="text" id="search-bar" placeholder="Search products..." />
+  </header>
 
-    <!-- Main Content -->
-    <main>
-        <section class="products-container">
-            <!-- Products will be loaded here -->
-        </section>
-    </main>
+  <!-- Main content sections -->
+  <div class="page-container">
+    <!-- Home section -->
+    <section id="home-section" class="main-section active">
+      <div class="hero-banner">
+        <h2>Welcome to Gadget Cave</h2>
+        <p>Discover the latest tech gadgets at amazing prices!</p>
+      </div>
+      <h3 class="section-title">Featured Products</h3>
+      <div id="featured-products" class="featured-products"></div>
+    </section>
 
-    <!-- Checkout Modal -->
-    <div id="checkout-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Shipping Details</h2>
-            <form id="checkout-form">
-                <input type="text" id="full-name" placeholder="Full Name" required>
-                <input type="text" id="phone" placeholder="Phone Number" required>
-                <textarea id="address" placeholder="Full Address" required></textarea>
-                <input type="text" id="pincode" placeholder="Pincode" required>
-                <h3>Total: ₹<span id="total-amount">0</span></h3>
-                <div class="payment-info">
-                    <p>Payment Method: UPI</p>
-                    <p>UPI ID: hixzam313@okaxis</p>
-                    <p>Please make payment to the above UPI ID and complete your order</p>
-                </div>
-                <button type="submit">Complete Order</button>
-            </form>
+    <!-- Products section -->
+    <section id="products-section" class="main-section">
+      <div id="product-list"></div>
+    </section>
+
+    <!-- Account section -->
+    <section id="account-section" class="main-section">
+      <div id="login-message">
+        <h2>Please log in to view your account</h2>
+        <button id="login-btn-account" class="action-btn">Login</button>
+      </div>
+      <div id="account-details" style="display:none;">
+        <h2>My Account</h2>
+        <div class="account-info">
+          <h3>Personal Information</h3>
+          <p id="user-name">Name: </p>
+          <p id="user-email">Email: </p>
+          <button id="logout-btn" class="action-btn">Logout</button>
         </div>
+        <div class="purchase-history">
+          <h3>Purchase History</h3>
+          <div id="order-history"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cart section -->
+    <section id="cart-section" class="main-section">
+      <h2>Shopping Cart</h2>
+      <div id="cart-items"></div>
+      <div id="cart-summary">
+        <h3>Total: <span id="cart-total">₹0</span></h3>
+        <button id="checkout-btn" class="action-btn">Proceed to Checkout</button>
+      </div>
+      <div id="empty-cart-message">
+        <p>Your cart is empty.</p>
+        <button id="shop-now-btn" class="action-btn">Shop Now</button>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <p> Gadget Cave :- 🚚 All Kerala Delivery Available🚚 🚚 </p>
+  </footer>
+
+  <!-- Auth Modal -->
+  <div id="auth-modal" class="modal-overlay">
+    <div class="modal-content">
+      <button class="modal-close">&times;</button>
+      <div class="auth-tabs">
+        <button class="tab-btn active" data-tab="login">Login</button>
+        <button class="tab-btn" data-tab="register">Register</button>
+      </div>
+      
+      <div id="login-form" class="auth-form active">
+        <h2>Login</h2>
+        <form id="login-form-el">
+          <input type="email" id="login-email" placeholder="Email" required>
+          <input type="password" id="login-password" placeholder="Password" required>
+          <button type="submit" class="action-btn">Login</button>
+        </form>
+      </div>
+      
+      <div id="register-form" class="auth-form">
+        <h2>Register</h2>
+        <form id="register-form-el">
+          <input type="text" id="register-name" placeholder="Full Name" required>
+          <input type="email" id="register-email" placeholder="Email" required>
+          <input type="password" id="register-password" placeholder="Password" required>
+          <input type="password" id="register-confirm" placeholder="Confirm Password" required>
+          <button type="submit" class="action-btn">Register</button>
+        </form>
+      </div>
     </div>
+  </div>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-logo">
-                <img src="images/logo.png" alt="Gadget Cave Logo">
-            </div>
-            <div class="footer-links">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="products.html">Products</a></li>
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-            </div>
-            <div class="footer-contact">
-                <h3>Contact Us</h3>
-                <p>Email: info@gadgetcave.com</p>
-                <p>Phone: +91 9744340057</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 Gadget Cave. All rights reserved.</p>
-        </div>
-    </footer>
+  <!-- Product Popup -->
+  <div id="popup" class="popup-overlay">
+    <div class="popup-content">
+      <button id="popup-close" class="popup-close">&times;</button>
+      <h2 id="popup-title"></h2>
+      <div id="popup-images"></div>
+      <p id="popup-description"></p>
+      <strong id="popup-price"></strong>
+      <button id="add-to-cart" class="action-btn">Add to Cart</button>
+      <button id="buy-now" class="action-btn primary-btn">Buy Now</button>
+    </div>
+  </div>
 
-    <script src="script.js"></script>
+  <!-- Checkout Modal -->
+  <div id="checkout-modal" class="modal-overlay">
+    <div class="modal-content">
+      <button class="modal-close">&times;</button>
+      <h2>Shipping Details</h2>
+      <form id="checkout-form">
+        <input type="text" id="full-name" placeholder="Full Name" required>
+        <input type="text" id="phone" placeholder="Phone Number" required>
+        <textarea id="address" placeholder="Full Address" required></textarea>
+        <input type="text" id="pincode" placeholder="Pincode" required>
+        <div class="order-summary">
+          <h3>Order Summary</h3>
+          <div id="checkout-items"></div>
+          <h3>Total: ₹<span id="checkout-total">0</span></h3>
+        </div>
+        <div class="payment-info">
+          <p>Payment Method: UPI</p>
+          <p>UPI ID: <strong>hixzam313@okaxis</strong></p>
+          <p>Please make payment to the above UPI ID and complete your order</p>
+        </div>
+        <button type="submit" class="action-btn primary-btn">Complete Order</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="products.js"></script>
+  <script>
+    // DOM Elements
+    const container = document.getElementById("product-list");
+    const featuredProducts = document.getElementById("featured-products");
+    const searchBar = document.getElementById("search-bar");
+    const popup = document.getElementById("popup");
+    const popupClose = document.getElementById("popup-close");
+    const popupTitle = document.getElementById("popup-title");
+    const popupImages = document.getElementById("popup-images");
+    const popupDescription = document.getElementById("popup-description");
+    const popupPrice = document.getElementById("popup-price");
+    const addToCartBtn = document.getElementById("add-to-cart");
+    const buyNowBtn = document.getElementById("buy-now");
+    const authModal = document.getElementById("auth-modal");
+    const checkoutModal = document.getElementById("checkout-modal");
+    const cartCount = document.getElementById("cart-count");
+    const cartItems = document.getElementById("cart-items");
+    const cartTotal = document.getElementById("cart-total");
+    const checkoutTotal = document.getElementById("checkout-total");
+    const checkoutItems = document.getElementById("checkout-items");
+    const orderHistory = document.getElementById("order-history");
+    const userName = document.getElementById("user-name");
+    const userEmail = document.getElementById("user-email");
+    const emptyCartMessage = document.getElementById("empty-cart-message");
+    const cartSummary = document.getElementById("cart-summary");
+
+    // Navigation elements
+    const homeLink = document.getElementById("home-link");
+    const productsLink = document.getElementById("products-link");
+    const accountLink = document.getElementById("account-link");
+    const cartLink = document.getElementById("cart-link");
+    const homeSection = document.getElementById("home-section");
+    const productsSection = document.getElementById("products-section");
+    const accountSection = document.getElementById("account-section");
+    const cartSection = document.getElementById("cart-section");
+    const loginMessage = document.getElementById("login-message");
+    const accountDetails = document.getElementById("account-details");
+    const loginBtnAccount = document.getElementById("login-btn-account");
+    const logoutBtn = document.getElementById("logout-btn");
+    const checkoutBtn = document.getElementById("checkout-btn");
+    const shopNowBtn = document.getElementById("shop-now-btn");
+
+    // Auth form elements
+    const authTabs = document.querySelectorAll(".tab-btn");
+    const authForms = document.querySelectorAll(".auth-form");
+    const loginForm = document.getElementById("login-form-el");
+    const registerForm = document.getElementById("register-form-el");
+    const modalCloseButtons = document.querySelectorAll(".modal-close");
+    const checkoutForm = document.getElementById("checkout-form");
+
+    // State variables
+    let currentProduct = null;
+    let isLoggedIn = false;
+    let cart = [];
+    let currentUser = null;
+    let purchaseHistory = [];
+
+    // Initialize the app
+    function init() {
+      // Check if user is logged in
+      checkLoginStatus();
+      
+      // Display products
+      displayProducts(products);
+      
+      // Display featured products (showing first 4)
+      displayFeaturedProducts(products.slice(0, 4));
+      
+      // Update cart display
+      updateCartDisplay();
+      
+      // Set up event listeners
+      setupEventListeners();
+    }
+
+    // Check if user is logged in from localStorage
+    function checkLoginStatus() {
+      const userDataString = localStorage.getItem('currentUser');
+      if (userDataString) {
+        currentUser = JSON.parse(userDataString);
+        isLoggedIn = true;
+        
+        // Get cart from localStorage
+        const cartString = localStorage.getItem('cart');
+        if (cartString) {
+          cart = JSON.parse(cartString);
+        }
+        
+        // Get purchase history from localStorage
+        const historyString = localStorage.getItem(`history_${currentUser.email}`);
+        if (historyString) {
+          purchaseHistory = JSON.parse(historyString);
+        }
+        
+        // Update UI for logged in user
+        updateUserUI();
+      }
+    }
+
+    // Update UI elements for logged in/out state
+    function updateUserUI() {
+      if (isLoggedIn) {
+        loginMessage.style.display = 'none';
+        accountDetails.style.display = 'block';
+        userName.textContent = `Name: ${currentUser.name}`;
+        userEmail.textContent = `Email: ${currentUser.email}`;
+        displayOrderHistory();
+      } else {
+        loginMessage.style.display = 'block';
+        accountDetails.style.display = 'none';
+      }
+    }
+
+    // Display products in the product list
+    function displayProducts(filteredProducts) {
+      container.innerHTML = "";
+      filteredProducts.forEach(product => {
+        const productBox = document.createElement("div");
+        productBox.classList.add("product");
+
+        productBox.innerHTML = `
+          <img src="${product.image}" alt="${product.name}" />
+          <h2>${product.name}</h2>
+          <p>${product.description}</p>
+          <strong>${product.price}</strong><br>
+          <button class="buy-now-btn">Buy Now</button>
+        `;
+
+        // Open popup on product click, except if clicking Buy Now button
+        productBox.addEventListener("click", (e) => {
+          if(e.target.classList.contains('buy-now-btn')) {
+            currentProduct = product;
+            handleBuyNow();
+            return;
+          }
+
+          currentProduct = product;
+          popupTitle.textContent = product.name;
+          popupPrice.textContent = product.price;
+
+          popupImages.innerHTML = "";
+          const allImages = [product.image, ...(product.extraImages || [])];
+          allImages.forEach(imgUrl => {
+            const imgEl = document.createElement("img");
+            imgEl.src = imgUrl;
+            popupImages.appendChild(imgEl);
+          });
+
+          let desc = product.description || "";
+          if(product.longDescription && product.longDescription !== product.description){
+            desc += "<br><br>" + product.longDescription;
+          }
+          popupDescription.innerHTML = desc;
+
+          popup.style.display = "flex";
+          document.body.style.overflow = "hidden";
+        });
+
+        container.appendChild(productBox);
+      });
+    }
+
+    // Display featured products on home page
+    function displayFeaturedProducts(featuredList) {
+      featuredProducts.innerHTML = "";
+      featuredList.forEach(product => {
+        const productBox = document.createElement("div");
+        productBox.classList.add("product");
+
+        productBox.innerHTML = `
+          <img src="${product.image}" alt="${product.name}" />
+          <h2>${product.name}</h2>
+          <p>${product.description}</p>
+          <strong>${product.price}</strong><br>
+          <button class="buy-now-btn">Buy Now</button>
+        `;
+
+        // Handle product click
+        productBox.addEventListener("click", (e) => {
+          if(e.target.classList.contains('buy-now-btn')) {
+            currentProduct = product;
+            handleBuyNow();
+            return;
+          }
+
+          currentProduct = product;
+          popupTitle.textContent = product.name;
+          popupPrice.textContent = product.price;
+
+          popupImages.innerHTML = "";
+          const allImages = [product.image, ...(product.extraImages || [])];
+          allImages.forEach(imgUrl => {
+            const imgEl = document.createElement("img");
+            imgEl.src = imgUrl;
+            popupImages.appendChild(imgEl);
+          });
+
+          let desc = product.description || "";
+          if(product.longDescription && product.longDescription !== product.description){
+            desc += "<br><br>" + product.longDescription;
+          }
+          popupDescription.innerHTML = desc;
+
+          popup.style.display = "flex";
+          document.body.style.overflow = "hidden";
+        });
+
+        featuredProducts.appendChild(productBox);
+      });
+    }
+
+    // Display order history
+    function displayOrderHistory() {
+      orderHistory.innerHTML = "";
+      
+      if (purchaseHistory.length === 0) {
+        orderHistory.innerHTML = "<p>No orders yet.</p>";
+        return;
+      }
+      
+      purchaseHistory.forEach((order, index) => {
+        const orderDiv = document.createElement("div");
+        orderDiv.classList.add("order-item");
+        
+        let productsHtml = "";
+        order.items.forEach(item => {
+          productsHtml += `<p>${item.name} - ${item.price}</p>`;
+        });
+        
+        orderDiv.innerHTML = `
+          <h4>Order #${index + 1}</h4>
+          <p>Date: ${new Date(order.date).toLocaleDateString()}</p>
+          <div class="order-products">${productsHtml}</div>
+          <p>Total: ₹${order.total}</p>
+          <p>Shipping: ${order.shipping.name}, ${order.shipping.phone}</p>
+        `;
+        
+        orderHistory.appendChild(orderDiv);
+      });
+    }
+
+    // Update cart display
+    function updateCartDisplay() {
+      // Update cart count
+      cartCount.textContent = cart.length;
+      
+      // Update cart items
+      cartItems.innerHTML = "";
+      
+      if (cart.length === 0) {
+        emptyCartMessage.style.display = "block";
+        cartSummary.style.display = "none";
+        return;
+      }
+      
+      emptyCartMessage.style.display = "none";
+      cartSummary.style.display = "block";
+      
+      let total = 0;
+      
+      cart.forEach((item, index) => {
+        const itemPrice = parseInt(item.price.replace(/[^\d]/g, ''));
+        total += itemPrice;
+        
+        const itemDiv = document.createElement("div");
+        itemDiv.classList.add("cart-item");
+        
+        itemDiv.innerHTML = `
+          <img src="${item.image}" alt="${item.name}">
+          <div class="cart-item-details">
+            <h3>${item.name}</h3>
+            <p>${item.price}</p>
+          </div>
+          <button class="remove-item" data-index="${index}">×</button>
+        `;
+        
+        cartItems.appendChild(itemDiv);
+      });
+      
+      // Update total
+      cartTotal.textContent = `₹${total}`;
+      
+      // Add event listeners to remove buttons
+      const removeButtons = document.querySelectorAll(".remove-item");
+      removeButtons.forEach(button => {
+        button.addEventListener("click", (e) => {
+          const index = parseInt(e.target.dataset.index);
+          cart.splice(index, 1);
+          localStorage.setItem('cart', JSON.stringify(cart));
+          updateCartDisplay();
+        });
+      });
+    }
+
+    // Handle Buy Now button click
+    function handleBuyNow() {
+      if (!isLoggedIn) {
+        authModal.style.display = "flex";
+        document.body.style.overflow = "hidden";
+        return;
+      }
+      
+      // If logged in, add product to cart and go to checkout
+      addToCart(currentProduct);
+      showCheckout();
+    }
+
+    // Add product to cart
+    function addToCart(product) {
+      cart.push(product);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartDisplay();
+      
+      // Show confirmation
+      alert(`${product.name} added to cart!`);
+    }
+
+    // Show checkout page
+    function showCheckout() {
+      if (cart.length === 0) {
+        alert('Your cart is empty!');
+        return;
+      }
+      
+      // Calculate total
+      let total = 0;
+      cart.forEach(item => {
+        const itemPrice = parseInt(item.price.replace(/[^\d]/g, ''));
+        total += itemPrice;
+      });
+      
+      // Update checkout items
+      checkoutItems.innerHTML = "";
+      cart.forEach(item => {
+        const itemDiv = document.createElement("div");
+        itemDiv.classList.add("checkout-item");
+        
+        itemDiv.innerHTML = `
+          <p>${item.name} - ${item.price}</p>
+        `;
+        
+        checkoutItems.appendChild(itemDiv);
+      });
+      
+      // Update total
+      checkoutTotal.textContent = total;
+      
+      // Show checkout modal
+      checkoutModal.style.display = "flex";
+      document.body.style.overflow = "hidden";
+    }
+
+    // Switch between sections (home, products, account, cart)
+    function switchSection(sectionId) {
+      const sections = document.querySelectorAll('.main-section');
+      const navLinks = document.querySelectorAll('.main-nav a');
+      
+      sections.forEach(section => section.classList.remove('active'));
+      navLinks.forEach(link => link.classList.remove('active'));
+      
+      document.getElementById(sectionId).classList.add('active');
+      
+      // Highlight active nav link
+      if (sectionId === 'home-section') {
+        homeLink.classList.add('active');
+      } else if (sectionId === 'products-section') {
+        productsLink.classList.add('active');
+      } else if (sectionId === 'account-section') {
+        accountLink.classList.add('active');
+      } else if (sectionId === 'cart-section') {
+        cartLink.classList.add('active');
+      }
+    }
+
+    // Setup all event listeners
+    function setupEventListeners() {
+      // Navigation
+      homeLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        switchSection('home-section');
+      });
+      
+      productsLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        switchSection('products-section');
+      });
+      
+      accountLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        switchSection('account-section');
+      });
+      
+      cartLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        switchSection('cart-section');
+      });
+      
+      // Auth tabs
+      authTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const tabId = tab.dataset.tab;
+          
+          authTabs.forEach(t => t.classList.remove('active'));
+          authForms.forEach(f => f.classList.remove('active'));
+          
+          tab.classList.add('active');
+          document.getElementById(`${tabId}-form`).classList.add('active');
+        });
+      });
+      
+      // Close buttons
+      modalCloseButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          authModal.style.display = "none";
+          checkoutModal.style.display = "none";
+          document.body.style.overflow = "auto";
+        });
+      });
+      
+      // Popup close
+      popupClose.addEventListener("click", () => {
+        popup.style.display = "none";
+        document.body.style.overflow = "auto";
+      });
+      
+      // Close popup on overlay click
+      popup.addEventListener("click", (e) => {
+        if(e.target === popup) {
+          popup.style.display = "none";
+          document.body.style.overflow = "auto";
+        }
+      });
+      
+      // Login from account page
+      loginBtnAccount.addEventListener('click', () => {
+        authModal.style.display = "flex";
+        document.body.style.overflow = "hidden";
+      });
+      
+      // Logout
+      logoutBtn.addEventListener('click', () => {
+        isLoggedIn = false;
+        currentUser = null;
+        cart = [];
+        purchaseHistory = [];
+        localStorage.removeItem('currentUser');
+        localStorage.removeItem('cart');
+        updateUserUI();
+        updateCartDisplay();
+        switchSection('home-section');
+      });
+      
+      // Shop now button in empty cart
+      shopNowBtn.addEventListener('click', () => {
+        switchSection('products-section');
+      });
+      
+      // Checkout button
+      checkoutBtn.addEventListener('click', () => {
+        if (!isLoggedIn) {
+          authModal.style.display = "flex";
+          document.body.style.overflow = "hidden";
+          return;
+        }
+        
+        showCheckout();
+      });
+      
+      // Search functionality
+      searchBar.addEventListener("input", () => {
+        const query = searchBar.value.toLowerCase();
+        const filtered = products.filter(p => p.name.toLowerCase().includes(query));
+        displayProducts(filtered);
+        
+        // Also switch to products section when searching
+        switchSection('products-section');
+      });
+      
+      // Add to cart from popup
+      addToCartBtn.addEventListener('click', () => {
+        if (!isLoggedIn) {
+          authModal.style.display = "flex";
+          document.body.style.overflow = "hidden";
+          return;
+        }
+        
+        addToCart(currentProduct);
+      });
+      
+      // Buy now from popup
+      buyNowBtn.addEventListener('click', () => {
+        handleBuyNow();
+      });
+      
+      // Login form submission
+      loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+        
+        // Get users from localStorage
+        const usersString = localStorage.getItem('users');
+        const users = usersString ? JSON.parse(usersString) : [];
+        
+        // Find user
+        const user = users.find(u => u.email === email && u.password === password);
+        
+        if (user) {
+          isLoggedIn = true;
+          currentUser = user;
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          
+          // Get cart and history from localStorage
+          const cartString = localStorage.getItem(`cart_${user.email}`);
+          if (cartString) {
+            cart = JSON.parse(cartString);
+          }
+          
+          const historyString = localStorage.getItem(`history_${user.email}`);
+          if (historyString) {
+            purchaseHistory = JSON.parse(historyString);
+          }
+          
+          updateUserUI();
+          updateCartDisplay();
+          authModal.style.display = "none";
+          document.body.style.overflow = "auto";
+          
+          // If user was trying to buy a product, show checkout
+          if (currentProduct) {
+            addToCart(currentProduct);
+            showCheckout();
+          }
+        } else {
+          alert('Invalid email or password!');
+        }
+      });
+      
+      // Register form submission
+      registerForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const name = document.getElementById('register-name').value;
+        const email = document.getElementById('register-email').value;
+        const password = document.getElementById('register-password').value;
+        const confirmPassword = document.getElementById('register-confirm').value;
+        
+        if (password !== confirmPassword) {
+          alert('Passwords do not match!');
+          return;
+        }
+        
+        // Get users from localStorage
+        const usersString = localStorage.getItem('users');
+        const users = usersString ? JSON.parse(usersString) : [];
+        
+        // Check if email already exists
+        if (users.some(u => u.email === email)) {
+          alert('Email already registered!');
+          return;
+        }
+        
+        // Add new user
+        const newUser = { name, email, password };
+        users.push(newUser);
+        localStorage.setItem('users', JSON.stringify(users));
+        
+        // Log in the new user
+        isLoggedIn = true;
+        currentUser = newUser;
+        localStorage.setItem('currentUser', JSON.stringify(newUser));
+        
+        updateUserUI();
+        authModal.style.display = "none";
+        document.body.style.overflow = "auto";
+        
+        // If user was trying to buy a product, show checkout
+        if (currentProduct) {
+          addToCart(currentProduct);
+          showCheckout();
+        }
+      });
+      
+      // Checkout form submission
+      checkoutForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const name = document.getElementById('full-name').value;
+        const phone = document.getElementById('phone').value;
+        const address = document.getElementById('address').value;
+        const pincode = document.getElementById('pincode').value;
+        
+        // Calculate total
+        let total = 0;
+        cart.forEach(item => {
+          const itemPrice = parseInt(item.price.replace(/[^\d]/g, ''));
+          total += itemPrice;
+        });
+        
+        // Create order
+        const order = {
+          items: [...cart],
+          total: total,
+          date: new Date().toISOString(),
+          shipping: { name, phone, address, pincode }
+        };
+        
+        // Add to purchase history
+        purchaseHistory.push(order);
+        localStorage.setItem(`history_${currentUser.email}`, JSON.stringify(purchaseHistory));
+        
+        // Create WhatsApp message
+        let itemsList = '';
+        cart.forEach(item => {
+          itemsList += `• ${item.name} - ${item.price}\n`;
+        });
+        
+        const message = encodeURIComponent(
+          `*New Order from Gadget Cave*\n\n` +
+          `*Order Details:*\n${itemsList}\n` +
+          `*Total Amount:* ₹${total}\n\n` +
+          `*Customer Details:*\n` +
+          `*Name:* ${name}\n` +
+          `*Phone:* ${phone}\n` +
+          `*Address:* ${address}\n` +
+          `*Pincode:* ${pincode}\n\n` +
+          `Order completed successfully!`
+        );
+        
+        // Clear cart
+        cart = [];
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartDisplay();
+        
+        // Close the checkout modal
+        checkoutModal.style.display = "none";
+        document.body.style.overflow = "auto";
+        
+        // Redirect to WhatsApp
+        window.location.href = `https://wa.me/919744340057?text=${message}`;
+      });
+    }
+
+    // Initialize the app
+    init();
+  </script>
+
 </body>
 </html>
