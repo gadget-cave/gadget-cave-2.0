@@ -1,59 +1,53 @@
-// Display categories
-const categories = [...new Set(products.map(p => p.category))];
-const categoryContainer = document.getElementById('categoryContainer');
-const productContainer = document.getElementById('productContainer');
+const categoryContainer = document.getElementById("categoryContainer");
+const productContainer = document.getElementById("productContainer");
+const searchBar = document.getElementById("searchBar");
 
-categories.forEach(cat => {
+let currentCategory = "All";
+
+// Setup categories
+const catSet = ["All", ...new Set(products.map(p => p.category))];
+catSet.forEach(c => {
   const btn = document.createElement("div");
-  btn.className = "category-box";
-  btn.textContent = cat;
-  btn.onclick = () => loadProducts(cat);
+  btn.textContent = c;
+  btn.className = "category-btn" + (c === "All" ? " active" : "");
+  btn.onclick = () => {
+    currentCategory = c;
+    document.querySelectorAll(".category-btn").forEach(el => el.classList.toggle("active", el.textContent === c));
+    renderProducts();
+  };
   categoryContainer.appendChild(btn);
 });
 
-// Load all by default
-loadProducts();
+// Search handling
+searchBar.addEventListener("input", () => renderProducts());
 
-function loadProducts(category = "") {
+// Render products
+function renderProducts() {
   productContainer.innerHTML = "";
+  const keyword = searchBar.value.trim().toLowerCase();
 
-  const filtered = category ? products.filter(p => p.category === category) : products;
-
-  filtered.forEach(product => {
-    const card = document.createElement("div");
-    card.className = "product-card";
-    card.innerHTML = `
-      <img src="${product.image}" alt="${product.name}" />
-      <h3>${product.name}</h3>
-      <p>${product.description}</p>
-      <p><strong>₹${product.price}</strong></p>
-      <button class="buy-btn" onclick="buyNow(${product.id})">Buy Now</button>
-    `;
-    productContainer.appendChild(card);
-  });
+  products
+    .filter(p => (currentCategory === "All" || p.category === currentCategory))
+    .filter(p => p.name.toLowerCase().includes(keyword))
+    .forEach(p => {
+      const card = document.createElement("div");
+      card.className = "product-card";
+      card.innerHTML = `
+        <img src="${p.image}" alt="${p.name}">
+        <h3>${p.name}</h3>
+        <p>${p.description}</p>
+        <p><strong>₹${p.price}</strong></p>
+        <button class="buy-btn" onclick="initBuy(${p.id})">Buy Now</button>
+      `;
+      productContainer.appendChild(card);
+    });
 }
 
-function buyNow(id) {
-  const product = products.find(p => p.id === id);
-  localStorage.setItem("selectedProduct", JSON.stringify(product));
+// Begin purchase
+function initBuy(id) {
+  const prod = products.find(p => p.id === id);
+  localStorage.setItem("selectedProduct", JSON.stringify(prod));
   window.location.href = "buy.html";
 }
 
-// Search
-document.getElementById("searchBar").addEventListener("input", function() {
-  const keyword = this.value.toLowerCase();
-  const filtered = products.filter(p => p.name.toLowerCase().includes(keyword));
-  productContainer.innerHTML = "";
-  filtered.forEach(product => {
-    const card = document.createElement("div");
-    card.className = "product-card";
-    card.innerHTML = `
-      <img src="${product.image}" alt="${product.name}" />
-      <h3>${product.name}</h3>
-      <p>${product.description}</p>
-      <p><strong>₹${product.price}</strong></p>
-      <button class="buy-btn" onclick="buyNow(${product.id})">Buy Now</button>
-    `;
-    productContainer.appendChild(card);
-  });
-});
+renderProducts();
