@@ -8,13 +8,15 @@
 <body>
   <div class="form-container">
     <h2>Create Account</h2>
-    <form action="home.html">
-      <input type="text" placeholder="Name" required>
-      <input type="tel" placeholder="Mobile Number" required>
-      <input type="password" placeholder="Password" required>
+    <form id="registerForm">
+      <input type="text" id="regName" placeholder="Full Name" required>
+      <input type="tel" id="regMobile" placeholder="Mobile Number" required>
+      <input type="password" id="regPassword" placeholder="Password" required>
+      <input type="password" id="regConfirmPassword" placeholder="Confirm Password" required>
       <button type="submit">Register</button>
-      <p>Already have an account? <a href="login.html">Login</a></p>
     </form>
+    <p>Have account? <a href="login.html">Login</a></p>
   </div>
+  <script src="script.js"></script>
 </body>
 </html>
