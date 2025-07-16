@@ -305,9 +305,15 @@ const pageNumbers = document.getElementById("page-numbers");
 const cartCount = document.getElementById("cart-count");
 
 if (!container || !searchBar || !popup || !popupClose || !popupTitle || !popupImages || !popupDescription || !popupPrice || !popupWhatsApp || !categoryFilters || !priceMin || !priceMax || !priceMinValue || !priceMaxValue || !ratingFilter || !ratingValue || !prevPage || !nextPage || !pageNumbers || !cartCount) {
-  console.error("One or more DOM elements not found. Check HTML structure.");
+  console.error("One or more DOM elements not found. Check HTML structure.", {
+    container, searchBar, popup, popupClose, popupTitle, popupImages, popupDescription, popupPrice, popupWhatsApp,
+    categoryFilters, priceMin, priceMax, priceMinValue, priceMaxValue, ratingFilter, ratingValue, prevPage, nextPage,
+    pageNumbers, cartCount
+  });
   container.innerHTML = "<p>Error loading products. Check console for details.</p>";
 } else {
+  console.log("All DOM elements found, initializing display...");
+
   function displayProducts(filteredProducts) {
     container.innerHTML = "";
     const start = (currentPage - 1) * productsPerPage;
@@ -315,7 +321,7 @@ if (!container || !searchBar || !popup || !popupClose || !popupTitle || !popupIm
     const paginatedProducts = filteredProducts.slice(start, end);
 
     if (paginatedProducts.length === 0) {
-      container.innerHTML = "<p>No products found.</p>";
+      container.innerHTML = "<p>No products found. Try adjusting filters.</p>";
       return;
     }
 
@@ -323,9 +329,9 @@ if (!container || !searchBar || !popup || !popupClose || !popupTitle || !popupIm
       const productBox = document.createElement("div");
       productBox.classList.add("product");
       productBox.innerHTML = `
-        <img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/150';">
+        <img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/150'; console.log('Image failed for ${product.name}, using placeholder');">
         <h2>${product.name}</h2>
-        <p>${product.description}</p>
+        <p>${product.description || "No description"}</p>
         <strong>${product.price}</strong>
         <p class="rating">${'★'.repeat(Math.floor(product.rating))}</p>
         <a href="https://wa.me/919744340057?text=I'm%20interested%20in%20${encodeURIComponent(product.name)}" target="_blank">
@@ -347,7 +353,10 @@ if (!container || !searchBar || !popup || !popupClose || !popupTitle || !popupIm
         allImages.forEach(imgUrl => {
           const imgEl = document.createElement("img");
           imgEl.src = imgUrl;
-          imgEl.onerror = () => (imgEl.src = "https://via.placeholder.com/150");
+          imgEl.onerror = () => {
+            imgEl.src = "https://via.placeholder.com/150";
+            console.log(`Image failed for ${imgUrl}, using placeholder`);
+          };
           popupImages.appendChild(imgEl);
         });
         let desc = product.description || "";
@@ -380,10 +389,11 @@ if (!container || !searchBar || !popup || !popupClose || !popupTitle || !popupIm
       pageNumbers.appendChild(pageBtn);
     }
     prevPage.disabled = currentPage === 1;
-    nextPage.disabled = currentPage === totalPages;
+    nextPage.disabled = currentPage === totalPages || totalPages === 0;
   }
 
   function filterAndDisplay() {
+    console.log("Filtering products...");
     const query = searchBar.value.toLowerCase();
     const selectedCategory = categoryFilters.querySelector("input:checked")?.value || "All";
     const minPrice = parseInt(priceMin.value);
@@ -391,19 +401,21 @@ if (!container || !searchBar || !popup || !popupClose || !popupTitle || !popupIm
     const minRating = parseFloat(ratingFilter.value);
 
     const filtered = products.filter(p => {
-      const priceNum = parseInt(p.price.replace("₹", ""));
-      return (
+      const priceNum = parseInt(p.price.replace("₹", "") || "0");
+      const matches = (
         (selectedCategory === "All" || p.category === selectedCategory) &&
         priceNum >= minPrice &&
         priceNum <= maxPrice &&
         p.rating >= minRating &&
         (p.name.toLowerCase().includes(query) ||
-         p.description.toLowerCase().includes(query) ||
+         (p.description && p.description.toLowerCase().includes(query)) ||
          p.category.toLowerCase().includes(query) ||
          (p.longDescription && p.longDescription.toLowerCase().includes(query)))
       );
+      return matches;
     });
 
+    console.log(`Filtered ${filtered.length} products out of ${products.length}`);
     displayProducts(filtered);
   }
 
@@ -465,5 +477,6 @@ if (!container || !searchBar || !popup || !popupClose || !popupTitle || !popupIm
   priceMaxValue.textContent = `₹${priceMax.value}`;
   ratingValue.textContent = ratingFilter.value;
 
+  // Initial display with all products
   filterAndDisplay();
 }
