@@ -94,5 +94,4 @@ const products = [
       "https://i.ibb.co/9Dxz1Xq/MARSHALL-headset.jpg"
     ]
   }
-  // Continue adding category field to remaining products as needed
 ];
