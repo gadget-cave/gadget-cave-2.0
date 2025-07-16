@@ -305,14 +305,14 @@ const pageNumbers = document.getElementById("page-numbers");
 const cartCount = document.getElementById("cart-count");
 
 if (!container || !searchBar || !popup || !popupClose || !popupTitle || !popupImages || !popupDescription || !popupPrice || !popupWhatsApp || !categoryFilters || !priceMin || !priceMax || !priceMinValue || !priceMaxValue || !ratingFilter || !ratingValue || !prevPage || !nextPage || !pageNumbers || !cartCount) {
-  console.error("One or more DOM elements not found. Check HTML structure.", {
+  console.error("DOM elements missing:", {
     container, searchBar, popup, popupClose, popupTitle, popupImages, popupDescription, popupPrice, popupWhatsApp,
     categoryFilters, priceMin, priceMax, priceMinValue, priceMaxValue, ratingFilter, ratingValue, prevPage, nextPage,
     pageNumbers, cartCount
   });
-  container.innerHTML = "<p>Error loading products. Check console for details.</p>";
+  container.innerHTML = "<p>Error: Failed to load page. Check console for details.</p>";
 } else {
-  console.log("All DOM elements found, initializing display...");
+  console.log("DOM initialized successfully. Loading products...");
 
   function displayProducts(filteredProducts) {
     container.innerHTML = "";
@@ -321,7 +321,7 @@ if (!container || !searchBar || !popup || !popupClose || !popupTitle || !popupIm
     const paginatedProducts = filteredProducts.slice(start, end);
 
     if (paginatedProducts.length === 0) {
-      container.innerHTML = "<p>No products found. Try adjusting filters.</p>";
+      container.innerHTML = "<p>No products match the current filters.</p>";
       return;
     }
 
@@ -329,9 +329,9 @@ if (!container || !searchBar || !popup || !popupClose || !popupTitle || !popupIm
       const productBox = document.createElement("div");
       productBox.classList.add("product");
       productBox.innerHTML = `
-        <img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/150'; console.log('Image failed for ${product.name}, using placeholder');">
+        <img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/150'; console.log('Image failed for ${product.name}');">
         <h2>${product.name}</h2>
-        <p>${product.description || "No description"}</p>
+        <p>${product.description || "No description available"}</p>
         <strong>${product.price}</strong>
         <p class="rating">${'★'.repeat(Math.floor(product.rating))}</p>
         <a href="https://wa.me/919744340057?text=I'm%20interested%20in%20${encodeURIComponent(product.name)}" target="_blank">
@@ -349,21 +349,27 @@ if (!container || !searchBar || !popup || !popupClose || !popupTitle || !popupIm
         if (e.target.closest("a") || e.target.classList.contains("cart-btn")) return;
         popupTitle.textContent = product.name;
         popupImages.innerHTML = "";
-        const allImages = [product.image, ...(product.extraImages || [])];
-        allImages.forEach(imgUrl => {
+        const allImages = [product.image, ...(product.extraImages || [])].filter(img => img);
+        if (allImages.length === 0) {
           const imgEl = document.createElement("img");
-          imgEl.src = imgUrl;
-          imgEl.onerror = () => {
-            imgEl.src = "https://via.placeholder.com/150";
-            console.log(`Image failed for ${imgUrl}, using placeholder`);
-          };
+          imgEl.src = "https://via.placeholder.com/150";
           popupImages.appendChild(imgEl);
-        });
+        } else {
+          allImages.forEach(imgUrl => {
+            const imgEl = document.createElement("img");
+            imgEl.src = imgUrl;
+            imgEl.onerror = () => {
+              imgEl.src = "https://via.placeholder.com/150";
+              console.log(`Popup image failed for ${imgUrl}`);
+            };
+            popupImages.appendChild(imgEl);
+          });
+        }
         let desc = product.description || "";
         if (product.longDescription && product.longDescription !== product.description) {
           desc += "<br><br>" + product.longDescription;
         }
-        popupDescription.innerHTML = desc;
+        popupDescription.innerHTML = desc || "No description available";
         popupPrice.textContent = product.price;
         popupWhatsApp.href = `https://wa.me/919744340057?text=I'm%20interested%20in%20${encodeURIComponent(product.name)}`;
         popup.style.display = "flex";
@@ -390,15 +396,16 @@ if (!container || !searchBar || !popup || !popupClose || !popupTitle || !popupIm
     }
     prevPage.disabled = currentPage === 1;
     nextPage.disabled = currentPage === totalPages || totalPages === 0;
+    console.log(`Pagination updated: Page ${currentPage} of ${totalPages}`);
   }
 
   function filterAndDisplay() {
-    console.log("Filtering products...");
-    const query = searchBar.value.toLowerCase();
+    console.log("Applying filters...");
+    const query = searchBar.value.toLowerCase().trim();
     const selectedCategory = categoryFilters.querySelector("input:checked")?.value || "All";
-    const minPrice = parseInt(priceMin.value);
-    const maxPrice = parseInt(priceMax.value);
-    const minRating = parseFloat(ratingFilter.value);
+    const minPrice = parseInt(priceMin.value) || 0;
+    const maxPrice = parseInt(priceMax.value) || 2000;
+    const minRating = parseFloat(ratingFilter.value) || 0;
 
     const filtered = products.filter(p => {
       const priceNum = parseInt(p.price.replace("₹", "") || "0");
@@ -415,7 +422,7 @@ if (!container || !searchBar || !popup || !popupClose || !popupTitle || !popupIm
       return matches;
     });
 
-    console.log(`Filtered ${filtered.length} products out of ${products.length}`);
+    console.log(`Filtered ${filtered.length} products (query: "${query}", category: "${selectedCategory}", price: ${minPrice}-${maxPrice}, rating: ≥${minRating})`);
     displayProducts(filtered);
   }
 
@@ -477,6 +484,7 @@ if (!container || !searchBar || !popup || !popupClose || !popupTitle || !popupIm
   priceMaxValue.textContent = `₹${priceMax.value}`;
   ratingValue.textContent = ratingFilter.value;
 
-  // Initial display with all products
+  // Ensure all products load initially
+  console.log("Initializing with all products...");
   filterAndDisplay();
 }
