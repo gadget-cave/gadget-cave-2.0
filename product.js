@@ -5,8 +5,7 @@ const products = [
     category: "Earphones",
     price: 1299,
     image: "images/boat255.jpg",
-    extraImage: "images/boat255_2.jpg",
-    description: "Wireless in-ear earphones with IPX7 waterproof rating, ASAP Charge, and 40H playback. Perfect for gym and travel."
+    description: "Wireless earphones with IPX7, ASAP Charge & 40H battery."
   },
   {
     id: 2,
@@ -14,7 +13,22 @@ const products = [
     category: "Smartwatches",
     price: 1499,
     image: "images/noisebuzz.jpg",
-    extraImage: "images/noisebuzz_2.jpg",
-    description: "Feature-rich smartwatch with SpO2, heart rate monitor, and long battery life. Sleek and stylish design."
+    description: "Smartwatch with SpO₂, HR monitor & long battery."
+  },
+  {
+    id: 3,
+    name: "Ambrane 20000mAh Powerbank",
+    category: "Power Banks",
+    price: 1599,
+    image: "images/ambrane20k.jpg",
+    description: "20000mAh dual USB output & fast charging."
+  },
+  {
+    id: 4,
+    name: "Zebronics Zeb-Rush Speaker",
+    category: "Speakers",
+    price: 799,
+    image: "images/zebrush.jpg",
+    description: "Portable Bluetooth speaker with deep bass."
   }
 ];
