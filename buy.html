@@ -1,122 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Buy Product - Gadget Cave</title>
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    .buy-container {
-      max-width: 500px;
-      margin: 40px auto;
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .buy-container h2 {
-      margin-bottom: 20px;
-      font-size: 22px;
-      text-align: center;
-    }
-
-    .buy-container input,
-    .buy-container textarea {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
-
-    .buy-container button {
-      width: 100%;
-      padding: 12px;
-      background-color: #ff6b00;
-      border: none;
-      border-radius: 6px;
-      color: white;
-      font-weight: bold;
-      font-size: 16px;
-      margin-top: 15px;
-      cursor: pointer;
-    }
-
-    .buy-container button:hover {
-      background-color: #e65a00;
-    }
-
-    .upi-instructions {
-      margin-top: 20px;
-      background-color: #fef7ea;
-      padding: 10px;
-      border-left: 4px solid #ff6b00;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Product</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="buy-container">
-    <h2>Enter Delivery Address</h2>
-    <form id="buyForm">
-      <input type="text" id="name" placeholder="Full Name" required />
-      <input type="text" id="address" placeholder="Address" required />
-      <input type="text" id="house" placeholder="House No (optional)" />
-      <input type="text" id="landmark" placeholder="Landmark (optional)" />
-      <input type="text" id="city" placeholder="City" required />
-      <input type="text" id="district" placeholder="District" required />
-      <input type="text" id="state" placeholder="State" required />
-      <input type="text" id="pincode" placeholder="Pincode" required />
-      <input type="text" id="phone" placeholder="Phone Number" required />
+    <div class="form-container">
+        <h2>Enter Delivery Details</h2>
+        <form id="deliveryForm" onsubmit="event.preventDefault(); submitForm();">
+            <input type="text" id="name" placeholder="Full Name" required>
+            <textarea id="address" placeholder="Address" required></textarea>
+            <input type="text" id="house" placeholder="House No (optional)">
+            <input type="text" id="landmark" placeholder="Landmark (optional)">
+            <input type="text" id="city" placeholder="City" required>
+            <input type="text" id="district" placeholder="District" required>
+            <input type="text" id="state" placeholder="State" required>
+            <input type="text" id="pincode" placeholder="Pincode" required>
+            <input type="text" id="phone" placeholder="Phone Number" required>
+            <button type="submit">Continue to Pay</button>
+        </form>
+    </div>
 
-      <div class="upi-instructions">
-        <h4>Payment Instructions:</h4>
-        <p>UPI ID: <strong>hixzam313@okaxis</strong></p>
-        <p>After payment, you’ll be redirected to WhatsApp to confirm the order.</p>
-      </div>
-
-      <button type="submit">Pay Now & Confirm on WhatsApp</button>
-    </form>
-  </div>
-
-  <script>
-    const buyForm = document.getElementById("buyForm");
-
-    const productName = localStorage.getItem("selectedProductName") || "Unknown Product";
-    const productPrice = localStorage.getItem("selectedProductPrice")?.replace("₹", "") || "0";
-
-    buyForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-
-      const name = document.getElementById("name").value;
-      const address = document.getElementById("address").value;
-      const house = document.getElementById("house").value;
-      const landmark = document.getElementById("landmark").value;
-      const city = document.getElementById("city").value;
-      const district = document.getElementById("district").value;
-      const state = document.getElementById("state").value;
-      const pincode = document.getElementById("pincode").value;
-      const phone = document.getElementById("phone").value;
-
-      const fullAddress = `${address}, ${house ? "House No: " + house + ", " : ""}${landmark ? "Landmark: " + landmark + ", " : ""}${city}, ${district}, ${state}, ${pincode}`;
-      const upiID = "hixzam313@okaxis";
-
-      const message = `📦 *New Order* 📦\n\n*Product:* ${productName}\n*Price:* ₹${productPrice}\n\n*Name:* ${name}\n*Phone:* ${phone}\n*Address:* ${fullAddress}\n\n✅ I have made the payment to ${upiID}`;
-
-      // Encode WhatsApp URL for later use
-      const whatsappURL = `https://wa.me/919744340057?text=${encodeURIComponent(message)}`;
-
-      // Construct UPI deep link
-      const upiLink = `upi://pay?pa=${upiID}&pn=Gadget%20Cave&am=${productPrice}&cu=INR&tn=${encodeURIComponent("Payment for " + productName)}`;
-
-      // Redirect to UPI payment
-      window.location.href = upiLink;
-
-      // After 5 seconds, redirect to WhatsApp
-      setTimeout(() => {
-        window.location.href = whatsappURL;
-      }, 5000); // enough time for UPI app to open
-    });
-  </script>
+    <script src="script.js"></script>
 </body>
 </html>
