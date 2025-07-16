@@ -78,6 +78,7 @@ aside {
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
   width: 100%;
   max-width: 250px;
+  flex: 0 0 250px;
 }
 
 aside h2 {
@@ -120,6 +121,7 @@ aside h2 {
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
   width: 100%;
+  flex: 1;
 }
 
 .product {
