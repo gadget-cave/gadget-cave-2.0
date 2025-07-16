@@ -1,77 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="google-site-verification" content="U5x6ESJ1YnKH0odXTveWzCIbAv_ZTtKLIyBOrKxvRXM">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Gadget Cave</title>
-  <link rel="stylesheet" href="style.css">
-  <base href="/gadget-cave/"> <!-- For GitHub Pages -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
   <header>
     <div class="top-bar">
-      <img src="https://i.ibb.co/FbsdpgK3/gadged-cave-3.png" alt="Gadget Cave Logo" class="logo" onerror="this.src='https://via.placeholder.com/85'; console.log('Logo load failed');">
+      <img src="https://i.ibb.co/FbsdpgK3/gadged-cave-3.png" alt="Logo" class="logo" />
       <h1>Gadget Cave</h1>
     </div>
-    <div class="search-cart">
-      <input type="text" id="search-bar" placeholder="Search products..." class="search-input">
-      <div class="cart">
-        <span id="cart-count">0</span>
-        <span>Cart</span>
-      </div>
+    <input type="text" id="search-bar" placeholder="Search products..." />
+    <div id="category-filters">
+      <button class="category-btn active" data-category="All">All</button>
+      <button class="category-btn" data-category="Earphones">Earphones</button>
+      <button class="category-btn" data-category="Watches">Watches</button>
+      <button class="category-btn" data-category="Headsets">Headsets</button>
+      <button class="category-btn" data-category="Trimmers">Trimmers</button>
+      <button class="category-btn" data-category="Speakers">Speakers</button>
+      <button class="category-btn" data-category="Powerbanks">Powerbanks</button>
     </div>
   </header>
 
-  <div class="container">
-    <aside class="sidebar">
-      <h2>Filters</h2>
-      <div class="filter-group">
-        <h3>Category</h3>
-        <div id="category-filters"></div>
-      </div>
-      <div class="filter-group">
-        <h3>Price Range</h3>
-        <input type="range" id="price-min" min="0" max="2000" value="0">
-        <input type="range" id="price-max" min="0" max="2000" value="2000">
-        <div class="range-values">
-          <span id="price-min-value">₹0</span>
-          <span id="price-max-value">₹2000</span>
-        </div>
-      </div>
-      <div class="filter-group">
-        <h3>Minimum Rating</h3>
-        <input type="range" id="rating-filter" min="0" max="5" step="0.5" value="0">
-        <div class="text-center">★ <span id="rating-value">0</span></div>
-      </div>
-    </aside>
-    <main>
-      <div id="product-list" class="product-grid"></div>
-      <div class="pagination">
-        <button id="prev-page" disabled>Previous</button>
-        <div id="page-numbers"></div>
-        <button id="next-page">Next</button>
-      </div>
-    </main>
-  </div>
+  <div id="product-list"></div>
 
   <footer>
-    <p>Gadget Cave :- 🚚 All Kerala Delivery Available 🚚</p>
+    <p> Gadget Cave :- 🚚 All Kerala Delivery Available🚚 🚚 </p>
+    <p class="credit">Managed by Hisham Kannur</p>
   </footer>
 
+  <button id="scrollToTop" title="Go to top">⬆️</button>
+
+  <!-- Popup markup -->
   <div id="popup" class="popup-overlay">
     <div class="popup-content">
-      <button id="popup-close" class="popup-close">×</button>
+      <button id="popup-close" class="popup-close">&times;</button>
       <h2 id="popup-title"></h2>
       <div id="popup-images"></div>
       <p id="popup-description"></p>
-      <p id="popup-price"></p>
-      <a id="popup-whatsapp" href="" target="_blank">
-        <button class="whatsapp-btn">Order on WhatsApp</button>
-      </a>
     </div>
   </div>
 
   <script src="products.js"></script>
+  <script>
+    const container = document.getElementById("product-list");
+    const searchBar = document.getElementById("search-bar");
+    const popup = document.getElementById("popup");
+    const popupClose = document.getElementById("popup-close");
+    const popupTitle = document.getElementById("popup-title");
+    const popupImages = document.getElementById("popup-images");
+    const popupDescription = document.getElementById("popup-description");
+    const categoryBtns = document.querySelectorAll(".category-btn");
+    const scrollToTopBtn = document.getElementById("scrollToTop");
+
+    let selectedCategory = "All";
+
+    function displayProducts(filteredProducts) {
+      container.innerHTML = "";
+      filteredProducts.forEach(product => {
+        const productBox = document.createElement("div");
+        productBox.classList.add("product");
+
+        productBox.innerHTML = `
+          <img src="${product.image}" alt="${product.name}" />
+          <h2>${product.name}</h2>
+          <p>${product.description}</p>
+          <strong>${product.price}</strong><br>
+          <a href="https://wa.me/919744340057?text=I'm%20interested%20in%20${encodeURIComponent(product.name)}" target="_blank">
+            <button class="whatsapp-btn">Order on WhatsApp</button>
+          </a>
+        `;
+
+        productBox.addEventListener("click", (e) => {
+          if(e.target.closest("a")) return;
+
+          popupTitle.textContent = product.name;
+          popupImages.innerHTML = "";
+          const allImages = [product.image, ...(product.extraImages || [])];
+          allImages.forEach(imgUrl => {
+            const imgEl = document.createElement("img");
+            imgEl.src = imgUrl;
+            popupImages.appendChild(imgEl);
+          });
+
+          let desc = product.description || "";
+          if(product.longDescription && product.longDescription !== product.description){
+            desc += "<br><br>" + product.longDescription;
+          }
+          popupDescription.innerHTML = desc;
+
+          popup.style.display = "flex";
+          document.body.style.overflow = "hidden";
+        });
+
+        container.appendChild(productBox);
+      });
+    }
+
+    popupClose.addEventListener("click", () => {
+      popup.style.display = "none";
+      document.body.style.overflow = "auto";
+    });
+
+    popup.addEventListener("click", (e) => {
+      if(e.target === popup) {
+        popup.style.display = "none";
+        document.body.style.overflow = "auto";
+      }
+    });
+
+    searchBar.addEventListener("input", filterAndDisplay);
+    categoryBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        categoryBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        selectedCategory = btn.getAttribute("data-category");
+        filterAndDisplay();
+      });
+    });
+
+    function filterAndDisplay() {
+      const query = searchBar.value.toLowerCase();
+      const filtered = products.filter(p => {
+        const matchesCategory = selectedCategory === "All" || p.category === selectedCategory;
+        const matchesSearch = p.name.toLowerCase().includes(query);
+        return matchesCategory && matchesSearch;
+      });
+      displayProducts(filtered);
+    }
+
+    // Scroll to top functionality
+    scrollToTopBtn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    window.addEventListener("scroll", () => {
+      scrollToTopBtn.style.display = window.scrollY > 300 ? "block" : "none";
+    });
+
+    filterAndDisplay();
+  </script>
+
 </body>
 </html>
