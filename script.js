@@ -1,74 +1,57 @@
-document.addEventListener("DOMContentLoaded", function () {
+// Render categories and products
+document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("productContainer");
-  const searchInput = document.getElementById("searchInput");
+  const catArea = document.getElementById("categoryButtons");
+  const allCats = ["All", ...new Set(products.map(p => p.category))];
 
-  function renderProducts(filter = "") {
-    container.innerHTML = "";
-    for (const category in products) {
-      const filtered = products[category].filter(product =>
-        product.name.toLowerCase().includes(filter.toLowerCase())
-      );
-      if (filtered.length > 0) {
-        const title = document.createElement("h2");
-        title.className = "category-title";
-        title.innerText = category;
-        container.appendChild(title);
-
-        filtered.forEach(product => {
-          const div = document.createElement("div");
-          div.className = "product";
-          div.innerHTML = `
-            <img src="${product.image}" alt="${product.name}">
-            <h3>${product.name}</h3>
-            <p>${product.price}</p>
-            <button onclick='buyNow("${product.name}", "${product.price}")'>Buy Now</button>
-          `;
-          container.appendChild(div);
-        });
-      }
-    }
-  }
-
-  searchInput.addEventListener("input", () => {
-    renderProducts(searchInput.value);
+  // Populate category buttons
+  allCats.forEach(cat => {
+    const btn = document.createElement("button");
+    btn.textContent = cat;
+    btn.onclick = () => {
+      document.querySelectorAll('#categoryButtons button').forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      showProducts(cat);
+    };
+    if (cat === "All") btn.classList.add("active");
+    catArea.appendChild(btn);
   });
 
-  renderProducts();
+  function showProducts(cat) {
+    container.innerHTML = "";
+    const list = cat === "All" ? products : products.filter(p => p.category === cat);
+    list.forEach(p => {
+      const card = document.createElement("div");
+      card.className = "product-card";
+      card.innerHTML = `
+        <img src="${p.image}" alt="${p.name}">
+        <h3>${p.name}</h3>
+        <p>${p.description}</p>
+        <div class="price">${p.price}</div>
+        <button class="buy-now" onclick="openPopup(${products.indexOf(p)})">Buy Now</button>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  showProducts("All");
+
+  // Popup setup
+  window.openPopup = idx => {
+    const p = products[idx];
+    document.getElementById("popup-title").textContent = p.name;
+    document.getElementById("popup-description").innerHTML = p.longDescription || p.description;
+    document.getElementById("popup-images").innerHTML =
+      [p.image, ...(p.extraImages || [])].map(u => `<img src="${u}">`).join("");
+    document.getElementById("popup").style.display = "flex";
+
+    document.getElementById("popup-buy").onclick = () => {
+      localStorage.setItem("selectedProduct", JSON.stringify(p));
+      window.location.href = "buy.html";
+    };
+  };
+
+  document.getElementById("popup-close").onclick = () => {
+    document.getElementById("popup").style.display = "none";
+  };
 });
-
-function buyNow(name, price) {
-  const formHtml = `
-    <div style="padding: 20px;">
-      <h2>Delivery Address</h2>
-      <input placeholder="Name" id="name"><br><br>
-      <textarea placeholder="Address" id="address"></textarea><br><br>
-      <input placeholder="House/Shop No." id="house"><br><br>
-      <input placeholder="Landmark" id="landmark"><br><br>
-      <input placeholder="City" id="city"><br><br>
-      <input placeholder="District" id="district"><br><br>
-      <input placeholder="State" id="state"><br><br>
-      <input placeholder="Pincode" id="pincode"><br><br>
-      <input placeholder="Phone" id="phone"><br><br>
-      <p><b>Pay ₹${price} to UPI: <span style="color:green">hixzam313@okaxis</span></b></p>
-      <button onclick='sendWhatsApp("${name}", "${price}")'>I Have Paid</button>
-    </div>
-  `;
-  document.body.innerHTML = formHtml;
-}
-
-function sendWhatsApp(product, price) {
-  const name = document.getElementById("name").value;
-  const address = document.getElementById("address").value;
-  const house = document.getElementById("house").value;
-  const landmark = document.getElementById("landmark").value;
-  const city = document.getElementById("city").value;
-  const district = document.getElementById("district").value;
-  const state = document.getElementById("state").value;
-  const pincode = document.getElementById("pincode").value;
-  const phone = document.getElementById("phone").value;
-
-  const fullAddress = `Name: ${name}%0AAddress: ${address}%0AHouse/Shop No: ${house}%0ALandmark: ${landmark}%0ACity: ${city}%0ADistrict: ${district}%0AState: ${state}%0APincode: ${pincode}%0APhone: ${phone}`;
-  const msg = `Hi, I have paid for *${product}* (₹${price}).%0A%0A${fullAddress}`;
-
-  window.location.href = `https://wa.me/919744340057?text=${msg}`;
-}
