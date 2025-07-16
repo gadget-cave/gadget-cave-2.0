@@ -5,100 +5,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Buy Product</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    .form-container {
-      max-width: 500px;
-      margin: 30px auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    }
-    .form-container h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .form-group {
-      margin-bottom: 15px;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #aaa;
-      border-radius: 4px;
-    }
-    #finishBtn {
-      background: #007bff;
-      color: white;
-      width: 100%;
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-      margin-top: 15px;
-      cursor: pointer;
-    }
-    .product-preview {
-      text-align: center;
-      margin-bottom: 15px;
-    }
-    .product-preview img {
-      width: 80%;
-      border-radius: 6px;
-    }
-  </style>
 </head>
 <body>
-  <div class="form-container">
+  <main style="padding: 20px; max-width: 500px; margin: auto;">
     <h2>Delivery Address</h2>
-    <div class="product-preview" id="preview"></div>
-    <form id="addressForm">
-      <div class="form-group"><input type="text" placeholder="Name" required id="name"></div>
-      <div class="form-group"><input type="text" placeholder="Address" required id="address"></div>
-      <div class="form-group"><input type="text" placeholder="House no./Shop no." id="house"></div>
-      <div class="form-group"><input type="text" placeholder="Landmark" id="landmark"></div>
-      <div class="form-group"><input type="text" placeholder="City" required id="city"></div>
-      <div class="form-group"><input type="text" placeholder="District" required id="district"></div>
-      <div class="form-group"><input type="text" placeholder="State" required id="state"></div>
-      <div class="form-group"><input type="text" placeholder="Pincode" required id="pincode"></div>
-      <div class="form-group"><input type="text" placeholder="Phone" required id="phone"></div>
-      <button type="submit" id="finishBtn">Proceed to Payment</button>
+    <form id="buyForm">
+      <input type="text" id="name" placeholder="Name" required><br>
+      <input type="text" id="address" placeholder="Address" required><br>
+      <input type="text" id="house" placeholder="House No (optional)"><br>
+      <input type="text" id="landmark" placeholder="Landmark (optional)"><br>
+      <input type="text" id="city" placeholder="City" required><br>
+      <input type="text" id="district" placeholder="District" required><br>
+      <input type="text" id="state" placeholder="State" required><br>
+      <input type="number" id="pincode" placeholder="Pincode" required><br>
+      <input type="tel" id="phone" placeholder="Phone Number" required><br>
+      <button type="submit">Next</button>
     </form>
-  </div>
+
+    <div id="payment" style="display:none; margin-top: 20px;">
+      <h3>Pay ₹<span id="priceDisplay"></span> to UPI ID:</h3>
+      <p><strong>hixzam313@okaxis</strong></p>
+      <button onclick="goToWhatsApp()">Confirm on WhatsApp</button>
+    </div>
+  </main>
 
   <script>
-    const data = JSON.parse(localStorage.getItem("buyProduct"));
-    document.getElementById("preview").innerHTML = `
-      <h3>${data.name}</h3>
-      <img src="${data.image}" alt="${data.name}">
-      <p><strong>Amount:</strong> ₹${data.price}</p>
-    `;
+    const productName = sessionStorage.getItem('productName');
+    const productPrice = sessionStorage.getItem('productPrice');
 
-    document.getElementById("addressForm").addEventListener("submit", function(e) {
+    document.getElementById('buyForm').addEventListener('submit', function (e) {
       e.preventDefault();
-
-      const msg = `
-📦 *New Order from Gadget Cave* 📦
-
-*Product:* ${data.name}
-*Price:* ₹${data.price}
-*Image:* ${data.image}
-
-*Name:* ${name.value}
-*Address:* ${address.value}
-*House No:* ${house.value}
-*Landmark:* ${landmark.value}
-*City:* ${city.value}
-*District:* ${district.value}
-*State:* ${state.value}
-*Pincode:* ${pincode.value}
-*Phone:* ${phone.value}
-`;
-
-      alert("Please pay ₹" + data.price + " to UPI: hixzam313@okaxis\nThen click OK to confirm.");
-
-      const whatsappURL = `https://wa.me/919744340057?text=${encodeURIComponent(msg)}`;
-      window.location.href = whatsappURL;
+      document.getElementById('priceDisplay').textContent = productPrice;
+      document.getElementById('payment').style.display = 'block';
     });
+
+    function goToWhatsApp() {
+      const name = document.getElementById('name').value;
+      const address = document.getElementById('address').value;
+      const house = document.getElementById('house').value;
+      const landmark = document.getElementById('landmark').value;
+      const city = document.getElementById('city').value;
+      const district = document.getElementById('district').value;
+      const state = document.getElementById('state').value;
+      const pincode = document.getElementById('pincode').value;
+      const phone = document.getElementById('phone').value;
+
+      const fullAddress = `${address}, ${house}, ${landmark}, ${city}, ${district}, ${state}, ${pincode}, Phone: ${phone}`;
+      const message = `Hi, I have paid ₹${productPrice} for ${productName}. My delivery address is:\n${name},\n${fullAddress}`;
+      window.location.href = `https://wa.me/919744340057?text=${encodeURIComponent(message)}`;
+    }
   </script>
 </body>
 </html>
