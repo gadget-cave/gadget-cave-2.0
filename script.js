@@ -1,66 +1,41 @@
-// Load and render products
-const productContainer = document.getElementById("productContainer");
-const categoryTabs = document.getElementById("categoryTabs");
-const searchInput = document.getElementById("search-bar");
-
-// Load products by default
-let currentCategory = "All";
-
-// Render products to screen
-function renderProducts(category = "All", keyword = "") {
-  productContainer.innerHTML = "";
-
-  let filtered = products.filter(product => {
-    const matchCategory = category === "All" || product.category === category;
-    const matchSearch = product.name.toLowerCase().includes(keyword.toLowerCase());
-    return matchCategory && matchSearch;
-  });
-
-  if (filtered.length === 0) {
-    productContainer.innerHTML = "<p>No products found.</p>";
-    return;
+// Search functionality
+document.addEventListener("DOMContentLoaded", function () {
+  const searchBar = document.getElementById("searchBar");
+  if (searchBar) {
+    searchBar.addEventListener("input", function () {
+      const searchValue = this.value.toLowerCase();
+      const products = document.querySelectorAll(".product");
+      products.forEach((product) => {
+        const name = product.querySelector("h3").textContent.toLowerCase();
+        product.style.display = name.includes(searchValue) ? "block" : "none";
+      });
+    });
   }
 
-  filtered.forEach(product => {
-    const box = document.createElement("div");
-    box.className = "product";
-    box.innerHTML = `
-      <img src="${product.image}" alt="${product.name}">
-      <h2>${product.name}</h2>
-      <p>${product.description}</p>
-      <strong>${product.price}</strong>
-      <button class="buy-now-btn">Buy Now</button>
-    `;
-    box.querySelector(".buy-now-btn").onclick = () => {
-      localStorage.setItem("selectedProduct", JSON.stringify(product));
-      window.location.href = "buy.html";
-    };
-    productContainer.appendChild(box);
-  });
-}
+  const form = document.getElementById("addressForm");
+  if (form) {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
 
-// Create category tabs
-function renderCategories() {
-  const categories = ["All", ...new Set(products.map(p => p.category))];
-  categories.forEach(category => {
-    const btn = document.createElement("button");
-    btn.textContent = category;
-    btn.className = "category-btn";
-    if (category === currentCategory) btn.classList.add("active");
-    btn.onclick = () => {
-      currentCategory = category;
-      document.querySelectorAll(".category-btn").forEach(btn => btn.classList.remove("active"));
-      btn.classList.add("active");
-      renderProducts(currentCategory, searchInput.value);
-    };
-    categoryTabs.appendChild(btn);
-  });
-}
+      const params = new URLSearchParams(window.location.search);
+      const name = params.get("name");
+      const price = params.get("price");
+      const image2 = params.get("image2");
 
-searchInput?.addEventListener("input", () => {
-  renderProducts(currentCategory, searchInput.value);
+      const address = `
+Name: ${document.getElementById("name").value}
+Address: ${document.getElementById("address").value}, House: ${document.getElementById("house").value}
+Landmark: ${document.getElementById("landmark").value}, City: ${document.getElementById("city").value}
+District: ${document.getElementById("district").value}, State: ${document.getElementById("state").value}
+Pincode: ${document.getElementById("pincode").value}
+Phone: ${document.getElementById("phone").value}
+Product: ${name} - ₹${price}
+Image: ${image2}
+Payment Done to: hixzam313@okaxis`;
+
+      const encodedMsg = encodeURIComponent(address);
+      const waLink = `https://wa.me/919744340057?text=${encodedMsg}`;
+      window.location.href = waLink;
+    });
+  }
 });
-
-// Initialize
-renderCategories();
-renderProducts();
