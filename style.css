@@ -185,3 +185,57 @@ footer {
     width: 90%;
   }
 }
+
+/* Big attractive Buy Now button */
+.buy-btn {
+  background-color: #28a745;
+  color: white;
+  font-size: 1.2em;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.buy-btn:hover {
+  background-color: #218838;
+}
+
+/* Delivery form styling */
+.buy-container {
+  max-width: 480px;
+  margin: auto;
+  padding: 20px;
+  background-color: #e6ffed;
+  border-radius: 8px;
+  box-shadow: 0 0 12px rgba(0,128,0,0.1);
+}
+.buy-container h2 {
+  margin-bottom: 16px;
+}
+.buy-container label {
+  display: block;
+  margin-top: 12px;
+}
+.buy-container input,
+.buy-container textarea,
+.buy-container select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 4px;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.buy-container textarea {
+  resize: vertical;
+}
+
+/* Continue button */
+.buy-container button {
+  margin-top: 20px;
+  width: 100%;
+}
+
+
+
