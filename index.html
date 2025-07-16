@@ -1,23 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Gadget Cave</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="header">
-    <div class="logo-area">
-      <img src="logo.png" alt="Logo" class="logo">
+  <header>
+    <div class="container">
+      <img src="logo.png" alt="Logo" class="logo" />
       <h1>Gadget Cave</h1>
+      <input type="text" id="searchInput" placeholder="Search products..." />
     </div>
-    <input type="text" id="searchInput" placeholder="Search products...">
   </header>
 
-  <main id="productContainer"></main>
+  <main>
+    <div id="product-container" class="product-container"></div>
+  </main>
 
-  <script src="products.js"></script>
+  <footer>
+    <p>Managed by Hisham Kannur</p>
+  </footer>
+
+  <script src="product.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
