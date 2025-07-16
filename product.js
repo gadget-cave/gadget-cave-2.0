@@ -55,14 +55,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const pageNumbers = document.getElementById("page-numbers");
   const cartCount = document.getElementById("cart-count");
 
-  // Check for DOM elements
+  // Validate DOM elements
   if (!container || !searchBar || !popup || !popupClose || !popupTitle || !popupImages || !popupDescription || !popupPrice || !popupWhatsApp || !categoryFilters || !priceMin || !priceMax || !priceMinValue || !priceMaxValue || !ratingFilter || !ratingValue || !prevPage || !nextPage || !pageNumbers || !cartCount) {
-    console.error("DOM initialization failed. Missing elements:", { container, searchBar, popup, popupClose, popupTitle, popupImages, popupDescription, popupPrice, popupWhatsApp, categoryFilters, priceMin, priceMax, priceMinValue, priceMaxValue, ratingFilter, ratingValue, prevPage, nextPage, pageNumbers, cartCount });
-    container.innerHTML = "<p>Error: Page failed to load. Check console.</p>";
+    console.error("DOM initialization error: Missing elements:", { container, searchBar, popup, popupClose, popupTitle, popupImages, popupDescription, popupPrice, popupWhatsApp, categoryFilters, priceMin, priceMax, priceMinValue, priceMaxValue, ratingFilter, ratingValue, prevPage, nextPage, pageNumbers, cartCount });
+    container.innerHTML = "<p>Error loading page. Check console for details.</p>";
     return;
   }
 
-  console.log("Gadget Cave DOM loaded successfully.");
+  console.log("Gadget Cave initialized successfully.");
 
   // Display products
   function displayProducts(productsToShow) {
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const paginatedProducts = productsToShow.slice(start, end);
 
     if (paginatedProducts.length === 0) {
-      container.innerHTML = "<p>No products found. Adjust filters or search.</p>";
+      container.innerHTML = "<p>No products found. Try different filters.</p>";
       return;
     }
 
@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <h2>${product.name}</h2>
         <p>${product.description || "No description"}</p>
         <strong>${product.price}</strong>
-        <p class="rating">${'★'.repeat(Math.floor(product.rating))}</p>
+        <p class="rating">${"★".repeat(Math.floor(product.rating))}</p>
         <a href="https://wa.me/919744340057?text=I'm%20interested%20in%20${encodeURIComponent(product.name)}" target="_blank">
           <button class="whatsapp-btn">Order</button>
         </a>
@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
           imgEl.onerror = () => { imgEl.src = "https://via.placeholder.com/150"; console.log(`Popup image failed for ${img}`); };
           popupImages.appendChild(imgEl);
         });
-        popupDescription.textContent = product.description || product.longDescription || "No details";
+        popupDescription.textContent = product.description || "No details available";
         popupPrice.textContent = product.price;
         popupWhatsApp.href = `https://wa.me/919744340057?text=I'm%20interested%20in%20${encodeURIComponent(product.name)}`;
         popup.style.display = "flex";
@@ -155,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     currentPage = 1;
     displayProducts(filtered);
-    console.log(`Filtered to ${filtered.length} products, page ${currentPage}`);
+    console.log(`Displayed ${filtered.length} products on page ${currentPage}`);
   }
 
   // Event listeners
@@ -184,9 +184,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Initialize range values
-  priceMinValue.textContent = `₹${priceMin.value}`;
-  priceMaxValue.textContent = `₹${priceMax.value}`;
-  ratingValue.textContent = ratingFilter.value;
+  priceMin.addEventListener("input", () => priceMinValue.textContent = `₹${priceMin.value}`);
+  priceMax.addEventListener("input", () => priceMaxValue.textContent = `₹${priceMax.value}`);
+  ratingFilter.addEventListener("input", () => ratingValue.textContent = ratingFilter.value);
 
   // Initial load
   console.log("Loading all products...");
