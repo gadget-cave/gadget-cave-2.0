@@ -1,58 +1,74 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const container = document.getElementById('product-container');
+document.addEventListener("DOMContentLoaded", function () {
+  const container = document.getElementById("productContainer");
+  const searchInput = document.getElementById("searchInput");
 
-  function displayProducts(productsToShow) {
-    container.innerHTML = '';
+  function renderProducts(filter = "") {
+    container.innerHTML = "";
+    for (const category in products) {
+      const filtered = products[category].filter(product =>
+        product.name.toLowerCase().includes(filter.toLowerCase())
+      );
+      if (filtered.length > 0) {
+        const title = document.createElement("h2");
+        title.className = "category-title";
+        title.innerText = category;
+        container.appendChild(title);
 
-    for (let category in productsToShow) {
-      const section = document.createElement('div');
-      section.className = 'category';
-
-      const title = document.createElement('h2');
-      title.textContent = category;
-      section.appendChild(title);
-
-      const grid = document.createElement('div');
-      grid.className = 'product-grid';
-
-      productsToShow[category].forEach(product => {
-        const box = document.createElement('div');
-        box.className = 'product';
-
-        box.innerHTML = `
-          <img src="${product.image}" alt="${product.name}">
-          <h3>${product.name}</h3>
-          <p>₹${product.price}</p>
-          <button onclick="buyProduct('${product.name}', ${product.price})">Buy Now</button>
-        `;
-
-        grid.appendChild(box);
-      });
-
-      section.appendChild(grid);
-      container.appendChild(section);
+        filtered.forEach(product => {
+          const div = document.createElement("div");
+          div.className = "product";
+          div.innerHTML = `
+            <img src="${product.image}" alt="${product.name}">
+            <h3>${product.name}</h3>
+            <p>${product.price}</p>
+            <button onclick='buyNow("${product.name}", "${product.price}")'>Buy Now</button>
+          `;
+          container.appendChild(div);
+        });
+      }
     }
   }
 
-  displayProducts(products);
-
-  document.getElementById('searchBar').addEventListener('input', e => {
-    const query = e.target.value.toLowerCase();
-    const filtered = {};
-
-    for (let category in products) {
-      const filteredItems = products[category].filter(p =>
-        p.name.toLowerCase().includes(query)
-      );
-      if (filteredItems.length > 0) filtered[category] = filteredItems;
-    }
-
-    displayProducts(filtered);
+  searchInput.addEventListener("input", () => {
+    renderProducts(searchInput.value);
   });
+
+  renderProducts();
 });
 
-function buyProduct(name, price) {
-  sessionStorage.setItem('productName', name);
-  sessionStorage.setItem('productPrice', price);
-  window.location.href = 'buy.html';
+function buyNow(name, price) {
+  const formHtml = `
+    <div style="padding: 20px;">
+      <h2>Delivery Address</h2>
+      <input placeholder="Name" id="name"><br><br>
+      <textarea placeholder="Address" id="address"></textarea><br><br>
+      <input placeholder="House/Shop No." id="house"><br><br>
+      <input placeholder="Landmark" id="landmark"><br><br>
+      <input placeholder="City" id="city"><br><br>
+      <input placeholder="District" id="district"><br><br>
+      <input placeholder="State" id="state"><br><br>
+      <input placeholder="Pincode" id="pincode"><br><br>
+      <input placeholder="Phone" id="phone"><br><br>
+      <p><b>Pay ₹${price} to UPI: <span style="color:green">hixzam313@okaxis</span></b></p>
+      <button onclick='sendWhatsApp("${name}", "${price}")'>I Have Paid</button>
+    </div>
+  `;
+  document.body.innerHTML = formHtml;
+}
+
+function sendWhatsApp(product, price) {
+  const name = document.getElementById("name").value;
+  const address = document.getElementById("address").value;
+  const house = document.getElementById("house").value;
+  const landmark = document.getElementById("landmark").value;
+  const city = document.getElementById("city").value;
+  const district = document.getElementById("district").value;
+  const state = document.getElementById("state").value;
+  const pincode = document.getElementById("pincode").value;
+  const phone = document.getElementById("phone").value;
+
+  const fullAddress = `Name: ${name}%0AAddress: ${address}%0AHouse/Shop No: ${house}%0ALandmark: ${landmark}%0ACity: ${city}%0ADistrict: ${district}%0AState: ${state}%0APincode: ${pincode}%0APhone: ${phone}`;
+  const msg = `Hi, I have paid for *${product}* (₹${price}).%0A%0A${fullAddress}`;
+
+  window.location.href = `https://wa.me/919744340057?text=${msg}`;
 }
