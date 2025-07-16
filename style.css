@@ -1,81 +1,107 @@
-body {
+* {
+  box-sizing: border-box;
   margin: 0;
+  padding: 0;
   font-family: Arial, sans-serif;
-  background-color: #f5f5f5;
 }
 
-.header {
+body {
+  background-color: #f7f7f7;
+  padding: 10px;
+}
+
+header {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
-  background-color: #111;
+  background-color: #20232a;
   color: white;
-  flex-wrap: wrap;
+  padding: 15px;
+  border-radius: 10px;
 }
 
-.logo-section {
+.logo-title {
   display: flex;
   align-items: center;
-  gap: 10px;
 }
 
 .logo {
   height: 50px;
+  margin-right: 10px;
 }
 
-#searchInput {
-  padding: 8px;
-  font-size: 16px;
-  width: 250px;
-  max-width: 90%;
-  border-radius: 4px;
+#searchBar {
+  padding: 10px;
+  width: 100%;
+  max-width: 300px;
+  margin-top: 10px;
+  border-radius: 5px;
   border: none;
 }
 
-main {
-  padding: 10px;
+#categoryContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.category-box {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  margin: 5px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+#productContainer {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 15px;
+  gap: 20px;
 }
 
 .product-card {
   background: white;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.2);
+  overflow: hidden;
   padding: 10px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: 0.3s;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
 }
 
 .product-card img {
-  max-width: 100%;
-  border-radius: 6px;
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
 }
 
 .product-card h3 {
-  margin: 8px 0 5px;
+  margin: 10px 0 5px;
 }
 
 .product-card p {
-  font-size: 14px;
+  font-size: 13px;
   color: #555;
 }
 
 .buy-btn {
+  display: inline-block;
   margin-top: 10px;
   background-color: #28a745;
-  border: none;
   color: white;
-  padding: 8px;
+  padding: 10px;
   width: 100%;
+  border: none;
   border-radius: 5px;
-  cursor: pointer;
-}
-
-footer {
   text-align: center;
-  padding: 15px;
-  background-color: #222;
-  color: white;
-  margin-top: 20px;
+  cursor: pointer;
+  font-weight: bold;
 }
