@@ -1,37 +1,57 @@
-function displayProducts(productsToShow) {
-  const container = document.getElementById('productContainer');
-  container.innerHTML = '';
-  productsToShow.forEach(product => {
-    const box = document.createElement('div');
-    box.className = 'product-box';
-    box.innerHTML = `
-      <img src="${product.image}" alt="${product.name}">
-      <h3>${product.name}</h3>
-      <p>${product.description}</p>
-      <p class="price">${product.price}</p>
-      <button class="buy-btn" onclick="buyNow('${product.name}', '${product.price}')">Buy Now</button>
-    `;
-    container.appendChild(box);
+// Render categories and products
+document.addEventListener("DOMContentLoaded", () => {
+  const container = document.getElementById("productContainer");
+  const catArea = document.getElementById("categoryButtons");
+  const allCats = ["All", ...new Set(products.map(p => p.category))];
+
+  // Populate category buttons
+  allCats.forEach(cat => {
+    const btn = document.createElement("button");
+    btn.textContent = cat;
+    btn.onclick = () => {
+      document.querySelectorAll('#categoryButtons button').forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      showProducts(cat);
+    };
+    if (cat === "All") btn.classList.add("active");
+    catArea.appendChild(btn);
   });
-}
 
-function searchProducts() {
-  const search = document.getElementById("searchInput").value.toLowerCase();
-  const results = products.filter(p => p.name.toLowerCase().includes(search));
-  displayProducts(results);
-}
-
-function filterProducts(category) {
-  if (category === "All") {
-    displayProducts(products);
-  } else {
-    const filtered = products.filter(p => p.category === category);
-    displayProducts(filtered);
+  function showProducts(cat) {
+    container.innerHTML = "";
+    const list = cat === "All" ? products : products.filter(p => p.category === cat);
+    list.forEach(p => {
+      const card = document.createElement("div");
+      card.className = "product-card";
+      card.innerHTML = `
+        <img src="${p.image}" alt="${p.name}">
+        <h3>${p.name}</h3>
+        <p>${p.description}</p>
+        <div class="price">${p.price}</div>
+        <button class="buy-now" onclick="openPopup(${products.indexOf(p)})">Buy Now</button>
+      `;
+      container.appendChild(card);
+    });
   }
-}
 
-function buyNow(name, price) {
-  window.location.href = `buy.html?product=${encodeURIComponent(name)}&price=${encodeURIComponent(price)}`;
-}
+  showProducts("All");
 
-window.onload = () => displayProducts(products);
+  // Popup setup
+  window.openPopup = idx => {
+    const p = products[idx];
+    document.getElementById("popup-title").textContent = p.name;
+    document.getElementById("popup-description").innerHTML = p.longDescription || p.description;
+    document.getElementById("popup-images").innerHTML =
+      [p.image, ...(p.extraImages || [])].map(u => `<img src="${u}">`).join("");
+    document.getElementById("popup").style.display = "flex";
+
+    document.getElementById("popup-buy").onclick = () => {
+      localStorage.setItem("selectedProduct", JSON.stringify(p));
+      window.location.href = "buy.html";
+    };
+  };
+
+  document.getElementById("popup-close").onclick = () => {
+    document.getElementById("popup").style.display = "none";
+  };
+});
