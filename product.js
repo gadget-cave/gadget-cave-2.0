@@ -1,21 +1,20 @@
 const products = [
   {
     id: 1,
-    name: "Wireless Earbuds",
-    price: "₹799",
-    description: "Compact earbuds with high-quality audio and long battery life.",
-    image: "https://example.com/earbud1.jpg",
-    extraImage: "https://example.com/earbud1-extra.jpg",
-    category: "Earphones"
+    name: "Boat Rockerz 255 Pro+",
+    category: "Earphones",
+    price: 1299,
+    image: "images/boat255.jpg",
+    extraImage: "images/boat255_2.jpg",
+    description: "Wireless in-ear earphones with IPX7 waterproof rating, ASAP Charge, and 40H playback. Perfect for gym and travel."
   },
   {
     id: 2,
-    name: "Smart Watch Pro",
-    price: "₹1499",
-    description: "Feature-rich smart watch with health tracking and call support.",
-    image: "https://example.com/watch1.jpg",
-    extraImage: "https://example.com/watch1-extra.jpg",
-    category: "Smartwatches"
-  },
-  // Add more products here with same format
+    name: "Noise Pulse Go Buzz",
+    category: "Smartwatches",
+    price: 1499,
+    image: "images/noisebuzz.jpg",
+    extraImage: "images/noisebuzz_2.jpg",
+    description: "Feature-rich smartwatch with SpO2, heart rate monitor, and long battery life. Sleek and stylish design."
+  }
 ];
