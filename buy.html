@@ -1,25 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Buy Product - Gadget Cave</title>
+  <meta charset="UTF-8">
+  <title>Buy Product</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="buy-container">
-    <h2>Enter Delivery Address</h2>
+    <h2>Enter Delivery Details</h2>
     <form id="addressForm">
-      <textarea id="addressInput" placeholder="Enter your full address with PIN code..." required></textarea>
+      <label>Name*</label><input type="text" name="name" required>
+      <label>Address*</label><textarea name="address" required></textarea>
+      <label>House No (Optional)</label><input name="house">
+      <label>Landmark (Optional)</label><input name="landmark">
+      <label>City*</label><input name="city" required>
+      <label>District*</label><input name="district" required>
+      <label>State*</label><input name="state" required>
+      <label>Pincode*</label><input name="pincode" required>
+      <label>Phone Number*</label><input name="phone" required>
       <button type="submit">Continue to Payment</button>
     </form>
 
-    <div id="paymentSection" style="display:none">
-      <h3>Make Payment</h3>
-      <p>Send the amount to this UPI ID:</p>
-      <p><strong>hixzam313@okaxis</strong></p>
-      <p>Once payment is done, click below to confirm and send order details on WhatsApp.</p>
-      <button id="confirmOrderBtn">Send to WhatsApp</button>
+    <div id="paymentSection" style="display:none;">
+      <h3>UPI Payment</h3>
+      <p>Pay to UPI ID: <strong>hixzam313@okaxis</strong></p>
+      <button id="confirmOrderBtn">I have paid</button>
     </div>
   </div>
 
