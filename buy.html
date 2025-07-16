@@ -7,74 +7,41 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="buy-form-container">
-    <h2>Enter Delivery Address</h2>
+  <div class="form-container">
+    <h2>Delivery Address</h2>
     <form id="addressForm">
-      <input type="text" id="name" placeholder="Full Name" required><br>
-      <input type="text" id="address" placeholder="Address" required><br>
-      <input type="text" id="city" placeholder="City" required><br>
-      <input type="text" id="pincode" placeholder="Pincode" required><br>
-      <input type="tel" id="phone" placeholder="Phone Number" required><br>
-      <button type="submit">Pay & Finish</button>
+      <input type="text" placeholder="Name" required><br>
+      <textarea placeholder="Address" required></textarea><br>
+      <input type="text" placeholder="House no./Shop no." /><br>
+      <input type="text" placeholder="Landmark" /><br>
+      <input type="text" placeholder="City" required><br>
+      <input type="text" placeholder="District" required><br>
+      <input type="text" placeholder="State" required><br>
+      <input type="text" placeholder="Pincode" required><br>
+      <input type="text" placeholder="Phone" required><br>
+      <button type="submit">Proceed to Pay</button>
     </form>
-
-    <div id="paymentInstructions" style="display:none;">
-      <p><strong>Pay Now to:</strong> <br>UPI ID: <b>hixzam313@okaxis</b></p>
-      <p>Amount: <span id="productPrice"></span></p>
-    </div>
   </div>
 
   <script>
-    const form = document.getElementById("addressForm");
-    const paymentDiv = document.getElementById("paymentInstructions");
-    const priceSpan = document.getElementById("productPrice");
     const product = JSON.parse(localStorage.getItem("selectedProduct"));
+    const form = document.getElementById("addressForm");
 
-    priceSpan.textContent = product.price;
-
-    form.addEventListener("submit", function (e) {
+    form.onsubmit = (e) => {
       e.preventDefault();
-      paymentDiv.style.display = "block";
+      const data = [...form.elements].map(input => input.value);
+      const address = `Name: ${data[0]}\nAddress: ${data[1]}\nHouse/Shop No: ${data[2]}\nLandmark: ${data[3]}\nCity: ${data[4]}\nDistrict: ${data[5]}\nState: ${data[6]}\nPincode: ${data[7]}\nPhone: ${data[8]}`;
 
-      const name = document.getElementById("name").value;
-      const address = document.getElementById("address").value;
-      const city = document.getElementById("city").value;
-      const pincode = document.getElementById("pincode").value;
-      const phone = document.getElementById("phone").value;
-
-      const fullAddress = `Name: ${name}, Address: ${address}, City: ${city}, Pincode: ${pincode}, Phone: ${phone}`;
-      const whatsappMessage = `Product: ${product.name}%0AAmount: ${product.price}%0AAddress: ${fullAddress}%0AImage: ${product.image}%0AOrder Confirmed.`;
+      const upiUrl = `upi://pay?pa=hixzam313@okaxis&pn=GadgetCave&am=${product.price}&cu=INR&tn=Payment for ${product.name}`;
+      window.location.href = upiUrl;
 
       setTimeout(() => {
-        window.open(`https://wa.me/919744340057?text=${whatsappMessage}`, "_blank");
-      }, 1000);
-    });
+        const msg = `*Order Placed*\n\n*Product:* ${product.name}\n*Amount:* ₹${product.price}\n\n*Address:*\n${address}`;
+        const imageLink = product.image;
+        const encoded = encodeURIComponent(`${msg}\n\nImage: ${imageLink}`);
+        window.location.href = `https://wa.me/919744340057?text=${encoded}`;
+      }, 4000);
+    };
   </script>
-
-  <style>
-    .buy-form-container {
-      max-width: 400px;
-      margin: 50px auto;
-      padding: 20px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-
-    .buy-form-container input,
-    .buy-form-container button {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-
-    .buy-form-container button {
-      background: #28a745;
-      color: white;
-      border: none;
-    }
-  </style>
 </body>
 </html>
