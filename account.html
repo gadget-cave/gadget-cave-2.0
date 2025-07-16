@@ -1,16 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>My Account - Gadget Cave</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Account - Gadget Cave</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header><h1>My Orders</h1></header>
-  <main class="account-section">
-    <div id="order-history"></div>
-    <a href="index.html" class="back-btn">← Back to Home</a>
-  </main>
-  <script src="script.js"></script>
+  <header>
+    <h1>Your Account</h1>
+    <a href="index.html" style="text-decoration: none; display:block; text-align:center; margin-top:10px;">← Back to Home</a>
+  </header>
+
+  <div class="account-container">
+    <h3>Purchased Products</h3>
+    <ul id="purchaseList"></ul>
+  </div>
+
+  <script>
+    const list = document.getElementById("purchaseList");
+    const order = JSON.parse(localStorage.getItem("order"));
+
+    if (order) {
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <strong>${order.name}</strong> - ${order.price}<br>
+        <img src="${order.image}" alt="${order.name}" style="width:100px;margin-top:5px;">
+      `;
+      list.appendChild(li);
+    } else {
+      list.innerHTML = "<li>No orders found.</li>";
+    }
+  </script>
+
+  <style>
+    .account-container {
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    ul li {
+      background: #fff;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      box-shadow: 0 0 5px #ccc;
+    }
+  </style>
 </body>
 </html>
