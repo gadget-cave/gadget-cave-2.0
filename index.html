@@ -2,40 +2,35 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gadget Cave - Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gadget Cave</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
   <header>
     <div class="top-bar">
       <img src="https://i.ibb.co/FbsdpgK3/gadged-cave-3.png" alt="Logo" class="logo" />
       <h1>Gadget Cave</h1>
     </div>
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="account.html">Account</a>
-      <a href="login.html" id="loginBtn">Login</a>
-    </div>
     <input type="text" id="search-bar" placeholder="Search products..." />
-    <div id="category-filter"></div>
   </header>
 
-  <main>
-    <div id="product-list"></div>
-  </main>
+  <div id="category-filter"></div>
+  <div id="product-list"></div>
 
   <footer>
-    <p> Gadget Cave :- 🚚 All Kerala Delivery Available 🚚 <br> </p>
+    <p>Gadget Cave :- 🚚 All Kerala Delivery Available 🚚</p>
   </footer>
 
+  <!-- Popup -->
   <div id="popup" class="popup-overlay">
     <div class="popup-content">
       <button id="popup-close" class="popup-close">&times;</button>
       <h2 id="popup-title"></h2>
       <div id="popup-images"></div>
       <p id="popup-description"></p>
-      <button id="buyNowBtn">Buy Now</button>
+      <button id="buy-now-btn" class="buy-btn">Buy Now</button>
     </div>
   </div>
 
