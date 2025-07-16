@@ -1,1 +1,108 @@
+/* Tailwind CSS directives (for local build, run via PostCSS or use CDN in index.html) */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+/* Base styles from original style.css */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+}
+
+/* Header */
+header {
+  @apply bg-white shadow p-4;
+}
+
+.top-bar {
+  @apply flex items-center justify-between flex-wrap gap-4;
+}
+
+.logo {
+  @apply h-20 w-auto;
+}
+
+h1 {
+  @apply text-2xl font-bold text-gray-800;
+}
+
+#search-bar {
+  @apply border rounded-lg p-2 w-full max-w-md;
+}
+
+/* Product list */
+#product-list {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4;
+}
+
+.product {
+  @apply bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow duration-300 cursor-pointer flex flex-col justify-between;
+}
+
+.product img {
+  @apply w-full h-40 object-contain mb-4;
+}
+
+.product h2 {
+  @apply text-lg font-semibold;
+}
+
+.product p {
+  @apply text-gray-600 text-sm;
+}
+
+.product strong {
+  @apply text-gray-800 font-bold;
+}
+
+.whatsapp-btn {
+  @apply bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mt-2;
+}
+
+.cart-btn {
+  @apply bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mt-2;
+}
+
+/* Sidebar */
+aside {
+  @apply w-full md:w-1/4 p-4 bg-white rounded-lg shadow;
+}
+
+/* Pagination */
+.pagination {
+  @apply flexed justify-center mt-6 gap-2;
+}
+
+/* Popup */
+.popup-overlay {
+  @apply fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50;
+}
+
+.popup-content {
+  @apply bg-white rounded-lg p-6 max-w-[90%] max-h-[90%] overflow-y-auto relative;
+}
+
+.popup-close {
+  @apply absolute top-2 right-4 text-2xl font-bold cursor-pointer;
+}
+
+.popup-content img {
+  @apply w-full max-h-60 object-contain rounded leaf: rounded;
+}
+
+.popup-description {
+  @apply text-gray-800 mt-4;
+}
+
+/* Footer */
+footer {
+  @apply bg-black text-white text-center p-4;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .popup-content {
+    @apply max-w-[95%] max-h-[95%] p-4;
+  }
+}
