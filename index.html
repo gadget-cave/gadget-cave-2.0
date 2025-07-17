@@ -1,3 +1,4 @@
+<!-- Updated index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,12 +8,14 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <!-- Header: Logo + Title -->
+  <!-- Header with logo, title, and search bar -->
   <header>
     <div class="header-inner">
       <img src="https://i.ibb.co/FbsdpgK3/gadged-cave-3.png" alt="Gadget Cave Logo" class="logo" />
       <span class="site-title">Gadget Cave</span>
+    </div>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search products...">
     </div>
   </header>
 
@@ -29,6 +32,7 @@
       <h2 id="popup-title"></h2>
       <div id="popup-images"></div>
       <p id="popup-description"></p>
+      <p id="popup-price" class="price"></p>
       <button id="popup-buy" class="buy-now">Buy Now</button>
     </div>
   </div>
