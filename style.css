@@ -2,218 +2,103 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Segoe UI", sans-serif;
+  font-family: 'Segoe UI', sans-serif;
 }
 
 body {
-  background-color: #f4f4f4;
-  color: #222;
-  line-height: 1.6;
+  background: #f4f4f4;
+  color: #333;
+  padding: 10px;
 }
 
 header {
-  background-color: #111;
-  color: #fff;
-  padding: 15px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  background: #222;
+  color: white;
+  padding: 15px;
+  text-align: center;
 }
 
-header img {
-  height: 50px;
-  margin-right: 15px;
-}
-
-header h1 {
-  font-size: 24px;
-}
-
-.search-bar {
-  flex: 1;
+header input {
+  margin-top: 10px;
+  padding: 10px;
+  width: 90%;
   max-width: 400px;
-  margin-left: 20px;
-}
-
-.search-bar input {
-  width: 100%;
-  padding: 8px 12px;
-  border: none;
   border-radius: 5px;
+  border: none;
 }
 
-.container {
-  padding: 20px;
+main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
 }
 
 .category {
-  margin-bottom: 40px;
-}
-
-.category h2 {
-  font-size: 22px;
-  margin-bottom: 10px;
-  color: #333;
-  border-bottom: 2px solid #ccc;
-  padding-bottom: 5px;
-}
-
-.products {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-}
-
-.product {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  width: calc(50% - 10px);
-  padding: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease;
-}
-
-.product:hover {
-  transform: scale(1.02);
-}
-
-.product img {
   width: 100%;
-  height: auto;
+  padding: 10px 0;
+  text-align: left;
+  font-size: 1.5rem;
+  color: #111;
+  border-bottom: 1px solid #ccc;
+}
+
+.product-card {
+  background: white;
+  width: 280px;
   border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
 }
 
-.product h3 {
+.product-card:hover {
+  transform: scale(1.03);
+}
+
+.product-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.product-info {
+  padding: 10px;
+}
+
+.product-info h3 {
   font-size: 18px;
-  margin: 10px 0 5px;
+  margin-bottom: 5px;
 }
 
-.product p {
+.product-info p {
   font-size: 14px;
   color: #555;
+  margin-bottom: 5px;
 }
 
 .buy-btn {
-  margin-top: 10px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 6px;
-  cursor: pointer;
+  display: block;
   width: 100%;
+  background: #00b894;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  text-decoration: none;
   font-weight: bold;
-  font-size: 14px;
+  border-top: 1px solid #eee;
+  transition: background 0.3s;
 }
 
 .buy-btn:hover {
-  background-color: #218838;
-}
-
-form {
-  background-color: #fff;
-  padding: 20px;
-  margin: 20px auto;
-  max-width: 600px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-
-form input,
-form textarea,
-form select {
-  width: 100%;
-  padding: 10px;
-  margin: 8px 0;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-}
-
-form button {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  width: 100%;
-  font-size: 15px;
-}
-
-form button:hover {
-  background-color: #0056b3;
+  background: #019174;
 }
 
 footer {
   text-align: center;
-  padding: 20px;
-  background-color: #111;
+  padding: 15px;
+  background: #222;
   color: white;
   margin-top: 30px;
-}
-
-.login-box,
-.register-box,
-.account-box {
-  max-width: 400px;
-  margin: 40px auto;
-  background: #fff;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 0 12px rgba(0,0,0,0.15);
-}
-
-.login-box h2,
-.register-box h2,
-.account-box h2 {
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.login-box input,
-.register-box input {
-  margin-bottom: 15px;
-  padding: 10px;
-  width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-}
-
-.login-box button,
-.register-box button {
-  background: #28a745;
-  color: white;
-  padding: 10px;
-  width: 100%;
-  border: none;
-  border-radius: 6px;
-  font-weight: bold;
-  font-size: 15px;
-}
-
-@media (min-width: 768px) {
-  .product {
-    width: calc(25% - 15px);
-  }
-
-  .search-bar {
-    margin-left: 40px;
-  }
-}
-
-@media (max-width: 480px) {
-  header h1 {
-    font-size: 18px;
-  }
-
-  .product {
-    width: 100%;
-  }
-
-  form {
-    margin: 10px;
-    padding: 15px;
-  }
 }
