@@ -1,47 +1,34 @@
 const products = [
   {
-    category: "Earphones",
-    items: [
-      {
-        name: "Sony Extra Bass",
-        price: "₹699",
-        img: "https://i.ibb.co/TWjRCqh/ear1.jpg",
-        description: "Deep bass, tangle-free cable, great for music lovers.",
-      },
-      {
-        name: "boAt Bassheads",
-        price: "₹499",
-        img: "https://i.ibb.co/ZV5n60R/ear2.jpg",
-        description: "Premium sound with inline mic, durable wire.",
-      }
-    ]
+    id: 1,
+    name: "Wireless Earbuds",
+    price: 699,
+    image: "https://i.imgur.com/s9QOeKB.png",
+    description: "Bluetooth 5.0 | 24hr Battery | Hi-Fi Sound",
+    category: "Earphones"
   },
   {
-    category: "Smartwatches",
-    items: [
-      {
-        name: "Fire-Boltt Ninja",
-        price: "₹1299",
-        img: "https://i.ibb.co/zPNCFzj/watch1.jpg",
-        description: "1.3-inch display, fitness tracking, notifications.",
-      },
-      {
-        name: "Noise ColorFit",
-        price: "₹1499",
-        img: "https://i.ibb.co/d4tPcst/watch2.jpg",
-        description: "Heart rate monitor, IP68 waterproof.",
-      }
-    ]
+    id: 2,
+    name: "Smart Watch",
+    price: 1199,
+    image: "https://i.imgur.com/OH0o2Lb.png",
+    description: "Touchscreen | Fitness Tracker | Waterproof",
+    category: "Smartwatch"
   },
   {
-    category: "Speakers",
-    items: [
-      {
-        name: "JBL GO 2",
-        price: "₹1999",
-        img: "https://i.ibb.co/Gcsk2MP/speaker1.jpg",
-        description: "Portable, waterproof Bluetooth speaker with punchy bass.",
-      }
-    ]
+    id: 3,
+    name: "Mini Speaker",
+    price: 499,
+    image: "https://i.imgur.com/JVL3Ah5.png",
+    description: "Portable | Bass Boost | 10hr Backup",
+    category: "Speakers"
   },
+  {
+    id: 4,
+    name: "Hair Trimmer",
+    price: 599,
+    image: "https://i.imgur.com/0OZtHjZ.png",
+    description: "USB Charging | Skin Friendly | Adjustable",
+    category: "Trimmers"
+  }
 ];
