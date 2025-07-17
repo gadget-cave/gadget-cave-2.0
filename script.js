@@ -1,40 +1,23 @@
-const container = document.getElementById('productContainer');
-const searchBar = document.getElementById('searchBar');
+document.addEventListener("DOMContentLoaded", () => {
+  const container = document.getElementById("product-container");
 
-function renderProducts(data) {
-  container.innerHTML = '';
-  data.forEach(category => {
-    const categoryTitle = document.createElement('h2');
-    categoryTitle.className = 'category';
-    categoryTitle.textContent = category.category;
-    container.appendChild(categoryTitle);
+  products.forEach(product => {
+    const box = document.createElement("div");
+    box.className = "product-box";
 
-    category.items.forEach(product => {
-      const card = document.createElement('div');
-      card.className = 'product-card';
+    box.innerHTML = `
+      <img src="${product.image}" alt="${product.name}" />
+      <h3>${product.name}</h3>
+      <p>${product.description}</p>
+      <div class="price">₹${product.price}</div>
+      <button onclick="buyNow(${product.id}, ${product.price})">Buy Now</button>
+    `;
 
-      card.innerHTML = `
-        <img src="${product.img}" alt="${product.name}">
-        <div class="product-info">
-          <h3>${product.name}</h3>
-          <p>${product.description}</p>
-          <p><strong>${product.price}</strong></p>
-        </div>
-        <a class="buy-btn" href="buy.html?product=${encodeURIComponent(product.name)}&price=${encodeURIComponent(product.price)}">Buy Now</a>
-      `;
-      container.appendChild(card);
-    });
+    container.appendChild(box);
   });
-}
-
-renderProducts(products);
-
-searchBar.addEventListener('input', () => {
-  const query = searchBar.value.toLowerCase();
-  const filtered = products.map(category => ({
-    ...category,
-    items: category.items.filter(p => p.name.toLowerCase().includes(query))
-  })).filter(cat => cat.items.length > 0);
-
-  renderProducts(filtered);
 });
+
+function buyNow(id, price) {
+  localStorage.setItem("selectedAmount", price);
+  window.location.href = "buy.html";
+}
