@@ -1,52 +1,40 @@
-function displayProducts(products) {
-  const container = document.getElementById("productContainer");
-  container.innerHTML = "";
+const container = document.getElementById('productContainer');
+const searchBar = document.getElementById('searchBar');
 
-  products.forEach(product => {
-    const card = document.createElement("div");
-    card.className = "product-card";
+function renderProducts(data) {
+  container.innerHTML = '';
+  data.forEach(category => {
+    const categoryTitle = document.createElement('h2');
+    categoryTitle.className = 'category';
+    categoryTitle.textContent = category.category;
+    container.appendChild(categoryTitle);
 
-    card.innerHTML = `
-      <img class="product-image" src="${product.image}" alt="${product.name}" />
-      <div class="product-info">
-        <div class="product-name">${product.name}</div>
-        <div class="product-desc">${product.description}</div>
-        <div class="product-price">₹${product.price}</div>
-      </div>
-    `;
+    category.items.forEach(product => {
+      const card = document.createElement('div');
+      card.className = 'product-card';
 
-    card.addEventListener("click", () => showPopup(product));
-    container.appendChild(card);
+      card.innerHTML = `
+        <img src="${product.img}" alt="${product.name}">
+        <div class="product-info">
+          <h3>${product.name}</h3>
+          <p>${product.description}</p>
+          <p><strong>${product.price}</strong></p>
+        </div>
+        <a class="buy-btn" href="buy.html?product=${encodeURIComponent(product.name)}&price=${encodeURIComponent(product.price)}">Buy Now</a>
+      `;
+      container.appendChild(card);
+    });
   });
 }
 
-function showPopup(product) {
-  document.getElementById("popup-title").innerText = product.name;
-  document.getElementById("popup-description").innerText = product.description;
-  document.getElementById("popup-price").innerText = "₹" + product.price;
-  document.getElementById("popup-image").src = product.image;
+renderProducts(products);
 
-  const popup = document.getElementById("popup");
-  popup.style.display = "flex";
+searchBar.addEventListener('input', () => {
+  const query = searchBar.value.toLowerCase();
+  const filtered = products.map(category => ({
+    ...category,
+    items: category.items.filter(p => p.name.toLowerCase().includes(query))
+  })).filter(cat => cat.items.length > 0);
 
-  document.getElementById("popup-buy").onclick = () => {
-    window.location.href = "https://wa.me/919876543210?text=I'm interested in " + encodeURIComponent(product.name);
-  };
-}
-
-document.getElementById("popup-close").addEventListener("click", () => {
-  document.getElementById("popup").style.display = "none";
+  renderProducts(filtered);
 });
-
-document.getElementById("searchBar").addEventListener("input", e => {
-  const keyword = e.target.value.toLowerCase();
-  const filtered = products.filter(p =>
-    p.name.toLowerCase().includes(keyword) ||
-    p.description.toLowerCase().includes(keyword)
-  );
-  displayProducts(filtered);
-});
-
-window.onload = () => {
-  displayProducts(products);
-};
