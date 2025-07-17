@@ -3,59 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Place Order</title>
-  <link rel="stylesheet" href="style.css"/>
+  <title>Buy Product</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main style="max-width:500px; margin:auto;">
-    <h2>Delivery Details</h2>
-    <form id="orderForm">
-      <input type="text" placeholder="Your Name" required><br>
-      <textarea placeholder="Full Address" required></textarea><br>
-      <input type="text" placeholder="City" required><br>
-      <input type="text" placeholder="District" required><br>
-      <input type="text" placeholder="State" required><br>
-      <input type="text" placeholder="Pincode" required><br>
-      <input type="tel" placeholder="Phone Number" required><br>
-      <button type="submit">Proceed to Payment</button>
+  <div class="form-container">
+    <h2>Delivery Information</h2>
+    <form id="delivery-form">
+      <input type="text" name="name" placeholder="Your Name" required />
+      <textarea name="address" placeholder="Full Address" required></textarea>
+      <input type="text" name="city" placeholder="City" required />
+      <input type="text" name="state" placeholder="State" required />
+      <input type="text" name="pincode" placeholder="PIN Code" required />
+      <input type="tel" name="phone" placeholder="Phone Number" required />
+      <button type="submit">Pay Now</button>
     </form>
-    <div id="payment" style="display:none;">
-      <h3>Pay to UPI ID: <span style="color:green">hixzam313@okaxis</span></h3>
-      <p>After payment, you'll be redirected to WhatsApp for order confirmation.</p>
-    </div>
-  </main>
+  </div>
 
   <script>
-    const form = document.getElementById('orderForm');
-    const payment = document.getElementById('payment');
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const product = urlParams.get('product');
-    const price = urlParams.get('price');
-
-    form.addEventListener('submit', (e) => {
+    const form = document.getElementById("delivery-form");
+    form.addEventListener("submit", function (e) {
       e.preventDefault();
+      const name = form.name.value;
+      const address = form.address.value;
+      const city = form.city.value;
+      const state = form.state.value;
+      const pin = form.pincode.value;
+      const phone = form.phone.value;
+      const amount = localStorage.getItem("selectedAmount") || "500";
 
-      const name = form.elements[0].value;
-      const address = form.elements[1].value;
-      const city = form.elements[2].value;
-      const district = form.elements[3].value;
-      const state = form.elements[4].value;
-      const pin = form.elements[5].value;
-      const phone = form.elements[6].value;
+      const upiLink = `upi://pay?pa=hixzam313@okaxis&pn=GadgetCave&mc=1234&tid=TXN123456&tr=ORDER${Date.now()}&tn=Payment for Gadget&am=${amount}&cu=INR`;
 
-      const fullAddress = `${name}, ${address}, ${city}, ${district}, ${state} - ${pin}, Ph: ${phone}`;
-      const msg = `Order Details:
-Product: ${product}
-Price: ${price}
-Address: ${fullAddress}
-Payment Done. Please confirm.`;
+      // Redirect to UPI
+      window.location.href = upiLink;
 
-      const whatsappURL = `https://wa.me/919744340057?text=${encodeURIComponent(msg)}`;
-      payment.style.display = 'block';
-
+      // After 3 seconds, redirect to WhatsApp
       setTimeout(() => {
-        window.location.href = whatsappURL;
+        const message = `Order Confirmation:%0AName: ${name}%0AAddress: ${address}, ${city}, ${state}, ${pin}%0APhone: ${phone}%0AAmount: ₹${amount}`;
+        window.location.href = `https://wa.me/919744340057?text=${message}`;
       }, 3000);
     });
   </script>
