@@ -1,55 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Buy Now</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Buy Product</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="buy-form">
-    <h2>Enter Delivery Details</h2>
-    <form onsubmit="goToWhatsApp(); return false;">
-      <input type="text" id="name" placeholder="Full Name" required><br>
-      <input type="text" id="address" placeholder="Address" required><br>
-      <input type="text" id="house" placeholder="House No (optional)"><br>
-      <input type="text" id="landmark" placeholder="Landmark (optional)"><br>
-      <input type="text" id="city" placeholder="City" required><br>
-      <input type="text" id="district" placeholder="District" required><br>
-      <input type="text" id="state" placeholder="State" required><br>
-      <input type="text" id="pincode" placeholder="Pincode" required><br>
-      <input type="text" id="phone" placeholder="Phone Number" required><br>
-      <h4>After this, please pay to UPI: <b>hixzam313@okaxis</b></h4>
-      <button type="submit" class="buy-btn">Confirm & Send on WhatsApp</button>
+  <div class="buy-container">
+    <h2>Delivery Details</h2>
+    <form id="deliveryForm">
+      <input type="text" id="name" placeholder="Full Name" required />
+      <textarea id="address" placeholder="Full Address" required></textarea>
+      <input type="text" id="house" placeholder="House No./Shop No." />
+      <input type="text" id="landmark" placeholder="Landmark" />
+      <input type="text" id="city" placeholder="City" required />
+      <input type="text" id="district" placeholder="District" required />
+      <input type="text" id="state" placeholder="State" required />
+      <input type="text" id="pincode" placeholder="Pincode" required />
+      <input type="text" id="phone" placeholder="Phone Number" required />
+      <button type="submit">Proceed to Pay</button>
     </form>
+    <div id="paymentSection" style="display:none;">
+      <h3>Pay to:</h3>
+      <p>UPI ID: <b>hixzam313@okaxis</b></p>
+      <p>Amount: ₹<span id="payAmount"></span></p>
+      <button id="confirmPayment">I've Made the Payment</button>
+    </div>
   </div>
 
   <script>
-    function goToWhatsApp() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const product = urlParams.get("product");
-      const price = urlParams.get("price");
+    const params = new URLSearchParams(window.location.search);
+    const product = params.get('product');
+    const price = params.get('price');
 
-      const name = document.getElementById("name").value;
-      const address = document.getElementById("address").value;
-      const house = document.getElementById("house").value;
-      const landmark = document.getElementById("landmark").value;
-      const city = document.getElementById("city").value;
-      const district = document.getElementById("district").value;
-      const state = document.getElementById("state").value;
-      const pincode = document.getElementById("pincode").value;
-      const phone = document.getElementById("phone").value;
+    document.getElementById('deliveryForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      document.getElementById('deliveryForm').style.display = 'none';
+      document.getElementById('payAmount').innerText = price;
+      document.getElementById('paymentSection').style.display = 'block';
 
-      const message = \`*New Order* 📦\n
-Name: \${name}\n
-Phone: \${phone}\n
-Address: \${address}, House: \${house}, Landmark: \${landmark}\n
-City: \${city}, District: \${district}, State: \${state}, Pincode: \${pincode}\n
-Product: \${product}\n
-Amount Paid: \${price}\n
-✅ Order Complete\`;
+      // Trigger payment intent via UPI deep link
+      const upiLink = `upi://pay?pa=hixzam313@okaxis&pn=Gadget Cave&am=${price}&tn=${product}`;
+      window.location.href = upiLink;
+    });
 
-      const whatsappUrl = \`https://wa.me/919744340057?text=\${encodeURIComponent(message)}\`;
-      window.location.href = whatsappUrl;
-    }
+    document.getElementById('confirmPayment').addEventListener('click', function() {
+      const name = document.getElementById('name').value;
+      const address = document.getElementById('address').value;
+      const house = document.getElementById('house').value;
+      const landmark = document.getElementById('landmark').value;
+      const city = document.getElementById('city').value;
+      const district = document.getElementById('district').value;
+      const state = document.getElementById('state').value;
+      const pincode = document.getElementById('pincode').value;
+      const phone = document.getElementById('phone').value;
+
+      const fullAddress = `${name}, ${address}, ${house}, ${landmark}, ${city}, ${district}, ${state} - ${pincode}, Phone: ${phone}`;
+      const msg = `*New Order Confirmed!*\n\n📦 *Product*: ${product}\n💰 *Amount*: ₹${price}\n🏠 *Address*:\n${fullAddress}`;
+      const whatsappURL = `https://wa.me/919744340057?text=${encodeURIComponent(msg)}`;
+      window.location.href = whatsappURL;
+    });
   </script>
 </body>
 </html>
