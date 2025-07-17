@@ -1,105 +1,119 @@
 body {
-  font-family: 'Segoe UI', sans-serif;
   margin: 0;
-  background: #f7f9fc;
-  color: #333;
+  font-family: Arial, sans-serif;
+  background: #f2f2f2;
 }
 
 header {
-  background: #4a90e2;
+  background: #222;
   color: white;
-  padding: 1rem 2rem;
-  text-align: center;
-  font-size: 1.5rem;
-  font-weight: bold;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo img {
+  height: 40px;
+}
+
+header input {
+  padding: 8px;
+  width: 200px;
+  border-radius: 5px;
+  border: none;
 }
 
 main {
+  padding: 20px;
+}
+
+.category-section {
+  margin-bottom: 30px;
+}
+
+.category-title {
+  font-size: 24px;
+  margin: 10px 0;
+  border-left: 5px solid #333;
+  padding-left: 10px;
+}
+
+.products {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
-  padding: 20px;
-  justify-content: center;
+  gap: 15px;
 }
 
-.product-box {
+.product-card {
   background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  width: 260px;
-  padding: 15px;
+  padding: 10px;
+  border-radius: 10px;
+  width: calc(50% - 20px);
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
   text-align: center;
-  transition: transform 0.2s;
 }
 
-.product-box:hover {
-  transform: translateY(-5px);
-}
-
-.product-box img {
+.product-card img {
   width: 100%;
-  height: 180px;
+  max-height: 150px;
   object-fit: contain;
-  margin-bottom: 10px;
 }
 
-.price {
-  font-size: 18px;
-  font-weight: bold;
-  margin: 10px 0;
-  color: #2e7d32;
-}
-
-button {
-  background: #4caf50;
+.buy-button {
+  margin-top: 10px;
+  background: green;
   color: white;
+  padding: 8px 12px;
   border: none;
-  padding: 10px 18px;
-  border-radius: 8px;
+  border-radius: 6px;
+  font-size: 16px;
   cursor: pointer;
-  font-weight: bold;
 }
 
-button:hover {
-  background: #388e3c;
-}
-
-/* Delivery Form */
-.form-container {
-  max-width: 420px;
-  margin: 50px auto;
-  background: white;
-  padding: 25px;
-  border-radius: 15px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-}
-
-.form-container h2 {
+footer {
   text-align: center;
-  margin-bottom: 20px;
+  background: #222;
+  color: white;
+  padding: 15px;
 }
 
-.form-container input,
-.form-container textarea {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
+.buy-container {
+  padding: 20px;
+}
+
+.buy-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.buy-container input, .buy-container textarea {
+  padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 14px;
+  border-radius: 5px;
 }
 
-.form-container button {
-  width: 100%;
+.buy-container button {
   padding: 12px;
-  background: #2196f3;
-  border: none;
+  background: green;
   color: white;
   font-size: 16px;
-  border-radius: 10px;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
 }
 
-.form-container button:hover {
-  background: #1976d2;
+#paymentInfo {
+  margin-top: 20px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
 }
