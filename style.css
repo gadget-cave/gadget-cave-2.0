@@ -1,116 +1,219 @@
-body {
-  font-family: Arial, sans-serif;
+* {
   margin: 0;
   padding: 0;
-  background: #f8f9fa;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  background-color: #f4f4f4;
+  color: #222;
+  line-height: 1.6;
 }
 
 header {
-  background: #222;
+  background-color: #111;
   color: #fff;
-  padding: 10px;
+  padding: 15px 20px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   flex-wrap: wrap;
 }
 
-.logo-container {
-  display: flex;
-  align-items: center;
-}
-
-.logo {
-  width: 50px;
+header img {
   height: 50px;
-  margin-right: 10px;
+  margin-right: 15px;
 }
 
-#searchBar {
-  padding: 8px;
-  font-size: 16px;
-  width: 250px;
-  max-width: 100%;
-  margin: 10px;
+header h1 {
+  font-size: 24px;
 }
 
-#productList {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 15px;
+.search-bar {
+  flex: 1;
+  max-width: 400px;
+  margin-left: 20px;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+}
+
+.container {
   padding: 20px;
+}
+
+.category {
+  margin-bottom: 40px;
+}
+
+.category h2 {
+  font-size: 22px;
+  margin-bottom: 10px;
+  color: #333;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 5px;
+}
+
+.products {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
 .product {
   background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.2);
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.2s ease;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  width: calc(50% - 10px);
+  padding: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
 }
 
 .product:hover {
-  transform: scale(1.03);
+  transform: scale(1.02);
 }
 
 .product img {
   width: 100%;
-  height: 160px;
-  object-fit: cover;
-}
-
-.popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0,0,0,0.6);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.popup-content {
-  background: white;
-  padding: 20px;
-  width: 90%;
-  max-width: 500px;
-  border-radius: 10px;
-  position: relative;
-}
-
-.popup-content img {
-  width: 100%;
   height: auto;
-  margin-bottom: 10px;
+  border-radius: 8px;
 }
 
-.buy-page form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 20px;
-  background: white;
-  margin: 20px;
-  border-radius: 10px;
+.product h3 {
+  font-size: 18px;
+  margin: 10px 0 5px;
 }
 
-.buy-page button {
-  background: #28a745;
+.product p {
+  font-size: 14px;
+  color: #555;
+}
+
+.buy-btn {
+  margin-top: 10px;
+  background-color: #28a745;
   color: white;
   border: none;
-  padding: 12px;
+  padding: 8px 12px;
   border-radius: 6px;
-  font-size: 16px;
   cursor: pointer;
+  width: 100%;
+  font-weight: bold;
+  font-size: 14px;
 }
 
-/* Add responsiveness */
-@media (max-width: 600px) {
-  header {
-    flex-direction: column;
+.buy-btn:hover {
+  background-color: #218838;
+}
+
+form {
+  background-color: #fff;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 600px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+form input,
+form textarea,
+form select {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+form button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 15px;
+}
+
+form button:hover {
+  background-color: #0056b3;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #111;
+  color: white;
+  margin-top: 30px;
+}
+
+.login-box,
+.register-box,
+.account-box {
+  max-width: 400px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.15);
+}
+
+.login-box h2,
+.register-box h2,
+.account-box h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.login-box input,
+.register-box input {
+  margin-bottom: 15px;
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.login-box button,
+.register-box button {
+  background: #28a745;
+  color: white;
+  padding: 10px;
+  width: 100%;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+@media (min-width: 768px) {
+  .product {
+    width: calc(25% - 15px);
+  }
+
+  .search-bar {
+    margin-left: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 18px;
+  }
+
+  .product {
+    width: 100%;
+  }
+
+  form {
+    margin: 10px;
+    padding: 15px;
   }
 }
