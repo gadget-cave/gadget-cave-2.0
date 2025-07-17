@@ -1,32 +1,47 @@
 const products = [
   {
-    name: "M10 TWS Earbuds",
-    price: 549,
-    image: "https://example.com/m10-front.jpg",
-    description: "High bass with 2000mAh power bank case. Extra grip. All phone supported."
+    category: "Earphones",
+    items: [
+      {
+        name: "Sony Extra Bass",
+        price: "₹699",
+        img: "https://i.ibb.co/TWjRCqh/ear1.jpg",
+        description: "Deep bass, tangle-free cable, great for music lovers.",
+      },
+      {
+        name: "boAt Bassheads",
+        price: "₹499",
+        img: "https://i.ibb.co/ZV5n60R/ear2.jpg",
+        description: "Premium sound with inline mic, durable wire.",
+      }
+    ]
   },
   {
-    name: "M28 TWS Earbuds",
-    price: 599,
-    image: "https://example.com/m28-front.jpg",
-    description: "Stylish touch control with strong bass. Digital display charging case."
+    category: "Smartwatches",
+    items: [
+      {
+        name: "Fire-Boltt Ninja",
+        price: "₹1299",
+        img: "https://i.ibb.co/zPNCFzj/watch1.jpg",
+        description: "1.3-inch display, fitness tracking, notifications.",
+      },
+      {
+        name: "Noise ColorFit",
+        price: "₹1499",
+        img: "https://i.ibb.co/d4tPcst/watch2.jpg",
+        description: "Heart rate monitor, IP68 waterproof.",
+      }
+    ]
   },
   {
-    name: "Boat Bassheads 100",
-    price: 399,
-    image: "https://example.com/boat100.jpg",
-    description: "In-ear wired earphones with mic. Clear sound. Tangle-free wire."
+    category: "Speakers",
+    items: [
+      {
+        name: "JBL GO 2",
+        price: "₹1999",
+        img: "https://i.ibb.co/Gcsk2MP/speaker1.jpg",
+        description: "Portable, waterproof Bluetooth speaker with punchy bass.",
+      }
+    ]
   },
-  {
-    name: "X8 Ultra Smart Watch",
-    price: 899,
-    image: "https://example.com/x8ultra.jpg",
-    description: "Fitness tracking, Bluetooth calling, water resistant. Long battery."
-  },
-  {
-    name: "Powerbank 20,000mAh",
-    price: 699,
-    image: "https://example.com/powerbank.jpg",
-    description: "Dual USB output, fast charging. Slim design."
-  }
 ];
