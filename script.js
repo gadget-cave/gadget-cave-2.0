@@ -1,30 +1,52 @@
-const productList = document.getElementById("productList");
-const popup = document.getElementById("popupContainer");
+function displayProducts(products) {
+  const container = document.getElementById("productContainer");
+  container.innerHTML = "";
 
-products.forEach((product, index) => {
-  const div = document.createElement("div");
-  div.className = "product";
-  div.innerHTML = `<img src="${product.images[0]}" alt="${product.name}" /><h3>${product.name}</h3><p>₹${product.price}</p>`;
-  div.onclick = () => showPopup(product);
-  productList.appendChild(div);
-});
+  products.forEach(product => {
+    const card = document.createElement("div");
+    card.className = "product-card";
+
+    card.innerHTML = `
+      <img class="product-image" src="${product.image}" alt="${product.name}" />
+      <div class="product-info">
+        <div class="product-name">${product.name}</div>
+        <div class="product-desc">${product.description}</div>
+        <div class="product-price">₹${product.price}</div>
+      </div>
+    `;
+
+    card.addEventListener("click", () => showPopup(product));
+    container.appendChild(card);
+  });
+}
 
 function showPopup(product) {
-  popup.innerHTML = `
-    <div class="popup-content">
-      ${product.images.map(img => `<img src="${img}" alt="${product.name}" />`).join('')}
-      <h2>${product.name}</h2>
-      <p>${product.description}</p>
-      <p><strong>Price:</strong> ₹${product.price}</p>
-      <button onclick="buyNow('${product.name}', '${product.price}')">Buy Now</button>
-    </div>
-  `;
+  document.getElementById("popup-title").innerText = product.name;
+  document.getElementById("popup-description").innerText = product.description;
+  document.getElementById("popup-price").innerText = "₹" + product.price;
+  document.getElementById("popup-image").src = product.image;
+
+  const popup = document.getElementById("popup");
   popup.style.display = "flex";
-  popup.onclick = (e) => { if (e.target === popup) popup.style.display = "none"; };
+
+  document.getElementById("popup-buy").onclick = () => {
+    window.location.href = "https://wa.me/919876543210?text=I'm interested in " + encodeURIComponent(product.name);
+  };
 }
 
-function buyNow(name, price) {
-  localStorage.setItem("selectedProductName", name);
-  localStorage.setItem("selectedProductAmount", price);
-  window.location.href = "buy.html";
-}
+document.getElementById("popup-close").addEventListener("click", () => {
+  document.getElementById("popup").style.display = "none";
+});
+
+document.getElementById("searchBar").addEventListener("input", e => {
+  const keyword = e.target.value.toLowerCase();
+  const filtered = products.filter(p =>
+    p.name.toLowerCase().includes(keyword) ||
+    p.description.toLowerCase().includes(keyword)
+  );
+  displayProducts(filtered);
+});
+
+window.onload = () => {
+  displayProducts(products);
+};
