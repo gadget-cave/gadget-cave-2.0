@@ -1,90 +1,69 @@
-let allProducts = [];
-const productContainer = document.getElementById("productContainer");
-const popup = document.getElementById("popup");
-const popupTitle = document.getElementById("popup-title");
-const popupImages = document.getElementById("popup-images");
-const popupDescription = document.getElementById("popup-description");
-const popupBuy = document.getElementById("popup-buy");
+const container = document.getElementById("productContainer");
+const popup = document.getElementById("productPopup");
+const popupTitle = document.getElementById("popupTitle");
+const popupPrice = document.getElementById("popupPrice");
+const mainPopupImage = document.getElementById("mainPopupImage");
+const thumbnails = document.getElementById("popupThumbnails");
+const popupClose = document.getElementById("popupClose");
+const buyNowBtn = document.getElementById("buyNowBtn");
 
-function displayProducts(category = "All") {
-  productContainer.innerHTML = "";
+let selectedProduct = "";
 
-  let filtered = category === "All"
-    ? allProducts
-    : allProducts.filter(p => p.category === category);
-
-  filtered.forEach(product => {
-    const box = document.createElement("div");
-    box.className = "product-box";
-    box.innerHTML = `
-      <img src="${product.image[0]}" />
-      <div class="product-title">${product.title}</div>
-      <div>₹${product.price}</div>
+function renderProducts() {
+  products.forEach((product, index) => {
+    const card = document.createElement("div");
+    card.className = "product-card";
+    card.innerHTML = `
+      <img src="${product.images[0]}" />
+      <h3>${product.name}</h3>
+      <p>${product.price}</p>
+      <button onclick="openPopup(${index})">Buy Now</button>
     `;
-    box.addEventListener("click", () => showPopup(product));
-    productContainer.appendChild(box);
+    container.appendChild(card);
   });
 }
 
-function showPopup(product) {
-  popupTitle.innerText = product.title;
-  popupImages.innerHTML = product.image.map(url => `<img src="${url}" style="width:100%;margin-bottom:10px;" />`).join('');
-  popupDescription.innerText = product.description;
-  popupBuy.onclick = () => {
-    const buyUrl = `buy.html?product=${encodeURIComponent(product.title)}&price=${product.price}`;
-    window.location.href = buyUrl;
-  };
+function openPopup(index) {
+  const product = products[index];
+  selectedProduct = product.name;
+  popupTitle.textContent = product.name;
+  popupPrice.textContent = product.price;
+  mainPopupImage.src = product.images[0];
+
+  thumbnails.innerHTML = "";
+  product.images.forEach((img) => {
+    const thumb = document.createElement("img");
+    thumb.src = img;
+    thumb.onclick = () => mainPopupImage.src = img;
+    thumbnails.appendChild(thumb);
+  });
+
   popup.style.display = "flex";
 }
 
-document.getElementById("popup-close").onclick = () => {
-  popup.style.display = "none";
+popupClose.onclick = () => popup.style.display = "none";
+
+buyNowBtn.onclick = () => {
+  sessionStorage.setItem("selectedProduct", selectedProduct);
+  window.location.href = "buy.html";
 };
 
-document.getElementById("searchInput").addEventListener("input", e => {
-  const query = e.target.value.toLowerCase();
-  const filtered = allProducts.filter(p =>
-    p.title.toLowerCase().includes(query) ||
-    p.description.toLowerCase().includes(query)
-  );
-  displayFiltered(filtered);
+document.getElementById("searchInput").addEventListener("input", function () {
+  const query = this.value.toLowerCase();
+  container.innerHTML = "";
+  products.forEach((product, index) => {
+    if (product.name.toLowerCase().includes(query)) {
+      const card = document.createElement("div");
+      card.className = "product-card";
+      card.innerHTML = `
+        <img src="${product.images[0]}" />
+        <h3>${product.name}</h3>
+        <p>${product.price}</p>
+        <button onclick="openPopup(${index})">Buy Now</button>
+      `;
+      container.appendChild(card);
+    }
+  });
 });
 
-function displayFiltered(filtered) {
-  productContainer.innerHTML = "";
-  filtered.forEach(product => {
-    const box = document.createElement("div");
-    box.className = "product-box";
-    box.innerHTML = `
-      <img src="${product.image[0]}" />
-      <div class="product-title">${product.title}</div>
-      <div>₹${product.price}</div>
-    `;
-    box.addEventListener("click", () => showPopup(product));
-    productContainer.appendChild(box);
-  });
-}
-
-function setupCategories() {
-  const categories = ["All", ...new Set(allProducts.map(p => p.category))];
-  const buttonContainer = document.getElementById("categoryButtons");
-  buttonContainer.innerHTML = "";
-  categories.forEach(cat => {
-    const btn = document.createElement("button");
-    btn.innerText = cat;
-    btn.className = "category-button";
-    btn.addEventListener("click", () => {
-      document.querySelectorAll(".category-button").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      displayProducts(cat);
-    });
-    if (cat === "All") btn.classList.add("active");
-    buttonContainer.appendChild(btn);
-  });
-}
-
-window.onload = () => {
-  allProducts = products;
-  setupCategories();
-  displayProducts();
-};
+renderProducts();
