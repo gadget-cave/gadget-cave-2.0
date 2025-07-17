@@ -1,34 +1,16 @@
-const products = [
-  {
-    id: 1,
-    name: "Wireless Earbuds",
-    price: 699,
-    image: "https://i.imgur.com/s9QOeKB.png",
-    description: "Bluetooth 5.0 | 24hr Battery | Hi-Fi Sound",
-    category: "Earphones"
-  },
-  {
-    id: 2,
-    name: "Smart Watch",
-    price: 1199,
-    image: "https://i.imgur.com/OH0o2Lb.png",
-    description: "Touchscreen | Fitness Tracker | Waterproof",
-    category: "Smartwatch"
-  },
-  {
-    id: 3,
-    name: "Mini Speaker",
-    price: 499,
-    image: "https://i.imgur.com/JVL3Ah5.png",
-    description: "Portable | Bass Boost | 10hr Backup",
-    category: "Speakers"
-  },
-  {
-    id: 4,
-    name: "Hair Trimmer",
-    price: 599,
-    image: "https://i.imgur.com/0OZtHjZ.png",
-    description: "USB Charging | Skin Friendly | Adjustable",
-    category: "Trimmers"
-  }
-];
+const productsData = {
+  "Earphones": [
+    { name: "boAt Bassheads 100", price: 499, image: "https://i.imgur.com/s9QOeKB.png" },
+    { name: "Realme Buds 2", price: 599, image: "https://i.imgur.com/qepSnrg.png" }
+  ],
+  "Smartwatches": [
+    { name: "Noise ColorFit Pulse", price: 1399, image: "https://i.imgur.com/EvddqHG.png" },
+    { name: "boAt Xtend", price: 1899, image: "https://i.imgur.com/C35jh8u.png" }
+  ],
+  "Speakers": [
+    { name: "boAt Stone 200", price: 999, image: "https://i.imgur.com/g6kqDL0.png" }
+  ],
+  "Power Banks": [
+    { name: "MI 10000mAh Power Bank", price: 799, image: "https://i.imgur.com/XFyRxFb.png" }
+  ]
+};
