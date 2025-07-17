@@ -1,69 +1,81 @@
-const container = document.getElementById("productContainer");
-const popup = document.getElementById("productPopup");
-const popupTitle = document.getElementById("popupTitle");
-const popupPrice = document.getElementById("popupPrice");
-const mainPopupImage = document.getElementById("mainPopupImage");
-const thumbnails = document.getElementById("popupThumbnails");
-const popupClose = document.getElementById("popupClose");
-const buyNowBtn = document.getElementById("buyNowBtn");
+document.addEventListener("DOMContentLoaded", () => {
+  const productContainer = document.getElementById("productContainer");
+  const categoryButtons = document.getElementById("categoryButtons");
+  const popup = document.getElementById("popup");
+  const popupTitle = document.getElementById("popup-title");
+  const popupImages = document.getElementById("popup-images");
+  const popupDescription = document.getElementById("popup-description");
+  const popupLongDesc = document.getElementById("popup-longDescription");
+  const popupBuy = document.getElementById("popup-buy");
+  const popupClose = document.getElementById("popup-close");
 
-let selectedProduct = "";
+  let currentProduct = null;
 
-function renderProducts() {
-  products.forEach((product, index) => {
-    const card = document.createElement("div");
-    card.className = "product-card";
-    card.innerHTML = `
-      <img src="${product.images[0]}" />
-      <h3>${product.name}</h3>
-      <p>${product.price}</p>
-      <button onclick="openPopup(${index})">Buy Now</button>
-    `;
-    container.appendChild(card);
-  });
-}
-
-function openPopup(index) {
-  const product = products[index];
-  selectedProduct = product.name;
-  popupTitle.textContent = product.name;
-  popupPrice.textContent = product.price;
-  mainPopupImage.src = product.images[0];
-
-  thumbnails.innerHTML = "";
-  product.images.forEach((img) => {
-    const thumb = document.createElement("img");
-    thumb.src = img;
-    thumb.onclick = () => mainPopupImage.src = img;
-    thumbnails.appendChild(thumb);
+  // Unique categories
+  const categories = ["All", ...new Set(products.map(p => p.category))];
+  categories.forEach(category => {
+    const btn = document.createElement("button");
+    btn.textContent = category;
+    btn.addEventListener("click", () => {
+      document.querySelectorAll("#categoryButtons button").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      displayProducts(category === "All" ? products : products.filter(p => p.category === category));
+    });
+    categoryButtons.appendChild(btn);
   });
 
-  popup.style.display = "flex";
-}
+  // Show all products initially
+  displayProducts(products);
 
-popupClose.onclick = () => popup.style.display = "none";
-
-buyNowBtn.onclick = () => {
-  sessionStorage.setItem("selectedProduct", selectedProduct);
-  window.location.href = "buy.html";
-};
-
-document.getElementById("searchInput").addEventListener("input", function () {
-  const query = this.value.toLowerCase();
-  container.innerHTML = "";
-  products.forEach((product, index) => {
-    if (product.name.toLowerCase().includes(query)) {
+  function displayProducts(items) {
+    productContainer.innerHTML = "";
+    items.forEach(product => {
       const card = document.createElement("div");
       card.className = "product-card";
       card.innerHTML = `
-        <img src="${product.images[0]}" />
+        <img src="${product.image}" alt="${product.name}" />
         <h3>${product.name}</h3>
-        <p>${product.price}</p>
-        <button onclick="openPopup(${index})">Buy Now</button>
+        <p>${product.description}</p>
+        <p class="price">${product.price}</p>
+        <button class="buy-now">More Details</button>
       `;
-      container.appendChild(card);
+      card.querySelector(".buy-now").addEventListener("click", () => showPopup(product));
+      productContainer.appendChild(card);
+    });
+  }
+
+  function showPopup(product) {
+    currentProduct = product;
+    popupTitle.textContent = product.name;
+
+    // Main + Extra images
+    popupImages.innerHTML = `<img src="${product.image}" alt="${product.name}" />`;
+    product.extraImages.forEach(url => {
+      const img = document.createElement("img");
+      img.src = url;
+      popupImages.appendChild(img);
+    });
+
+    popupDescription.textContent = product.description;
+    popupLongDesc.textContent = product.longDescription || "";
+    popup.style.display = "flex";
+  }
+
+  popupClose.addEventListener("click", () => {
+    popup.style.display = "none";
+  });
+
+  popupBuy.addEventListener("click", () => {
+    if (currentProduct) {
+      // Redirect to WhatsApp payment message with product name
+      const message = `Hi, I'm interested in buying: ${currentProduct.name} - ${currentProduct.price}`;
+      const whatsappUrl = `https://wa.me/91XXXXXXXXXX?text=${encodeURIComponent(message)}`;
+      window.location.href = whatsappUrl;
     }
   });
-});
 
-renderProducts();
+  // Close popup on background click
+  popup.addEventListener("click", (e) => {
+    if (e.target === popup) popup.style.display = "none";
+  });
+});
