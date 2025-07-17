@@ -1,119 +1,97 @@
 body {
+  font-family: 'Segoe UI', sans-serif;
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f2f2f2;
+  background-color: #f4f4f4;
 }
 
 header {
-  background: #222;
+  background-color: #101010;
   color: white;
-  padding: 15px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
+  align-items: center;
+  padding: 10px 20px;
 }
 
 .logo {
   display: flex;
   align-items: center;
-  gap: 10px;
 }
 
 .logo img {
   height: 40px;
+  margin-right: 10px;
 }
 
-header input {
+#search {
   padding: 8px;
-  width: 200px;
-  border-radius: 5px;
+  font-size: 16px;
+  width: 40%;
+  border-radius: 6px;
   border: none;
 }
 
-main {
+nav#categories {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  background-color: #fff;
+  padding: 10px;
+}
+
+nav#categories button {
+  padding: 8px 16px;
+  border: none;
+  background-color: #202020;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+main#product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 15px;
   padding: 20px;
 }
 
-.category-section {
-  margin-bottom: 30px;
-}
-
-.category-title {
-  font-size: 24px;
-  margin: 10px 0;
-  border-left: 5px solid #333;
-  padding-left: 10px;
-}
-
-.products {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-}
-
-.product-card {
+.product {
   background: white;
-  padding: 10px;
   border-radius: 10px;
-  width: calc(50% - 20px);
-  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  overflow: hidden;
   text-align: center;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-.product-card img {
+.product img {
   width: 100%;
-  max-height: 150px;
-  object-fit: contain;
+  height: 180px;
+  object-fit: cover;
+}
+
+.product h3 {
+  margin: 10px 0 5px;
+}
+
+.product p {
+  margin: 5px 0;
+  font-weight: bold;
 }
 
 .buy-button {
-  margin-top: 10px;
-  background: green;
+  background-color: #ff5722;
   color: white;
   padding: 8px 12px;
   border: none;
-  border-radius: 6px;
-  font-size: 16px;
+  border-radius: 5px;
+  margin: 10px;
   cursor: pointer;
 }
 
 footer {
   text-align: center;
-  background: #222;
-  color: white;
   padding: 15px;
-}
-
-.buy-container {
-  padding: 20px;
-}
-
-.buy-container form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.buy-container input, .buy-container textarea {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.buy-container button {
-  padding: 12px;
-  background: green;
+  background-color: #101010;
   color: white;
-  font-size: 16px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-#paymentInfo {
-  margin-top: 20px;
-  background: #fff;
-  padding: 15px;
-  border-radius: 10px;
 }
