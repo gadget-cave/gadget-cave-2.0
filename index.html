@@ -4,39 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Gadget Cave</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <!-- Header -->
   <header>
-    <div class="header-inner">
-      <img src="https://i.ibb.co/FbsdpgK3/gadged-cave-3.png" alt="Gadget Cave Logo" class="logo" />
-      <span class="site-title">Gadget Cave</span>
-    </div>
+    <h1>Gadget Cave</h1>
+    <input type="text" id="searchBar" placeholder="Search products...">
   </header>
 
-  <!-- Categories -->
-  <div id="categoryButtons"></div>
+  <main id="productContainer"></main>
 
-  <!-- Products -->
-  <div id="productContainer"></div>
+  <footer>
+    <p>Managed by Hisham Kannur</p>
+  </footer>
 
- <!-- Popup -->
-<div id="popup" class="popup-overlay">
-  <div class="popup-content">
-    <button id="popup-close" class="popup-close">&times;</button>
-    <h2 id="popup-title"></h2>
-    <img id="popup-image" class="popup-image" />
-    <p id="popup-description"></p>
-    <p id="popup-price"></p>
-    <button id="popup-buy" class="buy-now">Buy Now</button>
-  </div>
-</div>
-
-
-  <footer>🚚 Gadget Cave – All Kerala Delivery Available 🚚</footer>
-
-  <script src="product.js"></script>
+  <script src="products.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
