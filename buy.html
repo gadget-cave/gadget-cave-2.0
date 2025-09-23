@@ -66,7 +66,7 @@ Phone: ${data.get("phone")}
 Paid to: hixzam313@okaxis ✅
             `.trim();
 
-            const upiUrl = `upi://pay?pa=hixzam313@okaxis&pn=GadgetCave&am=${amount}&tn=Payment for ${product}`;
+            const upiUrl = `upi://pay?pa=hixzam313@okaxis&pn=GadgetCave&am=${amount}&tn=pay ${product}`;
             
             upiLink.href = upiUrl;
             whatsappLink.href = `https://wa.me/919744340057?text=${encodeURIComponent(msg)}`;
