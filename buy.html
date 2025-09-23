@@ -44,7 +44,7 @@
         const productId = params.get("id");
         const product = params.get("product");
         const amount = params.get("amount");
-        const formattedAmount = parseFloat(amount).toFixed(2); // Format amount
+        const formattedAmount = parseFloat(amount).toFixed(2);
 
         form.addEventListener("submit", function(e) {
             e.preventDefault();
@@ -67,7 +67,7 @@ Phone: ${data.get("phone")}
 Paid to: hixzam313@okaxis ✅
             `.trim();
 
-            const upiUrl = `upi://pay?pa=hixzam313@okaxis&pn=${encodeURIComponent('Gadget Cave')}&am=${formattedAmount}&tn=${encodeURIComponent('Payment for ' + product)}`;
+            const upiUrl = `upi://pay?pa=hixzam313@okaxis&am=${formattedAmount}`;
             
             upiLink.href = upiUrl;
             whatsappLink.href = `https://wa.me/919744340057?text=${encodeURIComponent(msg)}`;
