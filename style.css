@@ -1,3 +1,106 @@
+/* --- Buy Page Specific Styles --- */
+
+.buy-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.buy-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+#deliveryForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#deliveryForm input[type="text"],
+#deliveryForm textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box; /* Ensures padding doesn't affect total width */
+    font-size: 16px;
+}
+
+#deliveryForm textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+#deliveryForm button {
+    padding: 12px 20px;
+    background-color: #ff5722;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+#deliveryForm button:hover {
+    background-color: #e64a19;
+}
+
+#paymentInfo {
+    text-align: center;
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    border: 1px dashed #ccc;
+}
+
+#paymentInfo h3 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+#paymentInfo p {
+    margin: 5px 0;
+}
+
+#paymentInfo strong {
+    color: #007bff;
+}
+
+#whatsappLink, #upiLink {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #25d366; /* WhatsApp green */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+#upiLink {
+    background-color: #007bff;
+    margin-right: 10px;
+}
+
+#whatsappLink:hover, #upiLink:hover {
+    opacity: 0.9;
+}
+
+/* For better mobile view */
+@media (max-width: 650px) {
+    .buy-container {
+        margin: 20px;
+        padding: 15px;
+    }
+}
 body {
     font-family: 'Segoe UI', sans-serif;
     margin: 0;
