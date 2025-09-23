@@ -1,36 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gadget Cave</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Gadget Cave</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <div class="logo">
-      <img src="logo.png" alt="Gadget Cave Logo" />
-      <h1>Gadget Cave</h1>
-    </div>
-    <input type="text" id="search" placeholder="Search products..." />
-  </header>
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="Gadget Cave Logo" />
+            <h1>Gadget Cave</h1>
+        </div>
+        <input type="text" id="search" placeholder="Search products..." onkeyup="searchProducts()" />
+    </header>
 
-  <nav id="categories">
-    <button onclick="filterCategory('All')">All</button>
-    <button onclick="filterCategory('Earphones')">Earphones</button>
-    <button onclick="filterCategory('Watches')">Watches</button>
-    <button onclick="filterCategory('Speakers')">Speakers</button>
-    <button onclick="filterCategory('Trimmers')">Trimmers</button>
-    <!-- Add more categories as needed -->
-  </nav>
+    <nav id="categories">
+        <button onclick="filterCategory('All')">All</button>
+        <button onclick="filterCategory('Earphones')">Earphones</button>
+        <button onclick="filterCategory('Watches')">Watches</button>
+        <button onclick="filterCategory('Speakers')">Speakers</button>
+        <button onclick="filterCategory('Trimmers')">Trimmers</button>
+        <button onclick="filterCategory('Headphones')">Headphones</button>
+        <button onclick="filterCategory('Smartwatches')">Smartwatches</button>
+        <button onclick="filterCategory('Combos')">Combos</button>
+        <button onclick="filterCategory('Powerbanks')">Powerbanks</button>
+        <button onclick="filterCategory('Other')">Other</button>
+    </nav>
 
-  <main id="product-list"></main>
+    <main id="product-list"></main>
 
-  <footer>
-    <p>gadget cave</p>
-  </footer>
+    <footer>
+        <p>gadget cave</p>
+    </footer>
 
-  <script src="product.js"></script>
-  <script src="script.js"></script>
+    <script src="product.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
