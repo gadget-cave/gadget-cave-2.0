@@ -125,8 +125,8 @@
             const newProduct = {
                 name: document.getElementById("p-name").value,
                 image: document.getElementById("p-image").value,
-                description: document.getElementById("p-description").value,
                 price: parseInt(document.getElementById("p-price").value),
+                description: document.getElementById("p-description").value,
                 category: document.getElementById("p-category").value,
                 extraImages: document.getElementById("p-extra-images").value.split(',').map(url => url.trim()).filter(url => url),
             };
