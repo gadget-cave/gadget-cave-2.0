@@ -8,20 +8,6 @@
 
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-    
-    <script>
-      const firebaseConfig = {
-        apiKey: "AIzaSyC85xiHmWVI4g1DSSOHcmhTT-57Er-QyC0",
-        authDomain: "gadgetcave-54ce3.firebaseapp.com",
-        projectId: "gadgetcave-54ce3",
-        storageBucket: "gadgetcave-54ce3.firebasestorage.app",
-        messagingSenderId: "84618639709",
-        appId: "1:84618639709:web:906efabb86906e962850b4",
-        measurementId: "G-JXXQCCGC31"
-      };
-      firebase.initializeApp(firebaseConfig);
-    </script>
-
 </head>
 <body>
     <header>
@@ -53,6 +39,95 @@
         <p>gadget cave</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        // Your Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyC85xiHmWVI4g1DSSOHcmhTT-57Er-QyC0",
+          authDomain: "gadgetcave-54ce3.firebaseapp.com",
+          projectId: "gadgetcave-54ce3",
+          storageBucket: "gadgetcave-54ce3.firebasestorage.app",
+          messagingSenderId: "84618639709",
+          appId: "1:84618639709:web:906efabb86906e962850b4",
+          measurementId: "G-JXXQCCGC31"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Fetch all products from the database on page load
+        db.collection("products").get().then((querySnapshot) => {
+            const products = [];
+            querySnapshot.forEach((doc) => {
+                const product = doc.data();
+                product.id = doc.id;
+                products.push(product);
+            });
+            displayProducts(products);
+        }).catch(error => {
+            console.error("Error fetching documents: ", error);
+        });
+
+        // --- All other functions ---
+        function displayProducts(productList) {
+            const container = document.getElementById("product-list");
+            container.innerHTML = "";
+            productList.forEach((product) => {
+                const productBox = document.createElement("div");
+                productBox.classList.add("product");
+                productBox.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p>₹${product.price}</p>
+                    <button class="buy-button" onclick="buyNow('${product.id}')">Buy Now</button>
+                `;
+                container.appendChild(productBox);
+            });
+        }
+
+        function filterCategory(category) {
+            db.collection("products").get().then((querySnapshot) => {
+                const products = [];
+                querySnapshot.forEach((doc) => {
+                    products.push({ id: doc.id, ...doc.data() });
+                });
+                if (category === "All") {
+                    displayProducts(products);
+                } else {
+                    const filtered = products.filter(p => p.category === category);
+                    displayProducts(filtered);
+                }
+            }).catch(error => {
+                console.error("Error fetching documents: ", error);
+            });
+        }
+
+        function searchProducts() {
+            const searchTerm = document.getElementById("search").value.toLowerCase();
+            db.collection("products").get().then((querySnapshot) => {
+                const products = [];
+                querySnapshot.forEach((doc) => {
+                    products.push({ id: doc.id, ...doc.data() });
+                });
+                const filteredProducts = products.filter(product => {
+                    return product.name.toLowerCase().includes(searchTerm);
+                });
+                displayProducts(filteredProducts);
+            }).catch(error => {
+                console.error("Error fetching documents: ", error);
+            });
+        }
+
+        function buyNow(productId) {
+            db.collection("products").doc(productId).get().then((doc) => {
+                if (doc.exists) {
+                    const product = doc.data();
+                    const productName = encodeURIComponent(product.name);
+                    const productPrice = product.price;
+                    window.location.href = `buy.html?id=${productId}&product=${productName}&amount=${productPrice}`;
+                }
+            }).catch(error => {
+                console.error("Error fetching document: ", error);
+            });
+        }
+    </script>
 </body>
 </html>
