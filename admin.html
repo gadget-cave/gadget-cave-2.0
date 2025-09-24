@@ -5,6 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Gadget Cave</title>
     <link rel="stylesheet" href="style.css">
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyC85xiHmWVI4g1DSSOHcmhTT-57Er-QyC0",
+        authDomain: "gadgetcave-54ce3.firebaseapp.com",
+        projectId: "gadgetcave-54ce3",
+        storageBucket: "gadgetcave-54ce3.firebasestorage.app",
+        messagingSenderId: "84618639709",
+        appId: "1:84618639709:web:906efabb86906e962850b4",
+        measurementId: "G-JXXQCCGC31"
+      };
+      firebase.initializeApp(firebaseConfig);
+    </script>
+
     <style>
         /* Admin page specific styles */
         .admin-container {
@@ -85,28 +102,7 @@
 
     <script>
         const SECRET_PASS = "Hixzam@313";
-        const DB_NAME = "GadgetCaveDB";
-        const DB_VERSION = 1;
-
-        let db;
-
-        // Open or create the database
-        const request = indexedDB.open(DB_NAME, DB_VERSION);
-
-        request.onupgradeneeded = (event) => {
-            const db = event.target.result;
-            db.createObjectStore("products", { keyPath: "id", autoIncrement: true });
-            console.log("Database initialized.");
-        };
-
-        request.onsuccess = (event) => {
-            db = event.target.result;
-            console.log("Database opened successfully.");
-        };
-
-        request.onerror = (event) => {
-            console.error("Database error:", event.target.error);
-        };
+        const db = firebase.firestore();
 
         function authenticate() {
             const passInput = document.getElementById("secret-pass").value;
@@ -135,19 +131,16 @@
                 extraImages: document.getElementById("p-extra-images").value.split(',').map(url => url.trim()).filter(url => url),
             };
 
-            const transaction = db.transaction(["products"], "readwrite");
-            const objectStore = transaction.objectStore("products");
-            const requestAdd = objectStore.add(newProduct);
-
-            requestAdd.onsuccess = () => {
+            db.collection("products").add(newProduct)
+            .then((docRef) => {
                 alert("New product added successfully!");
+                console.log("Document written with ID: ", docRef.id);
                 document.getElementById("product-form").reset();
-            };
-
-            requestAdd.onerror = (event) => {
-                console.error("Error adding product:", event.target.error);
+            })
+            .catch((error) => {
+                console.error("Error adding document: ", error);
                 alert("Error adding product. Please try again.");
-            };
+            });
         });
     </script>
 </body>
