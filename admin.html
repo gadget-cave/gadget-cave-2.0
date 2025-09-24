@@ -9,19 +9,6 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
     
-    <script>
-      const firebaseConfig = {
-        apiKey: "AIzaSyC85xiHmWVI4g1DSSOHcmhTT-57Er-QyC0",
-        authDomain: "gadgetcave-54ce3.firebaseapp.com",
-        projectId: "gadgetcave-54ce3",
-        storageBucket: "gadgetcave-54ce3.firebasestorage.app",
-        messagingSenderId: "84618639709",
-        appId: "1:84618639709:web:906efabb86906e962850b4",
-        measurementId: "G-JXXQCCGC31"
-      };
-      firebase.initializeApp(firebaseConfig);
-    </script>
-
     <style>
         /* Admin page specific styles */
         .admin-container {
@@ -101,6 +88,18 @@
     </div>
 
     <script>
+        // Your Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyC85xiHmWVI4g1DSSOHcmhTT-57Er-QyC0",
+          authDomain: "gadgetcave-54ce3.firebaseapp.com",
+          projectId: "gadgetcave-54ce3",
+          storageBucket: "gadgetcave-54ce3.firebasestorage.app",
+          messagingSenderId: "84618639709",
+          appId: "1:84618639709:web:906efabb86906e962850b4",
+          measurementId: "G-JXXQCCGC31"
+        };
+        firebase.initializeApp(firebaseConfig);
+
         const SECRET_PASS = "Hixzam@313";
         const db = firebase.firestore();
 
